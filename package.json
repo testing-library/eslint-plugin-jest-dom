@@ -1,0 +1,33 @@
+{
+  "name": "eslint-plugin-jest-dom",
+  "version": "0.0.0",
+  "description": "lint rules for use with jest-dom",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "author": "Ben Monro",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "jest",
+    "generate-readme-table": "node build/generate-readme-table.js"
+  },
+  "dependencies": {
+    "requireindex": "~1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-plugin-eslint-plugin": "^2.1.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^24.9.0",
+    "kcd-scripts": "^1.9.0",
+    "prettier": "^1.18.2"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "license": "ISC"
+}
