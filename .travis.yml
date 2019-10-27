@@ -1,0 +1,17 @@
+sudo: false
+language: node_js
+env:
+  - FORCE_COLOR=true
+cache:
+  directories:
+    - ~/.npm
+notifications:
+  email: false
+node_js: "8"
+install: npm install
+script:
+  - npm run test
+  - npm run lint
+after_success: kcd-scripts travis-after-success
+branches:
+  only: master
