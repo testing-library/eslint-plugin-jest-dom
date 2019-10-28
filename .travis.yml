@@ -12,6 +12,8 @@ install: npm install
 script:
   - npm run test
   - npm run lint
-after_success: kcd-scripts travis-after-success
+after_success: npx semantic-release
 branches:
-  only: master
+  only:
+    - master
+    - next
