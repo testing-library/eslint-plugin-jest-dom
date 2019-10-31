@@ -43,7 +43,9 @@ Examples of **incorrect** code for this rule:
 ```js
 expect(element).toHaveProperty('disabled', true);
 expect(element).toHaveAttribute('disabled', false);
+expect(element).toHaveAttribute('aria-disabled', "false");
 
+expect(element).toHaveAttribute('aria-disabled');
 expect(element).toHaveAttribute('disabled');
 expect(element).not.toHaveProperty('disabled');
 

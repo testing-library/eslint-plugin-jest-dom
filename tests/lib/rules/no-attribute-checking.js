@@ -9,7 +9,7 @@ const bannedAttributes = [
   {
     preferred: 'toBeDisabled()',
     negatedPreferred: 'toBeEnabled()',
-    attributes: ['disabled'],
+    attributes: ['disabled', 'aria-disabled'],
     ruleName: 'prefer-enabled-disabled',
   },
   {
