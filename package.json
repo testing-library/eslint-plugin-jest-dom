@@ -15,6 +15,7 @@
     "generate-readme-table": "node build/generate-readme-table.js"
   },
   "dependencies": {
+    "lodash.mapvalues": "^4.6.0",
     "requireindex": "~1.1.0"
   },
   "devDependencies": {
