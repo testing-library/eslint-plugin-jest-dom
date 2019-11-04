@@ -1,5 +1,5 @@
 # eslint-plugin-jest-dom
-
+[![Build Status](https://travis-ci.org/testing-library/eslint-plugin-jest-dom.svg?branch=master)](https://travis-ci.org/testing-library/eslint-plugin-jest-dom)
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 
 lint rules for use with [jest-dom](https://github.com/testing-library/jest-dom).
