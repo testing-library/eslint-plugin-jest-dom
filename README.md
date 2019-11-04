@@ -1,6 +1,6 @@
 # eslint-plugin-jest-dom
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 
 lint rules for use with [jest-dom](https://github.com/testing-library/jest-dom).
 
@@ -79,6 +79,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/benmonro"><img src="https://avatars3.githubusercontent.com/u/399236?v=4" width="100px;" alt="Ben Monro"/><br /><sub><b>Ben Monro</b></sub></a><br /><a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=benmonro" title="Documentation">📖</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=benmonro" title="Code">💻</a> <a href="#example-benmonro" title="Examples">💡</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=benmonro" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://nickmccurdy.com/"><img src="https://avatars0.githubusercontent.com/u/927220?v=4" width="100px;" alt="Nick McCurdy"/><br /><sub><b>Nick McCurdy</b></sub></a><br /><a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=nickmccurdy" title="Code">💻</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=nickmccurdy" title="Documentation">📖</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=nickmccurdy" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://twitter.com/gnapse"><img src="https://avatars0.githubusercontent.com/u/15199?v=4" width="100px;" alt="Ernesto García"/><br /><sub><b>Ernesto García</b></sub></a><br /><a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=gnapse" title="Documentation">📖</a></td>
   </tr>
 </table>
 
