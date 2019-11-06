@@ -1,3 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should have all the rules 1`] = `Object {}`;
+exports[`should have all the rules 1`] = `
+Object {
+  "prefer-checked": Object {
+    "create": [Function],
+    "meta": Object {
+      "docs": Object {
+        "category": "jest-dom",
+        "description": "prefer toBeChecked over checking attributes",
+        "recommended": true,
+        "url": "prefer-checked",
+      },
+      "fixable": "code",
+    },
+  },
+  "prefer-enabled-disabled": Object {
+    "create": [Function],
+    "meta": Object {
+      "docs": Object {
+        "category": "jest-dom",
+        "description": "prefer toBeDisabled or toBeEnabled over checking attributes",
+        "recommended": true,
+        "url": "prefer-enabled-disabled",
+      },
+      "fixable": "code",
+    },
+  },
+  "prefer-required": Object {
+    "create": [Function],
+    "meta": Object {
+      "docs": Object {
+        "category": "jest-dom",
+        "description": "prefer toBeRequired over checking properties",
+        "recommended": true,
+        "url": "prefer-required",
+      },
+      "fixable": "code",
+    },
+  },
+}
+`;
