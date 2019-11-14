@@ -22,6 +22,38 @@ module.exports = ({ preferred, negatedPreferred, attribute }) => {
       },
     ];
   }
+  let directChecks = [];
+  if (!/-/.test(attribute)) {
+    directChecks = [
+      {
+        code: `expect(getByText('foo').${attribute}).toBeTruthy()`,
+        errors: [
+          {
+            message: `Use ${preferred} instead of checking .${attribute} directly`,
+          },
+        ],
+        output: `expect(getByText('foo')).${[preferred]}`,
+      },
+      {
+        code: `expect(getByText('foo').${attribute}).toBeFalsy()`,
+        errors: [
+          {
+            message: `Use ${negatedPreferred} instead of checking .${attribute} directly`,
+          },
+        ],
+        output: `expect(getByText('foo')).${[negatedPreferred]}`,
+      },
+      {
+        code: `expect(getByText('foo').${attribute}).toBe(true)`,
+        errors: [
+          {
+            message: `Use ${preferred} instead of checking .${attribute} directly`,
+          },
+        ],
+        output: `expect(getByText('foo')).${[preferred]}`,
+      },
+    ];
+  }
   return {
     valid: [
       `expect(element).not.toHaveProperty('value', 'foo')`,
@@ -31,6 +63,7 @@ module.exports = ({ preferred, negatedPreferred, attribute }) => {
     ],
     invalid: [
       ...doubleNegativeCases,
+      ...directChecks,
       {
         code: `expect(element).toHaveProperty('${attribute}', true)`,
         errors: [
@@ -121,6 +154,15 @@ module.exports = ({ preferred, negatedPreferred, attribute }) => {
         ],
         output: `expect(getByText("foo")).${negatedPreferred}`,
       },
+      // {
+      //   code: `expect(getByText('foo').getAttribute('${attribute}')).toBeTruthy()`,
+      //   errors: [
+      //     {
+      //       message: `Use ${preferred} instead of .${attribute}`,
+      //     },
+      //   ],
+      //   output: `expect(getByText('foo')).${[preferred]}`,
+      // },
     ],
   };
 };
