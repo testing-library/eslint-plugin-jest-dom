@@ -38,5 +38,15 @@ Object {
       "fixable": "code",
     },
   },
+  "prefer-to-have-attribute": Object {
+    "create": [Function],
+    "meta": Object {
+      "docs": Object {
+        "description": "prefer toHaveAttribute over checking  getAttribute/hasAttribute ",
+        "recommended": false,
+      },
+      "fixable": "code",
+    },
+  },
 }
 `;
