@@ -62,6 +62,41 @@ ruleTester.run('prefer-to-have-attribute', rule, {
             output: `expect(getByText("yes")).toHaveAttribute("data-blah", expect.stringMatching(/foo/))`,
         },
         {
+            code: `expect(getByText('foo').hasAttribute('foo')).toBe(null)`,
+            errors: [{
+                message: 'Invalid matcher for hasAttribute',
+            }],
+            output: null
+        },
+        {
+            code: `expect(getByText('foo').hasAttribute('foo')).toBeNull()`,
+            errors: [{
+                message: 'Invalid matcher for hasAttribute',
+            }],
+            output: null
+        },
+        {
+            code: `expect(getByText('foo').getAttribute('foo')).toBeDefined()`,
+            errors: [{
+                message: 'Invalid matcher for getAttribute',
+            }],
+            output: null
+        },
+        {
+            code: `expect(getByText('foo').getAttribute('foo')).toBeUndefined()`,
+            errors: [{
+                message: 'Invalid matcher for getAttribute',
+            }],
+            output: null
+        },
+        {
+            code: `expect(getByText('foo').hasAttribute('foo')).toBeUndefined()`,
+            errors: [{
+                message: 'Invalid matcher for hasAttribute',
+            }],
+            output: null
+        },
+        {
             code: 'expect(element.hasAttribute("foo")).toBeTruthy()',
             errors: [
                 {
@@ -97,7 +132,33 @@ ruleTester.run('prefer-to-have-attribute', rule, {
             ],
             output: 'expect(element).not.toHaveAttribute("foo")',
         },
-
+        {
+            code: 'expect(element.hasAttribute("foo")).toEqual(false)',
+            errors: [
+                {
+                    message: 'Use toHaveAttribute instead of asserting on hasAttribute',
+                },
+            ],
+            output: 'expect(element).not.toHaveAttribute("foo")',
+        },
+        {
+            code: 'expect(element.getAttribute("foo")).toEqual("bar")',
+            errors: [
+                {
+                    message: 'Use toHaveAttribute instead of asserting on getAttribute',
+                },
+            ],
+            output: 'expect(element).toHaveAttribute("foo", "bar")',
+        },
+        {
+            code: 'expect(element.getAttribute("foo")).toStrictEqual("bar")',
+            errors: [
+                {
+                    message: 'Use toHaveAttribute instead of asserting on getAttribute',
+                },
+            ],
+            output: 'expect(element).toHaveAttribute("foo", "bar")',
+        },
         {
             code: 'expect(element.getAttribute("foo")).toBe(null)',
             errors: [
