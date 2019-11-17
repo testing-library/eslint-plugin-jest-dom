@@ -1,0 +1,46 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "benmonro",
+      "name": "Ben Monro",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/399236?v=4",
+      "profile": "https://github.com/benmonro",
+      "contributions": [
+        "doc",
+        "code",
+        "example",
+        "test"
+      ]
+    },
+    {
+      "login": "nickmccurdy",
+      "name": "Nick McCurdy",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/927220?v=4",
+      "profile": "https://nickmccurdy.com/",
+      "contributions": [
+        "code",
+        "doc",
+        "test"
+      ]
+    },
+    {
+      "login": "gnapse",
+      "name": "Ernesto García",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/15199?v=4",
+      "profile": "https://twitter.com/gnapse",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "eslint-plugin-jest-dom",
+  "projectOwner": "testing-library",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}

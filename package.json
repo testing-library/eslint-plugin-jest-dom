@@ -15,7 +15,7 @@
     "generate-readme-table": "node build/generate-readme-table.js"
   },
   "dependencies": {
-    "requireindex": "~1.1.0"
+    "requireindex": "~1.2.0"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
