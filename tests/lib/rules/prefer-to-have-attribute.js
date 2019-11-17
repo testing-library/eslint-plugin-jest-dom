@@ -19,10 +19,30 @@ let ruleTester = new RuleTester();
 ruleTester.run('prefer-to-have-attribute', rule, {
     valid: [
         'expect(element.foo).toBeTruthy()',
-        'expect(element.getAttributeNode()).toBeNull()'
+        'expect(element.getAttributeNode()).toBeNull()',
+        `expect(element.getAttribute('foo')).toBeGreaterThan(2)`,
+        `expect(element.getAttribute('foo')).toBeLessThan(2)`
     ],
 
     invalid: [
+        {
+            code: `expect(element.getAttribute('foo')).toMatch(/bar/);`,
+            errors: [
+                {
+                    message: 'Use toHaveAttribute instead of asserting on getAttribute',
+                },
+            ],
+            output: `expect(element).toHaveAttribute('foo', expect.stringMatching(/bar/));`,
+        },
+        {
+            code: `expect(element.getAttribute('foo')).toContain('bar');`,
+            errors: [
+                {
+                    message: 'Use toHaveAttribute instead of asserting on getAttribute',
+                },
+            ],
+            output: `expect(element).toHaveAttribute('foo', expect.stringContaining('bar'));`,
+        },
         {
             code: 'expect(element.getAttribute("foo")).toBe("bar")',
             errors: [
