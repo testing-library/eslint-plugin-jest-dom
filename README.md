@@ -34,7 +34,12 @@ Then configure the rules you want to use under the rules section.
 
 ```json
 {
-  "rules": {}
+  "rules": {
+        "jest-dom/prefer-required": "error",
+        "jest-dom/prefer-enabled-disabled": "error",
+        "jest-dom/prefer-checked": "error",
+        "jest-dom/prefer-to-have-attribute": "error",
+  }
 }
 ```
 
