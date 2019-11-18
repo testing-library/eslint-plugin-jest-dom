@@ -154,15 +154,6 @@ module.exports = ({ preferred, negatedPreferred, attribute }) => {
         ],
         output: `expect(getByText("foo")).${negatedPreferred}`,
       },
-      // {
-      //   code: `expect(getByText('foo').getAttribute('${attribute}')).toBeTruthy()`,
-      //   errors: [
-      //     {
-      //       message: `Use ${preferred} instead of .${attribute}`,
-      //     },
-      //   ],
-      //   output: `expect(getByText('foo')).${[preferred]}`,
-      // },
     ],
   };
 };
