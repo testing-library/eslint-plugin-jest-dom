@@ -43,7 +43,7 @@ Object {
     "meta": Object {
       "docs": Object {
         "description": "prefer toHaveAttribute over checking  getAttribute/hasAttribute ",
-        "recommended": false,
+        "recommended": true,
       },
       "fixable": "code",
     },
