@@ -26,6 +26,17 @@ Object {
       "fixable": "code",
     },
   },
+  "prefer-focus": Object {
+    "create": [Function],
+    "meta": Object {
+      "docs": Object {
+        "category": "jest-dom",
+        "description": "prefer toHaveFocus over checking document.activeElement",
+        "recommended": true,
+      },
+      "fixable": "code",
+    },
+  },
   "prefer-required": Object {
     "create": [Function],
     "meta": Object {
