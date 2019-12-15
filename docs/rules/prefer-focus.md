@@ -1,4 +1,6 @@
-# prefer toHaveFocus over checking document.activeElement (prefer-focus)
+# prefer-focus
+
+prefer toHaveFocus over checking document.activeElement (prefer-focus)
 
 ## Rule Details
 
