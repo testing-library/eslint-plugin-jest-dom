@@ -25,6 +25,24 @@ ruleTester.run('prefer-focus', rule, {
       output: 'expect(foo).toHaveFocus()',
     },
     {
+      code: `expect(document.activeElement).toBe(getByText('Foo'))`,
+      errors: [
+        {
+          message: 'Use toHaveFocus instead of checking activeElement',
+        },
+      ],
+      output: `expect(getByText('Foo')).toHaveFocus()`,
+    },
+    {
+      code: `expect(document.activeElement).not.toBe(getByText('Foo'))`,
+      errors: [
+        {
+          message: 'Use toHaveFocus instead of checking activeElement',
+        },
+      ],
+      output: `expect(getByText('Foo')).not.toHaveFocus()`,
+    },
+    {
       code: 'expect(document.activeElement).not.toBe(foo)',
       errors: [
         {
