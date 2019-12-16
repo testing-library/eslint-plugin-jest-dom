@@ -29,5 +29,18 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/testing-library/eslint-plugin-jest-dom.git"
+  },
+  "bugs": {
+    "url": "https://github.com/testing-library/eslint-plugin-jest-dom/issues"
+  },
+  "homepage": "https://github.com/testing-library/eslint-plugin-jest-dom#readme"
 }
