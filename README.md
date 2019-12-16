@@ -93,5 +93,5 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-[package]: https://www.npmjs.com/package/esling-plugin-jest-dom
+[package]: https://www.npmjs.com/package/eslint-plugin-jest-dom
 [version-badge]: https://img.shields.io/npm/v/eslint-plugin-jest-dom.svg?style=flat-square
