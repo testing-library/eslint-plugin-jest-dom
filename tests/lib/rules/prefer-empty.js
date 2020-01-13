@@ -26,9 +26,74 @@ ruleTester.run('prefer-empty', rule, {
     `expect(getByText("foo").innerHTML).not.toBe('foo')`,
     `expect(getByText("foo").firstChild).toBe('foo')`,
     `expect(getByText("foo").firstChild).not.toBe('foo')`,
+    `expect(element.innerHTML === 'foo').toBe(true)`,
+    `expect(element.innerHTML !== 'foo').toBe(true)`,
   ],
 
   invalid: [
+    {
+      code: `expect(element.innerHTML === '').toBe(true)`,
+      errors: [
+        {
+          message: 'Use toBeEmpty instead of checking inner html.',
+        },
+      ],
+      output: `expect(element).toBeEmpty()`,
+    },
+    {
+      code: `expect(element.innerHTML !== '').toBe(true)`,
+      errors: [
+        {
+          message: 'Use toBeEmpty instead of checking inner html.',
+        },
+      ],
+      output: `expect(element).not.toBeEmpty()`,
+    },
+    {
+      code: `expect(element.innerHTML === '').toBe(false)`,
+      errors: [
+        {
+          message: 'Use toBeEmpty instead of checking inner html.',
+        },
+      ],
+      output: `expect(element).not.toBeEmpty()`,
+    },
+    {
+      code: `expect(element.innerHTML !== '').toBe(false)`,
+      errors: [
+        {
+          message: 'Use toBeEmpty instead of checking inner html.',
+        },
+      ],
+      output: `expect(element).toBeEmpty()`,
+    },
+    {
+      code: `expect(element.firstChild === null).toBe(true)`,
+      errors: [
+        {
+          message: 'Use toBeEmpty instead of checking inner html.',
+        },
+      ],
+      output: `expect(element).toBeEmpty()`,
+    },
+    {
+      code: `expect(element.firstChild !== null).toBe(false)`,
+      errors: [
+        {
+          message: 'Use toBeEmpty instead of checking inner html.',
+        },
+      ],
+      output: `expect(element).toBeEmpty()`,
+    },
+    {
+      code: `expect(element.firstChild === null).toBe(false)`,
+      errors: [
+        {
+          message: 'Use toBeEmpty instead of checking inner html.',
+        },
+      ],
+      output: `expect(element).not.toBeEmpty()`,
+    },
     {
       code: `expect(element.innerHTML).toBe('')`,
       errors: [
@@ -38,6 +103,7 @@ ruleTester.run('prefer-empty', rule, {
       ],
       output: `expect(element).toBeEmpty()`,
     },
+
     {
       code: `expect(element.innerHTML).toBe(null)`,
       errors: [
