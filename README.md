@@ -69,6 +69,7 @@ To enable this configuration use the `extends` property in your
 Name | ✔️ | 🛠 | Description
 ----- | ----- | ----- | -----
 [prefer-checked](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-checked.md) | ✔️ | 🛠 | prefer toBeChecked over checking attributes
+[prefer-empty](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-empty.md) | ✔️ | 🛠 | Prefer toBeEmpty over checking innerHTML
 [prefer-enabled-disabled](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-enabled-disabled.md) | ✔️ | 🛠 | prefer toBeDisabled or toBeEnabled over checking attributes
 [prefer-focus](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-focus.md) | ✔️ | 🛠 | prefer toHaveFocus over checking document.activeElement
 [prefer-required](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-required.md) | ✔️ | 🛠 | prefer toBeRequired over checking properties
