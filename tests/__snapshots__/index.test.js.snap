@@ -21,6 +21,7 @@ Object {
         "category": "jest-dom",
         "description": "Prefer toBeEmpty over checking innerHTML",
         "recommended": true,
+        "url": "prefer-empty",
       },
       "fixable": "code",
     },
