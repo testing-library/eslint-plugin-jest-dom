@@ -14,6 +14,17 @@ Object {
       "fixable": "code",
     },
   },
+  "prefer-empty": Object {
+    "create": [Function],
+    "meta": Object {
+      "docs": Object {
+        "category": "jest-dom",
+        "description": "Prefer toBeEmpty over checking innerHTML",
+        "recommended": true,
+      },
+      "fixable": "code",
+    },
+  },
   "prefer-enabled-disabled": Object {
     "create": [Function],
     "meta": Object {
