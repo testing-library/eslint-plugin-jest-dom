@@ -23,7 +23,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^24.9.0",
-    "kcd-scripts": "^1.9.0",
+    "kcd-scripts": "^3.1.0",
     "prettier": "^1.18.2"
   },
   "engines": {
