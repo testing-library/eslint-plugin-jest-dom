@@ -36,11 +36,22 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "zorfling",
+      "name": "Chris Colborne",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/101371?v=4",
+      "profile": "https://chriscolborne.com",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "eslint-plugin-jest-dom",
   "projectOwner": "testing-library",
   "repoType": "github",
-  "repoHost": "https://github.com"
+  "repoHost": "https://github.com",
+  "skipCi": true
 }
