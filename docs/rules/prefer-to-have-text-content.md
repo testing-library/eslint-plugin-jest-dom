@@ -15,7 +15,7 @@ Examples of **incorrect** code for this rule:
     expect(screen.getByText('foo').textContent).toBe("foo")
     expect(element.textContent).toEqual("foo")
     expect(element.textContent).toContain("foo")
-expect(element.textContent).not.toBe("foo")
+    expect(element.textContent).not.toBe("foo")
     expect(element.textContent).not.toContain("foo")
 
 ```
