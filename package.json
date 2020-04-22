@@ -12,6 +12,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "jest",
+    "format": "prettier \"**/*.js\" --write",
     "generate-readme-table": "node build/generate-readme-table.js"
   },
   "dependencies": {
