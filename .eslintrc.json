@@ -6,17 +6,16 @@
         "commonjs": true,
         "es6": true,
         "node": true
-        // "jest/globals": true
     },
     "plugins": [
         "eslint-plugin",
         "prettier"
     ],
     "extends": [
-        "plugin:eslint-plugin/recommended"
+        "plugin:eslint-plugin/recommended",
+        "prettier"
     ],
     "rules": {
-        "prettier/prettier": "error",
         "no-var": "error"
     }
 }
