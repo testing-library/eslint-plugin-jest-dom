@@ -3,22 +3,22 @@
  * @author Ben Monro
  */
 
-const createBannedAttributeRule = require("../createBannedAttributeRule");
+const createBannedAttributeRule = require('../createBannedAttributeRule')
 
 module.exports = {
   meta: {
     docs: {
-      description: "prefer toBeChecked over checking attributes",
-      category: "jest-dom",
+      description: 'prefer toBeChecked over checking attributes',
+      category: 'jest-dom',
       recommended: true,
-      url: "prefer-checked",
+      url: 'prefer-checked',
     },
-    fixable: "code",
+    fixable: 'code',
   },
 
   create: createBannedAttributeRule({
-    preferred: "toBeChecked",
-    negatedPreferred: "not.toBeChecked",
-    attributes: ["checked", "aria-checked"],
+    preferred: 'toBeChecked',
+    negatedPreferred: 'not.toBeChecked',
+    attributes: ['checked', 'aria-checked'],
   }),
-};
+}
