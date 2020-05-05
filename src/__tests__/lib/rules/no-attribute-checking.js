@@ -3,7 +3,7 @@
  * @author Ben Monro
  */
 
-const createBannedAttributeTestCases = require("../../fixtures/createBannedAttributeTestCases");
+const createBannedAttributeTestCases = require("../../__fixtures__/createBannedAttributeTestCases");
 
 const bannedAttributes = [
   {
