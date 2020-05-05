@@ -35,7 +35,7 @@
     "requireindex": "^1.2.0"
   },
   "devDependencies": {
-    "kcd-scripts": "^6.0.0"
+    "kcd-scripts": "^5.11.1"
   },
   "peerDependencies": {
     "eslint": ">=6"
