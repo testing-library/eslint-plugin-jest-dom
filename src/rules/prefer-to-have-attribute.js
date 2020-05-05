@@ -2,7 +2,6 @@
  * @fileoverview prefer toHaveAttribute over checking  getAttribute/hasAttribute
  * @author Ben Monro
  */
-"use strict";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -18,7 +17,7 @@ module.exports = {
     fixable: "code",
   },
 
-  create: function (context) {
+  create: (context) => {
     return {
       [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeNull/]`](
         node

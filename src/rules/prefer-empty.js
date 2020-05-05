@@ -1,3 +1,5 @@
+/* eslint-disable max-lines-per-function */
+
 /**
  * @fileoverview Prefer toBeEmpty over checking innerHTML
  * @author Ben Monro
@@ -14,7 +16,7 @@ module.exports = {
     fixable: "code", // or "code" or "whitespace"
   },
 
-  create: function (context) {
+  create: (context) => {
     return {
       [`BinaryExpression[left.property.name='innerHTML'][right.value=''][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
         node

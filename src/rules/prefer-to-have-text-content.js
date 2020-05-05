@@ -2,7 +2,6 @@
  * @fileoverview prefer toHaveAttribute over checking  getAttribute/hasAttribute
  * @author Ben Monro
  */
-"use strict";
 
 module.exports = {
   meta: {
@@ -13,7 +12,7 @@ module.exports = {
     fixable: "code",
   },
 
-  create: function (context) {
+  create: (context) => {
     return {
       [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toContain$|toMatch$/]`](
         node

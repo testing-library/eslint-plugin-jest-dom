@@ -2,12 +2,12 @@
  * @fileoverview prefer toHaveFocus over checking document.activeElement
  * @author Ben Monro
  */
-"use strict";
 
-let rule = require("../../../src/rules/prefer-focus"),
-  RuleTester = require("eslint").RuleTester;
 
-let ruleTester = new RuleTester();
+const rule = require("../../../src/rules/prefer-focus");
+  const RuleTester = require("eslint").RuleTester;
+
+const ruleTester = new RuleTester();
 ruleTester.run("prefer-focus", rule, {
   valid: [
     `expect(document.activeElement).toBeNull()`,

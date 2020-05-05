@@ -2,20 +2,19 @@
  * @fileoverview lint rules for use with jest-dom
  * @author Ben Monro
  */
-"use strict";
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-let requireIndex = require("requireindex");
+const requireIndex = require("requireindex");
 
 //------------------------------------------------------------------------------
 // Plugin Definition
 //------------------------------------------------------------------------------
 
 // import all rules in src/rules
-module.exports.rules = requireIndex(__dirname + "/rules");
+module.exports.rules = requireIndex(`${__dirname}/rules`);
 
 module.exports.generateRecommendedConfig = (rules) => {
   return Object.entries(rules).reduce(

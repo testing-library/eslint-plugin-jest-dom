@@ -2,20 +2,19 @@
  * @fileoverview Prefer toHaveTextContent over checking element.textContent
  * @author Ben Monro
  */
-"use strict";
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../src/rules/prefer-to-have-text-content"),
-  RuleTester = require("eslint").RuleTester;
+const rule = require("../../../src/rules/prefer-to-have-text-content");
+  const RuleTester = require("eslint").RuleTester;
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 ruleTester.run("prefer-to-have-text-content", rule, {
   valid: [
     `expect(string).toBe("foo")`,

@@ -2,20 +2,19 @@
  * @fileoverview Prefer toBeEmpty over checking innerHTML
  * @author Ben Monro
  */
-"use strict";
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../src/rules/prefer-empty"),
-  RuleTester = require("eslint").RuleTester;
+const rule = require("../../../src/rules/prefer-empty");
+  const RuleTester = require("eslint").RuleTester;
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 ruleTester.run("prefer-empty", rule, {
   valid: [
     `expect(element.innerHTML).toBe('foo')`,

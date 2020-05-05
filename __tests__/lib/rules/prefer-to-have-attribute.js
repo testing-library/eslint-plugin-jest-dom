@@ -2,20 +2,19 @@
  * @fileoverview prefer toHaveAttribute over checking  getAttribute/hasAttribute
  * @author Ben Monro
  */
-"use strict";
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../src/rules/prefer-to-have-attribute"),
-  RuleTester = require("eslint").RuleTester;
+const rule = require("../../../src/rules/prefer-to-have-attribute");
+  const RuleTester = require("eslint").RuleTester;
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 ruleTester.run("prefer-to-have-attribute", rule, {
   valid: [
     "expect(element.foo).toBeTruthy()",

@@ -1,3 +1,5 @@
+/* eslint-disable max-lines-per-function */
+
 module.exports = ({ preferred, negatedPreferred, attribute }) => {
   let doubleNegativeCases = [];
   if (negatedPreferred.startsWith("toBe")) {

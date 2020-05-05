@@ -2,7 +2,6 @@
  * @fileoverview prefer toBeDisabled or toBeEnabled over attribute checks
  * @author Ben Monro
  */
-"use strict";
 
 const createBannedAttributeRule = require("../createBannedAttributeRule");
 

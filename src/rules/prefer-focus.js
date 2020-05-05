@@ -2,7 +2,6 @@
  * @fileoverview prefer toHaveFocus over checking activeElementa
  * @author Ben Monro
  */
-"use strict";
 
 const variantsOfDoc = [
   // document:
@@ -23,7 +22,7 @@ module.exports = {
     fixable: "code",
   },
 
-  create: function (context) {
+  create: (context) => {
     return {
       [variantsOfDoc
         .map(
