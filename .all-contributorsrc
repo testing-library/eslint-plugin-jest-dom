@@ -2,6 +2,7 @@
   "projectName": "eslint-plugin-jest-dom",
   "projectOwner": "testing-library",
   "commit": false,
+  "commitConvention": "none",
   "contributorsPerLine": 7,
   "imageSize": 100,
   "repoHost": "https://github.com",
@@ -53,5 +54,5 @@
         "test"
       ]
     }
-  ],
+  ]
 }

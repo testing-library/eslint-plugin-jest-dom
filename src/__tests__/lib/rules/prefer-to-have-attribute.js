@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../rules/prefer-to-have-attribute");
-  const RuleTester = require("eslint").RuleTester;
+const RuleTester = require("eslint").RuleTester;
 
 //------------------------------------------------------------------------------
 // Tests

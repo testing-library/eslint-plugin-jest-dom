@@ -3,9 +3,8 @@
  * @author Ben Monro
  */
 
-
 const rule = require("../../../rules/prefer-focus");
-  const RuleTester = require("eslint").RuleTester;
+const RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester();
 ruleTester.run("prefer-focus", rule, {
