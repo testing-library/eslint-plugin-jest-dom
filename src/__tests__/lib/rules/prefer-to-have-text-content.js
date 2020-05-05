@@ -7,7 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../src/rules/prefer-to-have-text-content");
+const rule = require("../../../rules/prefer-to-have-text-content");
   const RuleTester = require("eslint").RuleTester;
 
 //------------------------------------------------------------------------------

@@ -4,7 +4,7 @@
  */
 
 
-const rule = require("../../../src/rules/prefer-focus");
+const rule = require("../../../rules/prefer-focus");
   const RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester();

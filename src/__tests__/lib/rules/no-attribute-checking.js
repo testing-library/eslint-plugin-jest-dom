@@ -28,7 +28,7 @@ const bannedAttributes = [
 
 bannedAttributes.forEach(
   ({ preferred, negatedPreferred, attributes, ruleName }) => {
-    const rule = require(`../../../src/rules/${ruleName}`);
+    const rule = require(`../../../rules/${ruleName}`);
     const RuleTester = require("eslint").RuleTester;
 
     // const preferred = 'toBeDisabled()';

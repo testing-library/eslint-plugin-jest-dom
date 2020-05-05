@@ -7,7 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../src/rules/prefer-empty");
+const rule = require("../../../rules/prefer-empty");
   const RuleTester = require("eslint").RuleTester;
 
 //------------------------------------------------------------------------------
