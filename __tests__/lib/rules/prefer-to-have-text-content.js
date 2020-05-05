@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/prefer-to-have-text-content"),
+let rule = require("../../../src/rules/prefer-to-have-text-content"),
   RuleTester = require("eslint").RuleTester;
 
 //------------------------------------------------------------------------------

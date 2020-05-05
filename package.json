@@ -1,47 +1,52 @@
 {
   "name": "eslint-plugin-jest-dom",
-  "version": "0.0.0",
-  "description": "lint rules for use with jest-dom",
-  "keywords": [
-    "eslint",
-    "eslintplugin",
-    "eslint-plugin"
-  ],
+  "version": "0.0.0-semantically-released",
+  "description": "ESLint plugin to follow best practices and anticipate common mistakes when writing tests with jest-dom",
+  "main": "dist/index.js",
+  "keywords": ["eslint", "eslintplugin", "eslint-plugin"],
   "author": "Ben Monro",
-  "main": "lib/index.js",
-  "scripts": {
-    "lint": "eslint .",
-    "test": "jest",
-    "format": "prettier \"**/*.js\" --write",
-    "generate-readme-table": "node build/generate-readme-table.js"
-  },
-  "dependencies": {
-    "requireindex": "~1.2.0"
-  },
-  "devDependencies": {
-    "eslint": "^6.6.0",
-    "eslint-plugin-eslint-plugin": "^2.1.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "jest": "^25.1.0",
-    "kcd-scripts": "^5.0.0",
-    "prettier": "^1.18.2"
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "license": "ISC",
-  "directories": {
-    "doc": "docs",
-    "lib": "lib",
-    "test": "tests"
-  },
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/testing-library/eslint-plugin-jest-dom.git"
+    "url": "https://github.com/testing-library/eslint-plugin-jest-dom"
   },
   "bugs": {
     "url": "https://github.com/testing-library/eslint-plugin-jest-dom/issues"
   },
-  "homepage": "https://github.com/testing-library/eslint-plugin-jest-dom#readme"
+  "homepage": "https://github.com/testing-library/eslint-plugin-jest-dom#readme",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "kcd-scripts build",
+    "generate-readme-table": "node build/generate-readme-table.js",
+    "lint": "kcd-scripts lint",
+    "setup": "npm install && npm run validate -s",
+    "test": "kcd-scripts test",
+    "test:update": "npm test -- --updateSnapshot --coverage",
+    "validate": "kcd-scripts validate"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.9.6",
+    "requireindex": "^1.2.0"
+  },
+  "devDependencies": {
+    "kcd-scripts": "^5.11.1"
+  },
+  "peerDependencies": {
+    "eslint": ">=6"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/kcd-scripts/eslint.js"
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "coverage",
+    "dist"
+  ],
+  "engines": {
+    "node": ">=8.10",
+    "npm": ">=6",
+    "yarn": ">=1"
+  }
 }

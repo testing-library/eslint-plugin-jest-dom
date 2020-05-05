@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/prefer-to-have-attribute"),
+let rule = require("../../../src/rules/prefer-to-have-attribute"),
   RuleTester = require("eslint").RuleTester;
 
 //------------------------------------------------------------------------------

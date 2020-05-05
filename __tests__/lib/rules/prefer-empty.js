@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/prefer-empty"),
+let rule = require("../../../src/rules/prefer-empty"),
   RuleTester = require("eslint").RuleTester;
 
 //------------------------------------------------------------------------------

@@ -4,7 +4,7 @@
  */
 "use strict";
 
-let rule = require("../../../lib/rules/prefer-focus"),
+let rule = require("../../../src/rules/prefer-focus"),
   RuleTester = require("eslint").RuleTester;
 
 let ruleTester = new RuleTester();
