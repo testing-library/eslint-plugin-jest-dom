@@ -8,7 +8,7 @@ it("should have a recommended config with recommended rules", () => {
   expect(
     generateRecommendedConfig({
       good: { meta: { docs: { recommended: true } } },
-      bad: { meta: { docs: { recommended: false } } }
+      bad: { meta: { docs: { recommended: false } } },
     })
   ).toEqual({ "jest-dom/good": "error" });
 });

@@ -9,26 +9,22 @@ This rule aims to prevent checking of the `textContent` DOM node attribute in te
 Examples of **incorrect** code for this rule:
 
 ```js
-    expect(element.textContent).toBe("foo")
-    expect(container.firstChild.textContent).toBe("foo")
-    expect(getByText('foo').textContent).toBe("foo")
-    expect(screen.getByText('foo').textContent).toBe("foo")
-    expect(element.textContent).toEqual("foo")
-    expect(element.textContent).toContain("foo")
-    expect(element.textContent).not.toBe("foo")
-    expect(element.textContent).not.toContain("foo")
-
+expect(element.textContent).toBe("foo");
+expect(container.firstChild.textContent).toBe("foo");
+expect(getByText("foo").textContent).toBe("foo");
+expect(screen.getByText("foo").textContent).toBe("foo");
+expect(element.textContent).toEqual("foo");
+expect(element.textContent).toContain("foo");
+expect(element.textContent).not.toBe("foo");
+expect(element.textContent).not.toContain("foo");
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-
-
-    expect(string).toBe("foo"),
-    expect(element).toHaveTextContent("foo"),
-    expect(container.lastNode).toBe("foo")
-
+expect(string).toBe("foo"),
+  expect(element).toHaveTextContent("foo"),
+  expect(container.lastNode).toBe("foo");
 ```
 
 ## When Not To Use It
@@ -37,4 +33,4 @@ Don't use this rule if you don't care about the added readability and improvemen
 
 ## Further Reading
 
-* [Docs on toHaveContent](https://github.com/testing-library/jest-dom#tohavetextcontent)
+- [Docs on toHaveContent](https://github.com/testing-library/jest-dom#tohavetextcontent)

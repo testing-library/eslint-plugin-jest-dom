@@ -10,12 +10,12 @@ Consider these 2 snippets:
 
 ```js
 const { getByRole } = render(<input type="checkbox" che />);
-const element = getByRole('checkbox');
-expect(element).toHaveProperty('checked'); // passes
+const element = getByRole("checkbox");
+expect(element).toHaveProperty("checked"); // passes
 
 const { getByRole } = render(<input type="checkbox" />);
-const element = getByRole('checkbox');
-expect(element).toHaveProperty('checked'); // also passes 😱
+const element = getByRole("checkbox");
+expect(element).toHaveProperty("checked"); // also passes 😱
 ```
 
 ### Readability
@@ -24,14 +24,14 @@ Consider the following snippets:
 
 ```js
 const { getByRole } = render(<input type="checkbox" />);
-const element = getByRole('checkbox');
+const element = getByRole("checkbox");
 
-expect(element).toHaveAttribute('checked', false); // fails
-expect(element).toHaveAttribute('checked', ''); // fails
-expect(element).not.toHaveAttribute('checked', ''); // passes
+expect(element).toHaveAttribute("checked", false); // fails
+expect(element).toHaveAttribute("checked", ""); // fails
+expect(element).not.toHaveAttribute("checked", ""); // passes
 
-expect(element).not.toHaveAttribute('checked', true); // passes.
-expect(element).not.toHaveAttribute('checked', false); // also passes.
+expect(element).not.toHaveAttribute("checked", true); // passes.
+expect(element).not.toHaveAttribute("checked", false); // also passes.
 ```
 
 As you can see, using `toHaveAttribute` in this case is confusing, unintuitive and can even lead to false positive tests.
@@ -39,11 +39,11 @@ As you can see, using `toHaveAttribute` in this case is confusing, unintuitive a
 Examples of **incorrect** code for this rule:
 
 ```js
-expect(element).toHaveProperty('checked', true);
-expect(element).toHaveAttribute('checked', false);
+expect(element).toHaveProperty("checked", true);
+expect(element).toHaveAttribute("checked", false);
 
-expect(element).toHaveAttribute('checked');
-expect(element).not.toHaveProperty('checked');
+expect(element).toHaveAttribute("checked");
+expect(element).not.toHaveProperty("checked");
 
 expect(element).not.not.toBeChecked();
 ```
@@ -55,9 +55,9 @@ expect(element).not.toBeChecked();
 
 expect(element).toBeChecked();
 
-expect(element).toHaveProperty('value', 'foo');
+expect(element).toHaveProperty("value", "foo");
 
-expect(element).toHaveAttribute('aria-label');
+expect(element).toHaveAttribute("aria-label");
 ```
 
 ## When Not To Use It

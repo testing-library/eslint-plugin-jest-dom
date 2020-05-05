@@ -12,14 +12,14 @@ module.exports = {
       description: "prefer toBeChecked over checking attributes",
       category: "jest-dom",
       recommended: true,
-      url: "prefer-checked"
+      url: "prefer-checked",
     },
-    fixable: "code"
+    fixable: "code",
   },
 
   create: createBannedAttributeRule({
     preferred: "toBeChecked",
     negatedPreferred: "not.toBeChecked",
-    attributes: ["checked", "aria-checked"]
-  })
+    attributes: ["checked", "aria-checked"],
+  }),
 };

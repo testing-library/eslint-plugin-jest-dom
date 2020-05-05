@@ -1,1 +1,1 @@
-module.exports = require('kcd-scripts/prettier')
+module.exports = require("kcd-scripts/prettier");

@@ -1,4 +1,4 @@
-const jestConfig = require('kcd-scripts/jest')
+const jestConfig = require("kcd-scripts/jest");
 
 module.exports = {
   ...jestConfig,

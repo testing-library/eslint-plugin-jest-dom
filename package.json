@@ -3,7 +3,11 @@
   "version": "0.0.0-semantically-released",
   "description": "ESLint plugin to follow best practices and anticipate common mistakes when writing tests with jest-dom",
   "main": "dist/index.js",
-  "keywords": ["eslint", "eslintplugin", "eslint-plugin"],
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
   "author": "Ben Monro",
   "license": "MIT",
   "repository": {

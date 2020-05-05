@@ -19,7 +19,7 @@ const expectedTableLines = Object.keys(rules)
           `[${ruleId}](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/${ruleId}.md)`,
           rule.meta.docs.recommended ? "✔️" : "",
           rule.meta.fixable ? "🛠" : "",
-          rule.meta.docs.description
+          rule.meta.docs.description,
         ].join(" | ")
       );
 
