@@ -55,11 +55,11 @@ You can omit the `eslint-plugin-` prefix:
 
 ```javascript
 module.exports = {
-  plugins: ['jest-dom'],
+  plugins: ["jest-dom"],
   rules: {
     // your configuration
   },
-}
+};
 ```
 
 Then configure the rules you want to use under the rules section.
@@ -67,12 +67,12 @@ Then configure the rules you want to use under the rules section.
 ```javascript
 module.exports = {
   rules: {
-    'jest-dom/prefer-checked': 'error',
-    'jest-dom/prefer-enabled-disabled': 'error',
-    'jest-dom/prefer-required': 'error',
-    'jest-dom/prefer-to-have-attribute': 'error',
+    "jest-dom/prefer-checked": "error",
+    "jest-dom/prefer-enabled-disabled": "error",
+    "jest-dom/prefer-required": "error",
+    "jest-dom/prefer-to-have-attribute": "error",
   },
-}
+};
 ```
 
 ## Recommended Configuration
@@ -86,11 +86,11 @@ config file:
 
 ```javascript
 module.exports = {
-  extends: 'plugin:jest-dom/recommended',
+  extends: "plugin:jest-dom/recommended",
   rules: {
     // your configuration
   },
-}
+};
 ```
 
 ## Supported Rules

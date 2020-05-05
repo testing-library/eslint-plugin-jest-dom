@@ -13,22 +13,22 @@ matchers since there isn't any equivalent use with `toHaveAttribute()`
 Examples of **incorrect** code for this rule:
 
 ```js
-expect(element.getAttribute('foo')).toMatch(/bar/)
-expect(element.getAttribute('foo')).toContain('bar')
-expect(getByText('thing').getAttribute('foo')).toBe('bar')
-expect(getByText('yes').getAttribute('data-blah')).toBe(
-  expect.stringMatching(/foo/),
-)
-expect(element.hasAttribute('foo')).toBeTruthy()
+expect(element.getAttribute("foo")).toMatch(/bar/);
+expect(element.getAttribute("foo")).toContain("bar");
+expect(getByText("thing").getAttribute("foo")).toBe("bar");
+expect(getByText("yes").getAttribute("data-blah")).toBe(
+  expect.stringMatching(/foo/)
+);
+expect(element.hasAttribute("foo")).toBeTruthy();
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-expect(element.foo).toBeTruthy()
-expect(element.getAttributeNode()).toBeNull()
-expect(element.getAttribute('foo')).toBeGreaterThan(2)
-expect(element.getAttribute('foo')).toBeLessThan(2)
+expect(element.foo).toBeTruthy();
+expect(element.getAttributeNode()).toBeNull();
+expect(element.getAttribute("foo")).toBeGreaterThan(2);
+expect(element.getAttribute("foo")).toBeLessThan(2);
 ```
 
 ## When Not To Use It

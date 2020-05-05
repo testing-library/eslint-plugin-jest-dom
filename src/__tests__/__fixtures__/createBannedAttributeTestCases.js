@@ -1,8 +1,8 @@
 /* eslint-disable max-lines-per-function */
 
-module.exports = ({preferred, negatedPreferred, attribute}) => {
-  let doubleNegativeCases = []
-  if (negatedPreferred.startsWith('toBe')) {
+module.exports = ({ preferred, negatedPreferred, attribute }) => {
+  let doubleNegativeCases = [];
+  if (negatedPreferred.startsWith("toBe")) {
     doubleNegativeCases = [
       {
         code: `expect(element).not.${negatedPreferred}`,
@@ -22,9 +22,9 @@ module.exports = ({preferred, negatedPreferred, attribute}) => {
         ],
         output: `expect(element).${negatedPreferred}`,
       },
-    ]
+    ];
   }
-  let directChecks = []
+  let directChecks = [];
   if (!/-/.test(attribute)) {
     directChecks = [
       {
@@ -54,7 +54,7 @@ module.exports = ({preferred, negatedPreferred, attribute}) => {
         ],
         output: `expect(getByText('foo')).${[preferred]}`,
       },
-    ]
+    ];
   }
   return {
     valid: [
@@ -157,5 +157,5 @@ module.exports = ({preferred, negatedPreferred, attribute}) => {
         output: `expect(getByText("foo")).${negatedPreferred}`,
       },
     ],
-  }
-}
+  };
+};

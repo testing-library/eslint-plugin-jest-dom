@@ -11,16 +11,16 @@ module.exports = {
   meta: {
     docs: {
       description:
-        'prefer toHaveAttribute over checking  getAttribute/hasAttribute ',
+        "prefer toHaveAttribute over checking  getAttribute/hasAttribute ",
       recommended: true,
     },
-    fixable: 'code',
+    fixable: "code",
   },
 
-  create: context => {
+  create: (context) => {
     return {
       [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeNull/]`](
-        node,
+        node
       ) {
         context.report({
           node: node.parent,
@@ -33,14 +33,14 @@ module.exports = {
                   node.parent.parent.property.range[0],
                   node.parent.parent.parent.range[1],
                 ],
-                `not.toHaveAttribute(${node.arguments[0].raw})`,
+                `not.toHaveAttribute(${node.arguments[0].raw})`
               ),
-            ]
+            ];
           },
-        })
+        });
       },
       [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toContain$|toMatch$/]`](
-        node,
+        node
       ) {
         context.report({
           node: node.parent,
@@ -48,73 +48,73 @@ module.exports = {
           fix(fixer) {
             return [
               fixer.removeRange([node.callee.object.range[1], node.range[1]]),
-              fixer.replaceText(node.parent.parent.property, 'toHaveAttribute'),
+              fixer.replaceText(node.parent.parent.property, "toHaveAttribute"),
               fixer.replaceText(
                 node.parent.parent.parent.arguments[0],
                 `${
                   node.arguments[0].raw
                 }, expect.string${node.parent.parent.property.name.slice(
-                  2,
-                )}ing(${node.parent.parent.parent.arguments[0].raw})`,
+                  2
+                )}ing(${node.parent.parent.parent.arguments[0].raw})`
               ),
-            ]
+            ];
           },
-        })
+        });
       },
       [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
-        node,
+        node
       ) {
-        const arg = node.parent.parent.parent.arguments
+        const arg = node.parent.parent.parent.arguments;
         const isNullOrEmpty =
-          arg.length > 0 && (arg[0].value === null || arg[0].value === '')
+          arg.length > 0 && (arg[0].value === null || arg[0].value === "");
 
         context.report({
           node: node.parent,
           message: `Use toHaveAttribute instead of asserting on getAttribute`,
           fix(fixer) {
-            let lastFixer
+            let lastFixer;
             if (isNullOrEmpty) {
               lastFixer = fixer.replaceText(
                 node.parent.parent.parent.arguments[0],
-                node.arguments[0].raw,
-              )
+                node.arguments[0].raw
+              );
             } else {
               lastFixer = fixer.insertTextBefore(
                 node.parent.parent.parent.arguments[0],
-                `${node.arguments[0].raw}, `,
-              )
+                `${node.arguments[0].raw}, `
+              );
             }
             return [
               fixer.removeRange([node.callee.object.range[1], node.range[1]]),
               fixer.replaceText(
                 node.parent.parent.property,
-                `${isNullOrEmpty ? 'not.' : ''}toHaveAttribute`,
+                `${isNullOrEmpty ? "not." : ""}toHaveAttribute`
               ),
               lastFixer,
-            ]
+            ];
           },
-        })
+        });
       },
       [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeNull|toBeUndefined|toBeDefined/]`](
-        node,
+        node
       ) {
         context.report({
           node: node.parent.parent.property,
-          message: 'Invalid matcher for hasAttribute',
-        })
+          message: "Invalid matcher for hasAttribute",
+        });
       },
       [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeUndefined|toBeDefined/]`](
-        node,
+        node
       ) {
         context.report({
           node: node.parent.parent.property,
-          message: 'Invalid matcher for getAttribute',
-        })
+          message: "Invalid matcher for getAttribute",
+        });
       },
       [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Striclty)?Equal/]`](
-        node,
+        node
       ) {
-        if (typeof node.parent.parent.parent.arguments[0].value === 'boolean') {
+        if (typeof node.parent.parent.parent.arguments[0].value === "boolean") {
           context.report({
             node: node.parent,
             message: `Use toHaveAttribute instead of asserting on hasAttribute`,
@@ -125,26 +125,26 @@ module.exports = {
                   node.parent.parent.property,
                   `${
                     node.parent.parent.parent.arguments[0].value === false
-                      ? 'not.'
-                      : ''
-                  }toHaveAttribute`,
+                      ? "not."
+                      : ""
+                  }toHaveAttribute`
                 ),
                 fixer.replaceText(
                   node.parent.parent.parent.arguments[0],
-                  node.arguments[0].raw,
+                  node.arguments[0].raw
                 ),
-              ]
+              ];
             },
-          })
+          });
         } else {
           context.report({
             node: node.parent.parent.property,
-            message: 'Invalid matcher for hasAttribute',
-          })
+            message: "Invalid matcher for hasAttribute",
+          });
         }
       },
       [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeTruthy|toBeFalsy/]`](
-        node,
+        node
       ) {
         context.report({
           node: node.parent,
@@ -158,13 +158,13 @@ module.exports = {
                   node.parent.parent.parent.range[1],
                 ],
                 `${
-                  node.parent.parent.property.name === 'toBeFalsy' ? 'not.' : ''
-                }toHaveAttribute(${node.arguments[0].raw})`,
+                  node.parent.parent.property.name === "toBeFalsy" ? "not." : ""
+                }toHaveAttribute(${node.arguments[0].raw})`
               ),
-            ]
+            ];
           },
-        })
+        });
       },
-    }
+    };
   },
-}
+};

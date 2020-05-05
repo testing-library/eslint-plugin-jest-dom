@@ -3,23 +3,23 @@
  * @author Ben Monro
  */
 
-const createBannedAttributeRule = require('../createBannedAttributeRule')
+const createBannedAttributeRule = require("../createBannedAttributeRule");
 
 module.exports = {
   meta: {
     docs: {
       description:
-        'prefer toBeDisabled or toBeEnabled over checking attributes',
-      category: 'jest-dom',
+        "prefer toBeDisabled or toBeEnabled over checking attributes",
+      category: "jest-dom",
       recommended: true,
-      url: 'prefer-enabled-disabled',
+      url: "prefer-enabled-disabled",
     },
-    fixable: 'code',
+    fixable: "code",
   },
 
   create: createBannedAttributeRule({
-    preferred: 'toBeDisabled',
-    negatedPreferred: 'toBeEnabled',
-    attributes: ['disabled'],
+    preferred: "toBeDisabled",
+    negatedPreferred: "toBeEnabled",
+    attributes: ["disabled"],
   }),
-}
+};

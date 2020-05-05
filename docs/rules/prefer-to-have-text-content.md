@@ -10,22 +10,22 @@ tests and prefer `toHaveTextContent` instead.
 Examples of **incorrect** code for this rule:
 
 ```js
-expect(element.textContent).toBe('foo')
-expect(container.firstChild.textContent).toBe('foo')
-expect(getByText('foo').textContent).toBe('foo')
-expect(screen.getByText('foo').textContent).toBe('foo')
-expect(element.textContent).toEqual('foo')
-expect(element.textContent).toContain('foo')
-expect(element.textContent).not.toBe('foo')
-expect(element.textContent).not.toContain('foo')
+expect(element.textContent).toBe("foo");
+expect(container.firstChild.textContent).toBe("foo");
+expect(getByText("foo").textContent).toBe("foo");
+expect(screen.getByText("foo").textContent).toBe("foo");
+expect(element.textContent).toEqual("foo");
+expect(element.textContent).toContain("foo");
+expect(element.textContent).not.toBe("foo");
+expect(element.textContent).not.toContain("foo");
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-expect(string).toBe('foo'),
-  expect(element).toHaveTextContent('foo'),
-  expect(container.lastNode).toBe('foo')
+expect(string).toBe("foo"),
+  expect(element).toHaveTextContent("foo"),
+  expect(container.lastNode).toBe("foo");
 ```
 
 ## When Not To Use It

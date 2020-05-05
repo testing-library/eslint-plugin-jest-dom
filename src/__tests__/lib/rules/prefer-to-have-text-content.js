@@ -7,15 +7,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require('../../../rules/prefer-to-have-text-content')
-const RuleTester = require('eslint').RuleTester
+const rule = require("../../../rules/prefer-to-have-text-content");
+const RuleTester = require("eslint").RuleTester;
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester()
-ruleTester.run('prefer-to-have-text-content', rule, {
+const ruleTester = new RuleTester();
+ruleTester.run("prefer-to-have-text-content", rule, {
   valid: [
     `expect(string).toBe("foo")`,
     `expect(element).toHaveTextContent("foo")`,
@@ -28,7 +28,7 @@ ruleTester.run('prefer-to-have-text-content', rule, {
       errors: [
         {
           message:
-            'Use toHaveTextContent instead of asserting on DOM node attributes',
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
         },
       ],
       output: `expect(element).toHaveTextContent("foo")`,
@@ -38,7 +38,7 @@ ruleTester.run('prefer-to-have-text-content', rule, {
       errors: [
         {
           message:
-            'Use toHaveTextContent instead of asserting on DOM node attributes',
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
         },
       ],
       output: `expect(element).not.toHaveTextContent("foo")`,
@@ -48,7 +48,7 @@ ruleTester.run('prefer-to-have-text-content', rule, {
       errors: [
         {
           message:
-            'Use toHaveTextContent instead of asserting on DOM node attributes',
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
         },
       ],
       output: `expect(screen.getByText("foo")).toHaveTextContent("foo")`,
@@ -58,7 +58,7 @@ ruleTester.run('prefer-to-have-text-content', rule, {
       errors: [
         {
           message:
-            'Use toHaveTextContent instead of asserting on DOM node attributes',
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
         },
       ],
       output: `expect(container.firstChild).toHaveTextContent("foo")`,
@@ -68,7 +68,7 @@ ruleTester.run('prefer-to-have-text-content', rule, {
       errors: [
         {
           message:
-            'Use toHaveTextContent instead of asserting on DOM node attributes',
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
         },
       ],
       output: `expect(element).toHaveTextContent("foo")`,
@@ -78,7 +78,7 @@ ruleTester.run('prefer-to-have-text-content', rule, {
       errors: [
         {
           message:
-            'Use toHaveTextContent instead of asserting on DOM node attributes',
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
         },
       ],
       output: `expect(element).toHaveTextContent(/foo/)`,
@@ -88,7 +88,7 @@ ruleTester.run('prefer-to-have-text-content', rule, {
       errors: [
         {
           message:
-            'Use toHaveTextContent instead of asserting on DOM node attributes',
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
         },
       ],
       output: `expect(container.firstChild).toHaveTextContent(/foo/)`,
@@ -98,7 +98,7 @@ ruleTester.run('prefer-to-have-text-content', rule, {
       errors: [
         {
           message:
-            'Use toHaveTextContent instead of asserting on DOM node attributes',
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
         },
       ],
       output: `expect(element).toHaveTextContent(/foo/)`,
@@ -108,10 +108,10 @@ ruleTester.run('prefer-to-have-text-content', rule, {
       errors: [
         {
           message:
-            'Use toHaveTextContent instead of asserting on DOM node attributes',
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
         },
       ],
       output: `expect(element).not.toHaveTextContent(/foo/)`,
     },
   ],
-})
+});

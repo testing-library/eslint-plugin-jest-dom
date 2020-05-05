@@ -6,18 +6,18 @@
 module.exports = {
   meta: {
     docs: {
-      description: 'Prefer toHaveTextContent over checking element.textContent',
+      description: "Prefer toHaveTextContent over checking element.textContent",
       recommended: true,
     },
-    fixable: 'code',
+    fixable: "code",
   },
 
-  create: context => {
+  create: (context) => {
     return {
       [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toContain$|toMatch$/]`](
-        node,
+        node
       ) {
-        const expectedArg = node.parent.parent.parent.arguments[0]
+        const expectedArg = node.parent.parent.parent.arguments[0];
         context.report({
           node: node.parent,
           message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
@@ -29,18 +29,18 @@ module.exports = {
               ]),
               fixer.replaceTextRange(
                 node.parent.parent.property.range,
-                'toHaveTextContent',
+                "toHaveTextContent"
               ),
               fixer.replaceTextRange(
                 expectedArg.range,
-                `/${expectedArg.value}/`,
+                `/${expectedArg.value}/`
               ),
-            ]
+            ];
           },
-        })
+        });
       },
       [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
-        node,
+        node
       ) {
         context.report({
           node: node.parent,
@@ -53,14 +53,14 @@ module.exports = {
               ]),
               fixer.replaceTextRange(
                 node.parent.parent.property.range,
-                'toHaveTextContent',
+                "toHaveTextContent"
               ),
-            ]
+            ];
           },
-        })
+        });
       },
       [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
-        node,
+        node
       ) {
         context.report({
           node: node.parent,
@@ -73,16 +73,16 @@ module.exports = {
               ]),
               fixer.replaceTextRange(
                 node.parent.parent.parent.property.range,
-                'toHaveTextContent',
+                "toHaveTextContent"
               ),
-            ]
+            ];
           },
-        })
+        });
       },
       [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toContain$|toMatch$/]`](
-        node,
+        node
       ) {
-        const expectedArg = node.parent.parent.parent.parent.arguments[0]
+        const expectedArg = node.parent.parent.parent.parent.arguments[0];
         context.report({
           node: node.parent,
           message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
@@ -94,16 +94,16 @@ module.exports = {
               ]),
               fixer.replaceTextRange(
                 node.parent.parent.parent.property.range,
-                'toHaveTextContent',
+                "toHaveTextContent"
               ),
               fixer.replaceTextRange(
                 expectedArg.range,
-                `/${expectedArg.value}/`,
+                `/${expectedArg.value}/`
               ),
-            ]
+            ];
           },
-        })
+        });
       },
-    }
+    };
   },
-}
+};
