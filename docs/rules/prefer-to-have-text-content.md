@@ -23,9 +23,9 @@ expect(element.textContent).not.toContain("foo");
 Examples of **correct** code for this rule:
 
 ```js
-expect(string).toBe("foo"),
-  expect(element).toHaveTextContent("foo"),
-  expect(container.lastNode).toBe("foo");
+expect(string).toBe("foo");
+expect(element).toHaveTextContent("foo");
+expect(container.lastNode).toBe("foo");
 ```
 
 ## When Not To Use It
