@@ -1,3 +1,5 @@
+/* eslint-disable max-lines-per-function */
+
 /**
  * @fileoverview Prefer toBeEmpty over checking innerHTML
  * @author Ben Monro
@@ -9,12 +11,12 @@ module.exports = {
       description: "Prefer toBeEmpty over checking innerHTML",
       category: "jest-dom",
       recommended: true,
-      url: "prefer-empty"
+      url: "prefer-empty",
     },
-    fixable: "code" // or "code" or "whitespace"
+    fixable: "code", // or "code" or "whitespace"
   },
 
-  create: function(context) {
+  create: (context) => {
     return {
       [`BinaryExpression[left.property.name='innerHTML'][right.value=''][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
         node
@@ -26,7 +28,7 @@ module.exports = {
             return [
               fixer.removeRange([
                 node.left.property.range[0] - 1,
-                node.range[1]
+                node.range[1],
               ]),
               fixer.replaceText(
                 node.parent.parent.property,
@@ -35,9 +37,9 @@ module.exports = {
                   ? "toBeEmpty"
                   : "not.toBeEmpty"
               ),
-              fixer.remove(node.parent.parent.parent.arguments[0])
+              fixer.remove(node.parent.parent.parent.arguments[0]),
             ];
-          }
+          },
         });
       },
       [`BinaryExpression[left.property.name='firstChild'][right.value=null][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
@@ -50,7 +52,7 @@ module.exports = {
             return [
               fixer.removeRange([
                 node.left.property.range[0] - 1,
-                node.range[1]
+                node.range[1],
               ]),
               fixer.replaceText(
                 node.parent.parent.property,
@@ -59,9 +61,9 @@ module.exports = {
                   ? "toBeEmpty"
                   : "not.toBeEmpty"
               ),
-              fixer.remove(node.parent.parent.parent.arguments[0])
+              fixer.remove(node.parent.parent.parent.arguments[0]),
             ];
-          }
+          },
         });
       },
       [`MemberExpression[property.name = 'innerHTML'][parent.callee.name = 'expect'][parent.parent.property.name = /toBe$|to(Strict)?Equal/]`](
@@ -75,12 +77,12 @@ module.exports = {
               return [
                 fixer.removeRange([
                   node.property.range[0] - 1,
-                  node.property.range[1]
+                  node.property.range[1],
                 ]),
                 fixer.replaceText(node.parent.parent.property, "toBeEmpty"),
-                fixer.remove(node.parent.parent.parent.arguments[0])
+                fixer.remove(node.parent.parent.parent.arguments[0]),
               ];
-            }
+            },
           });
         }
       },
@@ -95,15 +97,15 @@ module.exports = {
               return [
                 fixer.removeRange([
                   node.property.range[0] - 1,
-                  node.property.range[1]
+                  node.property.range[1],
                 ]),
                 fixer.replaceText(
                   node.parent.parent.parent.property,
                   "toBeEmpty"
                 ),
-                fixer.remove(node.parent.parent.parent.parent.arguments[0])
+                fixer.remove(node.parent.parent.parent.parent.arguments[0]),
               ];
-            }
+            },
           });
         }
       },
@@ -117,11 +119,11 @@ module.exports = {
             return [
               fixer.removeRange([
                 node.property.range[0] - 1,
-                node.property.range[1]
+                node.property.range[1],
               ]),
-              fixer.replaceText(node.parent.parent.property, "toBeEmpty")
+              fixer.replaceText(node.parent.parent.property, "toBeEmpty"),
             ];
-          }
+          },
         });
       },
 
@@ -136,15 +138,15 @@ module.exports = {
               return [
                 fixer.removeRange([
                   node.property.range[0] - 1,
-                  node.property.range[1]
+                  node.property.range[1],
                 ]),
                 fixer.replaceText(
                   node.parent.parent.parent.property,
                   "toBeEmpty"
                 ),
-                fixer.remove(node.parent.parent.parent.parent.arguments[0])
+                fixer.remove(node.parent.parent.parent.parent.arguments[0]),
               ];
-            }
+            },
           });
         }
       },
@@ -159,11 +161,14 @@ module.exports = {
             return [
               fixer.removeRange([
                 node.property.range[0] - 1,
-                node.property.range[1]
+                node.property.range[1],
               ]),
-              fixer.replaceText(node.parent.parent.parent.property, "toBeEmpty")
+              fixer.replaceText(
+                node.parent.parent.parent.property,
+                "toBeEmpty"
+              ),
             ];
-          }
+          },
         });
       },
       [`MemberExpression[property.name = 'firstChild'][parent.callee.name = 'expect'][parent.parent.property.name = /toBe$|to(Strict)?Equal/]`](
@@ -177,15 +182,15 @@ module.exports = {
               return [
                 fixer.removeRange([
                   node.property.range[0] - 1,
-                  node.property.range[1]
+                  node.property.range[1],
                 ]),
                 fixer.replaceText(node.parent.parent.property, "toBeEmpty"),
-                fixer.remove(node.parent.parent.parent.arguments[0])
+                fixer.remove(node.parent.parent.parent.arguments[0]),
               ];
-            }
+            },
           });
         }
-      }
+      },
     };
-  }
+  },
 };

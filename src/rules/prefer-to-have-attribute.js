@@ -2,7 +2,6 @@
  * @fileoverview prefer toHaveAttribute over checking  getAttribute/hasAttribute
  * @author Ben Monro
  */
-"use strict";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -13,12 +12,12 @@ module.exports = {
     docs: {
       description:
         "prefer toHaveAttribute over checking  getAttribute/hasAttribute ",
-      recommended: true
+      recommended: true,
     },
-    fixable: "code"
+    fixable: "code",
   },
 
-  create: function(context) {
+  create: (context) => {
     return {
       [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeNull/]`](
         node
@@ -32,12 +31,12 @@ module.exports = {
               fixer.replaceTextRange(
                 [
                   node.parent.parent.property.range[0],
-                  node.parent.parent.parent.range[1]
+                  node.parent.parent.parent.range[1],
                 ],
                 `not.toHaveAttribute(${node.arguments[0].raw})`
-              )
+              ),
             ];
-          }
+          },
         });
       },
       [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toContain$|toMatch$/]`](
@@ -57,9 +56,9 @@ module.exports = {
                 }, expect.string${node.parent.parent.property.name.slice(
                   2
                 )}ing(${node.parent.parent.parent.arguments[0].raw})`
-              )
+              ),
             ];
-          }
+          },
         });
       },
       [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
@@ -91,9 +90,9 @@ module.exports = {
                 node.parent.parent.property,
                 `${isNullOrEmpty ? "not." : ""}toHaveAttribute`
               ),
-              lastFixer
+              lastFixer,
             ];
-          }
+          },
         });
       },
       [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeNull|toBeUndefined|toBeDefined/]`](
@@ -101,7 +100,7 @@ module.exports = {
       ) {
         context.report({
           node: node.parent.parent.property,
-          message: "Invalid matcher for hasAttribute"
+          message: "Invalid matcher for hasAttribute",
         });
       },
       [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeUndefined|toBeDefined/]`](
@@ -109,7 +108,7 @@ module.exports = {
       ) {
         context.report({
           node: node.parent.parent.property,
-          message: "Invalid matcher for getAttribute"
+          message: "Invalid matcher for getAttribute",
         });
       },
       [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Striclty)?Equal/]`](
@@ -133,14 +132,14 @@ module.exports = {
                 fixer.replaceText(
                   node.parent.parent.parent.arguments[0],
                   node.arguments[0].raw
-                )
+                ),
               ];
-            }
+            },
           });
         } else {
           context.report({
             node: node.parent.parent.property,
-            message: "Invalid matcher for hasAttribute"
+            message: "Invalid matcher for hasAttribute",
           });
         }
       },
@@ -156,16 +155,16 @@ module.exports = {
               fixer.replaceTextRange(
                 [
                   node.parent.parent.property.range[0],
-                  node.parent.parent.parent.range[1]
+                  node.parent.parent.parent.range[1],
                 ],
                 `${
                   node.parent.parent.property.name === "toBeFalsy" ? "not." : ""
                 }toHaveAttribute(${node.arguments[0].raw})`
-              )
+              ),
             ];
-          }
+          },
         });
-      }
+      },
     };
-  }
+  },
 };

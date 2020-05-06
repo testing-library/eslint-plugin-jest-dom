@@ -1,19 +1,24 @@
-sudo: false
 language: node_js
-env:
-  - FORCE_COLOR=true
-cache:
-  directories:
-    - ~/.npm
+cache: npm
 notifications:
   email: false
-node_js: "10"
+node_js:
+  - 10
+  - 12
+  - 14
+  - node
 install: npm install
 script:
-  - npm run test
-  - npm run lint
-after_success: npx semantic-release
+  - npm run validate
+  - npx codecov@3
 branches:
   only:
     - master
-    - next
+    - beta
+
+jobs:
+  include:
+    - stage: release
+      node_js: 14
+      script: kcd-scripts travis-release
+      if: fork = false

@@ -1,9 +1,16 @@
 {
+  "projectName": "eslint-plugin-jest-dom",
+  "projectOwner": "testing-library",
+  "commit": false,
+  "commitConvention": "none",
+  "contributorsPerLine": 7,
+  "imageSize": 100,
+  "repoHost": "https://github.com",
+  "repoType": "github",
+  "skipCi": true,
   "files": [
     "README.md"
   ],
-  "imageSize": 100,
-  "commit": false,
   "contributors": [
     {
       "login": "benmonro",
@@ -47,11 +54,5 @@
         "test"
       ]
     }
-  ],
-  "contributorsPerLine": 7,
-  "projectName": "eslint-plugin-jest-dom",
-  "projectOwner": "testing-library",
-  "repoType": "github",
-  "repoHost": "https://github.com",
-  "skipCi": true
+  ]
 }

@@ -2,7 +2,6 @@
  * @fileoverview prefer toHaveFocus over checking activeElementa
  * @author Ben Monro
  */
-"use strict";
 
 const variantsOfDoc = [
   // document:
@@ -10,7 +9,7 @@ const variantsOfDoc = [
   // window.document || global.document:
   `[object.object.name=/(global|window)$/][object.property.name=document]`,
   // global.window.document:
-  `[object.object.object.name='global'][object.object.property.name='window'][object.property.name=document]`
+  `[object.object.object.name='global'][object.object.property.name='window'][object.property.name=document]`,
 ];
 
 module.exports = {
@@ -18,16 +17,16 @@ module.exports = {
     docs: {
       description: "prefer toHaveFocus over checking document.activeElement",
       category: "jest-dom",
-      recommended: true
+      recommended: true,
     },
-    fixable: "code"
+    fixable: "code",
   },
 
-  create: function(context) {
+  create: (context) => {
     return {
       [variantsOfDoc
         .map(
-          variant =>
+          (variant) =>
             `MemberExpression${variant}[property.name='activeElement'][parent.parent.object.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/to(Be|(Strict)?Equal)$/]`
         )
         .join(", ")](node) {
@@ -43,7 +42,7 @@ module.exports = {
               return [
                 fixer.replaceText(node, element.name),
                 fixer.remove(element),
-                fixer.replaceText(matcher, "toHaveFocus")
+                fixer.replaceText(matcher, "toHaveFocus"),
               ];
             } else {
               return [
@@ -51,15 +50,15 @@ module.exports = {
                 fixer.insertTextAfterRange(
                   [element.range[1], element.range[1] + 1],
                   ".not.toHaveFocus()"
-                )
+                ),
               ];
             }
-          }
+          },
         });
       },
       [variantsOfDoc
         .map(
-          variant =>
+          (variant) =>
             `MemberExpression${variant}[property.name='activeElement'][parent.callee.object.object.callee.name='expect'][parent.callee.property.name=/to(Be|(Strict)?Equal)$/]`
         )
         .join(", ")](node) {
@@ -70,14 +69,14 @@ module.exports = {
           fix(fixer) {
             return [
               fixer.remove(node),
-              fixer.replaceText(matcher, "toHaveFocus")
+              fixer.replaceText(matcher, "toHaveFocus"),
             ];
-          }
+          },
         });
       },
       [variantsOfDoc
         .map(
-          variant =>
+          (variant) =>
             `MemberExpression${variant}[property.name='activeElement'][parent.callee.name='expect'][parent.parent.property.name=/to(Be|(Strict)?Equal)$/]`
         )
         .join(", ")](node) {
@@ -93,20 +92,20 @@ module.exports = {
                 fixer.insertTextAfterRange(
                   [element.range[1], element.range[1] + 1],
                   ".toHaveFocus()"
-                )
+                ),
               ];
             }
             return [
               fixer.replaceText(node, element.name),
               fixer.remove(element),
-              fixer.replaceText(matcher, "toHaveFocus")
+              fixer.replaceText(matcher, "toHaveFocus"),
             ];
-          }
+          },
         });
       },
       [variantsOfDoc
         .map(
-          variant =>
+          (variant) =>
             `MemberExpression${variant}[property.name='activeElement'][parent.callee.object.callee.name='expect'][parent.callee.property.name=/to(Be|(Strict)?Equal)$/]`
         )
         .join(", ")](node) {
@@ -117,11 +116,11 @@ module.exports = {
           fix(fixer) {
             return [
               fixer.remove(node),
-              fixer.replaceText(matcher, "toHaveFocus")
+              fixer.replaceText(matcher, "toHaveFocus"),
             ];
-          }
+          },
         });
-      }
+      },
     };
-  }
+  },
 };

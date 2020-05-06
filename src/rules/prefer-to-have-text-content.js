@@ -2,18 +2,17 @@
  * @fileoverview prefer toHaveAttribute over checking  getAttribute/hasAttribute
  * @author Ben Monro
  */
-"use strict";
 
 module.exports = {
   meta: {
     docs: {
       description: "Prefer toHaveTextContent over checking element.textContent",
-      recommended: true
+      recommended: true,
     },
-    fixable: "code"
+    fixable: "code",
   },
 
-  create: function(context) {
+  create: (context) => {
     return {
       [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toContain$|toMatch$/]`](
         node
@@ -26,7 +25,7 @@ module.exports = {
             return [
               fixer.removeRange([
                 node.property.range[0] - 1,
-                node.property.range[1]
+                node.property.range[1],
               ]),
               fixer.replaceTextRange(
                 node.parent.parent.property.range,
@@ -35,9 +34,9 @@ module.exports = {
               fixer.replaceTextRange(
                 expectedArg.range,
                 `/${expectedArg.value}/`
-              )
+              ),
             ];
-          }
+          },
         });
       },
       [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
@@ -50,14 +49,14 @@ module.exports = {
             return [
               fixer.removeRange([
                 node.property.range[0] - 1,
-                node.property.range[1]
+                node.property.range[1],
               ]),
               fixer.replaceTextRange(
                 node.parent.parent.property.range,
                 "toHaveTextContent"
-              )
+              ),
             ];
-          }
+          },
         });
       },
       [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
@@ -70,14 +69,14 @@ module.exports = {
             return [
               fixer.removeRange([
                 node.property.range[0] - 1,
-                node.property.range[1]
+                node.property.range[1],
               ]),
               fixer.replaceTextRange(
                 node.parent.parent.parent.property.range,
                 "toHaveTextContent"
-              )
+              ),
             ];
-          }
+          },
         });
       },
       [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toContain$|toMatch$/]`](
@@ -91,7 +90,7 @@ module.exports = {
             return [
               fixer.removeRange([
                 node.property.range[0] - 1,
-                node.property.range[1]
+                node.property.range[1],
               ]),
               fixer.replaceTextRange(
                 node.parent.parent.parent.property.range,
@@ -100,11 +99,11 @@ module.exports = {
               fixer.replaceTextRange(
                 expectedArg.range,
                 `/${expectedArg.value}/`
-              )
+              ),
             ];
-          }
+          },
         });
-      }
+      },
     };
-  }
+  },
 };
