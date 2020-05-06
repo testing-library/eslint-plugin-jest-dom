@@ -1,61 +1,60 @@
 /* eslint-disable max-lines-per-function */
 
-module.exports = ({ preferred, negatedPreferred, attribute }) => {
-  let doubleNegativeCases = [];
-  if (negatedPreferred.startsWith("toBe")) {
-    doubleNegativeCases = [
-      {
-        code: `expect(element).not.${negatedPreferred}`,
-        errors: [
-          {
-            message: `Use ${preferred} instead of not.${negatedPreferred}`,
-          },
-        ],
-        output: `expect(element).${preferred}`,
-      },
-      {
-        code: `expect(element).not.${preferred}`,
-        errors: [
-          {
-            message: `Use ${negatedPreferred} instead of not.${preferred}`,
-          },
-        ],
-        output: `expect(element).${negatedPreferred}`,
-      },
-    ];
-  }
-  let directChecks = [];
-  if (!/-/.test(attribute)) {
-    directChecks = [
-      {
-        code: `expect(getByText('foo').${attribute}).toBeTruthy()`,
-        errors: [
-          {
-            message: `Use ${preferred} instead of checking .${attribute} directly`,
-          },
-        ],
-        output: `expect(getByText('foo')).${[preferred]}`,
-      },
-      {
-        code: `expect(getByText('foo').${attribute}).toBeFalsy()`,
-        errors: [
-          {
-            message: `Use ${negatedPreferred} instead of checking .${attribute} directly`,
-          },
-        ],
-        output: `expect(getByText('foo')).${[negatedPreferred]}`,
-      },
-      {
-        code: `expect(getByText('foo').${attribute}).toBe(true)`,
-        errors: [
-          {
-            message: `Use ${preferred} instead of checking .${attribute} directly`,
-          },
-        ],
-        output: `expect(getByText('foo')).${[preferred]}`,
-      },
-    ];
-  }
+export default ({ preferred, negatedPreferred, attribute }) => {
+  const doubleNegativeCases = negatedPreferred.startsWith("toBe")
+    ? [
+        {
+          code: `expect(element).not.${negatedPreferred}`,
+          errors: [
+            {
+              message: `Use ${preferred} instead of not.${negatedPreferred}`,
+            },
+          ],
+          output: `expect(element).${preferred}`,
+        },
+        {
+          code: `expect(element).not.${preferred}`,
+          errors: [
+            {
+              message: `Use ${negatedPreferred} instead of not.${preferred}`,
+            },
+          ],
+          output: `expect(element).${negatedPreferred}`,
+        },
+      ]
+    : [];
+  const directChecks = /-/.test(attribute)
+    ? []
+    : [
+        {
+          code: `expect(getByText('foo').${attribute}).toBeTruthy()`,
+          errors: [
+            {
+              message: `Use ${preferred} instead of checking .${attribute} directly`,
+            },
+          ],
+          output: `expect(getByText('foo')).${[preferred]}`,
+        },
+        {
+          code: `expect(getByText('foo').${attribute}).toBeFalsy()`,
+          errors: [
+            {
+              message: `Use ${negatedPreferred} instead of checking .${attribute} directly`,
+            },
+          ],
+          output: `expect(getByText('foo')).${[negatedPreferred]}`,
+        },
+        {
+          code: `expect(getByText('foo').${attribute}).toBe(true)`,
+          errors: [
+            {
+              message: `Use ${preferred} instead of checking .${attribute} directly`,
+            },
+          ],
+          output: `expect(getByText('foo')).${[preferred]}`,
+        },
+      ];
+
   return {
     valid: [
       `expect(element).not.toHaveProperty('value', 'foo')`,

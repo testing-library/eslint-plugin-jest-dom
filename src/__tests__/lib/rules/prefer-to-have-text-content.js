@@ -7,8 +7,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../rules/prefer-to-have-text-content");
-const RuleTester = require("eslint").RuleTester;
+import { RuleTester } from "eslint";
+import * as rule from "../../../rules/prefer-to-have-text-content";
 
 //------------------------------------------------------------------------------
 // Tests

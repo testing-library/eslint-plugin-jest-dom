@@ -3,7 +3,8 @@
  * @author Ben Monro
  */
 
-const createBannedAttributeTestCases = require("../../__fixtures__/createBannedAttributeTestCases");
+import { RuleTester } from "eslint";
+import createBannedAttributeTestCases from "../../__fixtures__/createBannedAttributeTestCases";
 
 const bannedAttributes = [
   {
@@ -29,7 +30,6 @@ const bannedAttributes = [
 bannedAttributes.forEach(
   ({ preferred, negatedPreferred, attributes, ruleName }) => {
     const rule = require(`../../../rules/${ruleName}`);
-    const RuleTester = require("eslint").RuleTester;
 
     // const preferred = 'toBeDisabled()';
     // const negatedPreferred = 'toBeEnabled()';

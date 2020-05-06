@@ -7,8 +7,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../rules/prefer-empty");
-const RuleTester = require("eslint").RuleTester;
+import { RuleTester } from "eslint";
+import * as rule from "../../../rules/prefer-empty";
 
 //------------------------------------------------------------------------------
 // Tests
