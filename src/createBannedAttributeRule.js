@@ -1,4 +1,4 @@
-module.exports = ({ preferred, negatedPreferred, attributes }) => context => {
+module.exports = ({ preferred, negatedPreferred, attributes }) => (context) => {
   function getCorrectFunctionFor(node, negated = false) {
     return (node.arguments.length === 1 ||
       node.arguments[1].value === true ||
@@ -8,8 +8,8 @@ module.exports = ({ preferred, negatedPreferred, attributes }) => context => {
       : negatedPreferred;
   }
 
-  const isBannedArg = node =>
-    attributes.some(attr => attr === node.arguments[0].value);
+  const isBannedArg = (node) =>
+    attributes.some((attr) => attr === node.arguments[0].value);
 
   return {
     [`CallExpression[callee.property.name=/${preferred}|${negatedPreferred}/][callee.object.property.name='not'][callee.object.object.callee.name='expect']`](
@@ -28,7 +28,7 @@ module.exports = ({ preferred, negatedPreferred, attributes }) => context => {
               [node.callee.object.property.range[0], node.range[1]],
               `${correctFunction}()`
             );
-          }
+          },
         });
       }
     },
@@ -37,11 +37,11 @@ module.exports = ({ preferred, negatedPreferred, attributes }) => context => {
       node
     ) {
       const {
-        arguments: [{ property, property: { name } = {} }]
+        arguments: [{ property, property: { name } = {} }],
       } = node.callee.object;
       const matcher = node.callee.property.name;
       const matcherArg = node.arguments.length && node.arguments[0].value;
-      if (attributes.some(attr => attr === name)) {
+      if (attributes.some((attr) => attr === name)) {
         const isNegated =
           matcher.endsWith("Falsy") ||
           ((matcher === "toBe" || matcher === "toEqual") &&
@@ -59,9 +59,9 @@ module.exports = ({ preferred, negatedPreferred, attributes }) => context => {
               fixer.replaceTextRange(
                 [node.callee.property.range[0], node.range[1]],
                 `${correctFunction}()`
-              )
+              ),
             ];
-          }
+          },
         });
       }
     },
@@ -81,7 +81,7 @@ module.exports = ({ preferred, negatedPreferred, attributes }) => context => {
               [node.callee.object.property.range[0], node.range[1]],
               `${correctFunction}()`
             );
-          }
+          },
         });
       }
     },
@@ -104,11 +104,11 @@ module.exports = ({ preferred, negatedPreferred, attributes }) => context => {
               fixer.replaceTextRange(
                 [node.callee.property.range[0], node.range[1]],
                 `${correctFunction}()`
-              )
+              ),
             ];
-          }
+          },
         });
       }
-    }
+    },
   };
 };

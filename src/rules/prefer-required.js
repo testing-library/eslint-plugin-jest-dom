@@ -2,7 +2,6 @@
  * @fileoverview prefer toBeDisabled or toBeEnabled over attribute checks
  * @author Ben Monro
  */
-"use strict";
 
 const createBannedAttributeRule = require("../createBannedAttributeRule");
 
@@ -12,14 +11,14 @@ module.exports = {
       description: "prefer toBeRequired over checking properties",
       category: "jest-dom",
       recommended: true,
-      url: "prefer-required"
+      url: "prefer-required",
     },
-    fixable: "code"
+    fixable: "code",
   },
 
   create: createBannedAttributeRule({
     preferred: "toBeRequired",
     negatedPreferred: "not.toBeRequired",
-    attributes: ["required", "aria-required"]
-  })
+    attributes: ["required", "aria-required"],
+  }),
 };

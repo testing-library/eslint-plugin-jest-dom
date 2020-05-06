@@ -2,7 +2,6 @@
  * @fileoverview prefer toBeDisabled or toBeEnabled over attribute checks
  * @author Ben Monro
  */
-"use strict";
 
 const createBannedAttributeRule = require("../createBannedAttributeRule");
 
@@ -13,14 +12,14 @@ module.exports = {
         "prefer toBeDisabled or toBeEnabled over checking attributes",
       category: "jest-dom",
       recommended: true,
-      url: "prefer-enabled-disabled"
+      url: "prefer-enabled-disabled",
     },
-    fixable: "code"
+    fixable: "code",
   },
 
   create: createBannedAttributeRule({
     preferred: "toBeDisabled",
     negatedPreferred: "toBeEnabled",
-    attributes: ["disabled"]
-  })
+    attributes: ["disabled"],
+  }),
 };
