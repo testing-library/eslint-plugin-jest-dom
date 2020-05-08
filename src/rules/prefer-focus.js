@@ -27,7 +27,7 @@ export const create = (context) => ({
       (variant) =>
         `MemberExpression${variant}[property.name='activeElement'][parent.parent.object.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/to(Be|(Strict)?Equal)$/]`
     )
-    .join(", ")]: (node) => {
+    .join(", ")](node) {
     const element = node.parent.parent.parent.parent.callee.parent.arguments[0];
     const matcher = node.parent.parent.parent.parent.callee.property;
 
@@ -58,7 +58,7 @@ export const create = (context) => ({
       (variant) =>
         `MemberExpression${variant}[property.name='activeElement'][parent.callee.object.object.callee.name='expect'][parent.callee.property.name=/to(Be|(Strict)?Equal)$/]`
     )
-    .join(", ")]: (node) => {
+    .join(", ")](node) {
     const matcher = node.parent.callee.property;
     context.report({
       node: node.parent,
@@ -74,7 +74,7 @@ export const create = (context) => ({
       (variant) =>
         `MemberExpression${variant}[property.name='activeElement'][parent.callee.name='expect'][parent.parent.property.name=/to(Be|(Strict)?Equal)$/]`
     )
-    .join(", ")]: (node) => {
+    .join(", ")](node) {
     const element = node.parent.parent.parent.arguments[0];
     const matcher = node.parent.parent.property;
     context.report({
@@ -104,7 +104,7 @@ export const create = (context) => ({
       (variant) =>
         `MemberExpression${variant}[property.name='activeElement'][parent.callee.object.callee.name='expect'][parent.callee.property.name=/to(Be|(Strict)?Equal)$/]`
     )
-    .join(", ")]: (node) => {
+    .join(", ")](node) {
     const matcher = node.parent.callee.property;
     context.report({
       node: node.parent,

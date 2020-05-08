@@ -17,9 +17,9 @@ export const meta = {
 };
 
 export const create = (context) => ({
-  [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeNull/]`]: (
+  [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeNull/]`](
     node
-  ) => {
+  ) {
     context.report({
       node: node.parent,
       message: `Use toHaveAttribute instead of asserting on getAttribute`,
@@ -35,9 +35,9 @@ export const create = (context) => ({
       ],
     });
   },
-  [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toContain$|toMatch$/]`]: (
+  [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toContain$|toMatch$/]`](
     node
-  ) => {
+  ) {
     context.report({
       node: node.parent,
       message: `Use toHaveAttribute instead of asserting on getAttribute`,
@@ -55,9 +55,9 @@ export const create = (context) => ({
       ],
     });
   },
-  [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`]: (
+  [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
     node
-  ) => {
+  ) {
     const arg = node.parent.parent.parent.arguments;
     const isNullOrEmpty =
       arg.length > 0 && (arg[0].value === null || arg[0].value === "");
@@ -87,25 +87,25 @@ export const create = (context) => ({
       },
     });
   },
-  [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeNull|toBeUndefined|toBeDefined/]`]: (
+  [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeNull|toBeUndefined|toBeDefined/]`](
     node
-  ) => {
+  ) {
     context.report({
       node: node.parent.parent.property,
       message: "Invalid matcher for hasAttribute",
     });
   },
-  [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeUndefined|toBeDefined/]`]: (
+  [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeUndefined|toBeDefined/]`](
     node
-  ) => {
+  ) {
     context.report({
       node: node.parent.parent.property,
       message: "Invalid matcher for getAttribute",
     });
   },
-  [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Striclty)?Equal/]`]: (
+  [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Striclty)?Equal/]`](
     node
-  ) => {
+  ) {
     if (typeof node.parent.parent.parent.arguments[0].value === "boolean") {
       context.report({
         node: node.parent,
@@ -133,9 +133,9 @@ export const create = (context) => ({
       });
     }
   },
-  [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeTruthy|toBeFalsy/]`]: (
+  [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBeTruthy|toBeFalsy/]`](
     node
-  ) => {
+  ) {
     context.report({
       node: node.parent,
       message: `Use toHaveAttribute instead of asserting on hasAttribute`,

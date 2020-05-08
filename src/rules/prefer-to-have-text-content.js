@@ -12,9 +12,9 @@ export const meta = {
 };
 
 export const create = (context) => ({
-  [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toContain$|toMatch$/]`]: (
+  [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toContain$|toMatch$/]`](
     node
-  ) => {
+  ) {
     const expectedArg = node.parent.parent.parent.arguments[0];
     context.report({
       node: node.parent,
@@ -29,9 +29,9 @@ export const create = (context) => ({
       ],
     });
   },
-  [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`]: (
+  [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
     node
-  ) => {
+  ) {
     context.report({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
@@ -44,9 +44,9 @@ export const create = (context) => ({
       ],
     });
   },
-  [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/]`]: (
+  [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
     node
-  ) => {
+  ) {
     context.report({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
@@ -59,9 +59,9 @@ export const create = (context) => ({
       ],
     });
   },
-  [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toContain$|toMatch$/]`]: (
+  [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toContain$|toMatch$/]`](
     node
-  ) => {
+  ) {
     const expectedArg = node.parent.parent.parent.parent.arguments[0];
     context.report({
       node: node.parent,

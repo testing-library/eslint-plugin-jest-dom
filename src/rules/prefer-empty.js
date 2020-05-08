@@ -14,9 +14,9 @@ export const meta = {
 };
 
 export const create = (context) => ({
-  [`BinaryExpression[left.property.name='innerHTML'][right.value=''][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`]: (
+  [`BinaryExpression[left.property.name='innerHTML'][right.value=''][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
     node
-  ) => {
+  ) {
     context.report({
       node,
       message: "Use toBeEmpty instead of checking inner html.",
@@ -33,9 +33,9 @@ export const create = (context) => ({
       ],
     });
   },
-  [`BinaryExpression[left.property.name='firstChild'][right.value=null][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`]: (
+  [`BinaryExpression[left.property.name='firstChild'][right.value=null][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
     node
-  ) => {
+  ) {
     context.report({
       node,
       message: "Use toBeEmpty instead of checking inner html.",
@@ -52,9 +52,9 @@ export const create = (context) => ({
       ],
     });
   },
-  [`MemberExpression[property.name = 'innerHTML'][parent.callee.name = 'expect'][parent.parent.property.name = /toBe$|to(Strict)?Equal/]`]: (
+  [`MemberExpression[property.name = 'innerHTML'][parent.callee.name = 'expect'][parent.parent.property.name = /toBe$|to(Strict)?Equal/]`](
     node
-  ) => {
+  ) {
     if (node.parent.parent.parent.arguments[0].value) {
       return;
     }
@@ -69,9 +69,9 @@ export const create = (context) => ({
       ],
     });
   },
-  [`MemberExpression[property.name='innerHTML'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal$/][parent.parent.object.callee.name='expect']`]: (
+  [`MemberExpression[property.name='innerHTML'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal$/][parent.parent.object.callee.name='expect']`](
     node
-  ) => {
+  ) {
     if (node.parent.parent.parent.parent.arguments[0].value) {
       return;
     }
@@ -86,9 +86,9 @@ export const create = (context) => ({
       ],
     });
   },
-  [`MemberExpression[property.name = 'firstChild'][parent.callee.name = 'expect'][parent.parent.property.name = /toBeNull$/]`]: (
+  [`MemberExpression[property.name = 'firstChild'][parent.callee.name = 'expect'][parent.parent.property.name = /toBeNull$/]`](
     node
-  ) => {
+  ) {
     context.report({
       node,
       message: "Use toBeEmpty instead of checking inner html.",
@@ -98,9 +98,9 @@ export const create = (context) => ({
       ],
     });
   },
-  [`MemberExpression[property.name='firstChild'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal$/][parent.parent.object.callee.name='expect']`]: (
+  [`MemberExpression[property.name='firstChild'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal$/][parent.parent.object.callee.name='expect']`](
     node
-  ) => {
+  ) {
     if (node.parent.parent.parent.parent.arguments[0].value !== null) {
       return;
     }
@@ -115,9 +115,9 @@ export const create = (context) => ({
       ],
     });
   },
-  [`MemberExpression[property.name='firstChild'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBeNull$/][parent.parent.object.callee.name='expect']`]: (
+  [`MemberExpression[property.name='firstChild'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBeNull$/][parent.parent.object.callee.name='expect']`](
     node
-  ) => {
+  ) {
     context.report({
       node,
       message: "Use toBeEmpty instead of checking inner html.",
@@ -127,9 +127,9 @@ export const create = (context) => ({
       ],
     });
   },
-  [`MemberExpression[property.name = 'firstChild'][parent.callee.name = 'expect'][parent.parent.property.name = /toBe$|to(Strict)?Equal/]`]: (
+  [`MemberExpression[property.name = 'firstChild'][parent.callee.name = 'expect'][parent.parent.property.name = /toBe$|to(Strict)?Equal/]`](
     node
-  ) => {
+  ) {
     if (node.parent.parent.parent.arguments[0].value !== null) {
       return;
     }

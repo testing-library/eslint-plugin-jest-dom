@@ -11,9 +11,9 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
     attributes.some((attr) => attr === node.arguments[0].value);
 
   return {
-    [`CallExpression[callee.property.name=/${preferred}|${negatedPreferred}/][callee.object.property.name='not'][callee.object.object.callee.name='expect']`]: (
+    [`CallExpression[callee.property.name=/${preferred}|${negatedPreferred}/][callee.object.property.name='not'][callee.object.object.callee.name='expect']`](
       node
-    ) => {
+    ) {
       if (!negatedPreferred.startsWith("toBe")) {
         return;
       }
@@ -32,9 +32,9 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
           ),
       });
     },
-    [`CallExpression[callee.property.name=/toBe(Truthy|Falsy)?|toEqual/][callee.object.callee.name='expect']`]: (
+    [`CallExpression[callee.property.name=/toBe(Truthy|Falsy)?|toEqual/][callee.object.callee.name='expect']`](
       node
-    ) => {
+    ) {
       const {
         arguments: [{ property, property: { name } = {} }],
       } = node.callee.object;
@@ -63,9 +63,9 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
         ],
       });
     },
-    [`CallExpression[callee.property.name=/toHaveProperty|toHaveAttribute/][callee.object.property.name='not'][callee.object.object.callee.name='expect']`]: (
+    [`CallExpression[callee.property.name=/toHaveProperty|toHaveAttribute/][callee.object.property.name='not'][callee.object.object.callee.name='expect']`](
       node
-    ) => {
+    ) {
       const arg = node.arguments[0].value;
       if (!isBannedArg(node)) {
         return;
@@ -84,9 +84,9 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
           ),
       });
     },
-    [`CallExpression[callee.object.callee.name='expect'][callee.property.name=/toHaveProperty|toHaveAttribute/]`]: (
+    [`CallExpression[callee.object.callee.name='expect'][callee.property.name=/toHaveProperty|toHaveAttribute/]`](
       node
-    ) => {
+    ) {
       if (!isBannedArg(node)) {
         return;
       }
