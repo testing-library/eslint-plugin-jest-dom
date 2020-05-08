@@ -1,4 +1,4 @@
-const { rules, generateRecommendedConfig } = require("../index");
+import { rules, generateRecommendedConfig } from "../index";
 
 it("should have all the rules", () => {
   expect(rules).toMatchSnapshot();

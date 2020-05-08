@@ -7,28 +7,27 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const requireIndex = require("requireindex");
+import requireIndex from "requireindex";
 
 //------------------------------------------------------------------------------
 // Plugin Definition
 //------------------------------------------------------------------------------
 
 // import all rules in src/rules
-module.exports.rules = requireIndex(`${__dirname}/rules`);
+export const rules = requireIndex(`${__dirname}/rules`);
 
-module.exports.generateRecommendedConfig = (rules) => {
-  return Object.entries(rules).reduce(
-    (memo, [name, rule]) =>
-      rule.meta.docs.recommended
-        ? { ...memo, [`jest-dom/${name}`]: "error" }
-        : memo,
+export const generateRecommendedConfig = (allRules) =>
+  Object.entries(allRules).reduce(
+    (memo, [name, rule]) => ({
+      ...memo,
+      ...(rule.meta.docs.recommended ? { [`jest-dom/${name}`]: "error" } : {}),
+    }),
     {}
   );
-};
 
-module.exports.configs = {
+export const configs = {
   recommended: {
     plugins: ["jest-dom"],
-    rules: module.exports.generateRecommendedConfig(module.exports.rules),
+    rules: generateRecommendedConfig(rules),
   },
 };
