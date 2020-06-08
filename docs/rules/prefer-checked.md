@@ -1,4 +1,4 @@
-# prefer not.toBeChecked() or not.toBeChecked() over toHaveProperty('checked', true|false) (prefer-enabled-checked)
+# prefer toBeChecked() or not.toBeChecked() over toHaveProperty('checked', true|false) (prefer-enabled-checked)
 
 ## Rule Details
 
@@ -75,5 +75,5 @@ Don't use this rule if you:
 
 ## Further reading
 
-- [not.toBeChecked](https://github.com/testing-library/jest-dom#not.toBeChecked)
+- [toBeChecked](https://github.com/testing-library/jest-dom#toBeChecked)
 - [not.toBeChecked](https://github.com/testing-library/jest-dom#not.toBeChecked)
