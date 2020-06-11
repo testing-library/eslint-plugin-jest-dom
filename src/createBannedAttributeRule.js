@@ -2,6 +2,8 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
   const getCorrectFunctionFor = (node, negated = false) =>
     (node.arguments.length === 1 ||
       node.arguments[1].value === true ||
+      (typeof node.arguments[1].value === "string" &&
+        node.arguments[1].value.toLowerCase() === "true") ||
       node.arguments[1].value === "") &&
     !negated
       ? preferred
