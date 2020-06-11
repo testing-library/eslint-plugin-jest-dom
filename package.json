@@ -38,7 +38,7 @@
     "kcd-scripts": "^6.0.0"
   },
   "peerDependencies": {
-    "eslint": ">=6"
+    "eslint": "^7.0.0"
   },
   "eslintConfig": {
     "extends": "./node_modules/kcd-scripts/eslint.js"
@@ -49,7 +49,7 @@
     "dist"
   ],
   "engines": {
-    "node": ">=10",
+    "node": "^10.12.0 || >=12.0.0",
     "npm": ">=6",
     "yarn": ">=1"
   }
