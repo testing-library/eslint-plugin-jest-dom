@@ -1,12 +1,12 @@
-# Prefer toBeEmpty over checking innerHTML / firstChild (prefer-empty)
+# Prefer toBeEmptyDOMElement over checking innerHTML / firstChild (prefer-empty)
 
-This rule ensures people will use toBeEmpty() rather than checking dom
+This rule ensures people will use toBeEmptyDOMElement() rather than checking dom
 nodes/properties. It is primarily aimed at consistently using jest-dom for
 readability.
 
 ## Rule Details
 
-This autofixable rule aims to ensure usage of `.toBeEmpty()`
+This autofixable rule aims to ensure usage of `.toBeEmptyDOMElement()`
 
 Examples of **incorrect** code for this rule:
 
@@ -49,10 +49,14 @@ expect(element.innerHTML === "foo").toBe(true);
 
 ## When Not To Use It
 
-Don't use this rule if you don't care if people use `.toBeEmpty()`.
+Don't use this rule if you don't care if people use `.toBeEmptyDOMElement()`.
 
 ## Further Reading
 
-<https://github.com/testing-library/jest-dom#tobeempty>
+<https://github.com/testing-library/jest-dom#tobeemptydomelement>
 
-<https://github.com/testing-library/jest-dom/blob/master/src/to-be-empty.js>
+<https://github.com/testing-library/jest-dom/blob/master/src/to-be-empty-dom-element.js>
+
+## Changelog
+
+Previously, this rule was using `.toBeEmpty` which has been [deprecated](https://github.com/testing-library/jest-dom/releases/tag/v5.9.0) in `@testing-library/jest-dom@5.9.0`.
