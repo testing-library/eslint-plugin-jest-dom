@@ -8,11 +8,13 @@ readability.
 
 This autofixable rule aims to ensure usage of `.toBeEmptyDOMElement()`
 
-Examples of **incorrect** code for this rule:
+Examples of **correct** code for this rule:
 
 ```js
 expect(element.innerHTML).toBe("foo");
+expect(element.innerHTML).toBe(foo);
 expect(element.innerHTML).not.toBe("foo");
+expect(element.innerHTML).not.toBe(foo);
 expect(element.firstChild).toBe("foo");
 expect(element.firstChild).not.toBe("foo");
 expect(getByText("foo").innerHTML).toBe("foo");
@@ -28,7 +30,7 @@ expect(element.firstChild !== null).toBe(false);
 expect(element.firstChild === null).toBe(false);
 ```
 
-Examples of **correct** code for this rule:
+Examples of **incorrect** code for this rule:
 
 ```js
 expect(element.innerHTML).toBe("");
