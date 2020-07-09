@@ -138,6 +138,24 @@ export default ({ preferred, negatedPreferred, attribute }) => {
         output: `expect(element).${preferred}`,
       },
       {
+        code: `expect(getByText("foo")).toHaveAttribute("${attribute}", "true")`,
+        errors: [
+          {
+            message: `Use ${preferred} instead of toHaveAttribute("${attribute}", "true")`,
+          },
+        ],
+        output: `expect(getByText("foo")).${preferred}`,
+      },
+      {
+        code: `expect(getByText("foo")).toHaveAttribute("${attribute}", "false")`,
+        errors: [
+          {
+            message: `Use ${negatedPreferred} instead of toHaveAttribute("${attribute}", "false")`,
+          },
+        ],
+        output: `expect(getByText("foo")).${negatedPreferred}`,
+      },
+      {
         code: `expect(getByText("foo")).toHaveAttribute("${attribute}", "")`,
         errors: [
           {
