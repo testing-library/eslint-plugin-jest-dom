@@ -41,7 +41,13 @@
     "eslint": "^7.0.0"
   },
   "eslintConfig": {
-    "extends": "./node_modules/kcd-scripts/eslint.js"
+    "extends": "./node_modules/kcd-scripts/eslint.js",
+    "rules": {
+      "babel/quotes": [
+        "error",
+        "double"
+      ]
+    }
   },
   "eslintIgnore": [
     "node_modules",

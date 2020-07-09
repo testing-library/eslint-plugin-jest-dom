@@ -57,10 +57,10 @@ export default ({ preferred, negatedPreferred, attribute }) => {
 
   return {
     valid: [
-      `expect(element).not.toHaveProperty('value', 'foo')`,
+      "expect(element).not.toHaveProperty('value', 'foo')",
       `expect(element).${preferred}`,
       `expect(element).${negatedPreferred}`,
-      `expect(element).toHaveProperty('value', 'bar')`,
+      "expect(element).toHaveProperty('value', 'bar')",
     ],
     invalid: [
       ...doubleNegativeCases,
@@ -154,6 +154,14 @@ export default ({ preferred, negatedPreferred, attribute }) => {
           },
         ],
         output: `expect(getByText("foo")).${negatedPreferred}`,
+      },
+      {
+        code: `expect(element).toHaveProperty('${attribute}', foo)`,
+        errors: [
+          {
+            message: `Use ${preferred} instead of toHaveProperty('${attribute}', foo)`,
+          },
+        ],
       },
     ],
   };
