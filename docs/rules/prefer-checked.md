@@ -47,6 +47,7 @@ Examples of **incorrect** code for this rule:
 ```js
 expect(element).toHaveProperty("checked", true);
 expect(element).toHaveAttribute("checked", false);
+expect(element).toHaveProperty("checked", something);
 
 expect(element).toHaveAttribute("checked");
 expect(element).not.toHaveProperty("checked");
