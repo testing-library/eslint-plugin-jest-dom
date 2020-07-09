@@ -55,7 +55,8 @@ export const create = (context) => ({
   [`MemberExpression[property.name = 'innerHTML'][parent.callee.name = 'expect'][parent.parent.property.name = /toBe$|to(Strict)?Equal/]`](
     node
   ) {
-    if (node.parent.parent.parent.arguments[0].value) {
+    const args = node.parent.parent.parent.arguments[0];
+    if (args.value || args.name) {
       return;
     }
 

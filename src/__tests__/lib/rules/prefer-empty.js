@@ -18,6 +18,7 @@ const ruleTester = new RuleTester();
 ruleTester.run("prefer-empty", rule, {
   valid: [
     `expect(element.innerHTML).toBe('foo')`,
+    `expect(element.innerHTML).toBe(foo)`,
     `expect(element.innerHTML).not.toBe('foo')`,
     `expect(element.firstChild).toBe('foo')`,
     `expect(element.firstChild).not.toBe('foo')`,
