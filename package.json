@@ -43,10 +43,7 @@
   "eslintConfig": {
     "extends": "./node_modules/kcd-scripts/eslint.js",
     "rules": {
-      "babel/quotes": [
-        "error",
-        "double"
-      ]
+      "babel/quotes": "off"
     }
   },
   "eslintIgnore": [
