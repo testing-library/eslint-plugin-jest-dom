@@ -2,6 +2,7 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
   const getCorrectFunctionFor = (node, negated = false) =>
     (node.arguments.length === 1 ||
       node.arguments[1].value === true ||
+      node.arguments[1].type !== "Literal" ||
       (typeof node.arguments[1].value === "string" &&
         node.arguments[1].value.toLowerCase() === "true") ||
       node.arguments[1].value === "") &&
@@ -34,7 +35,7 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
           ),
       });
     },
-    [`CallExpression[callee.property.name=/toBe(Truthy|Falsy)?|toEqual/][callee.object.callee.name='expect']`](
+    "CallExpression[callee.property.name=/toBe(Truthy|Falsy)?|toEqual/][callee.object.callee.name='expect']"(
       node
     ) {
       const {
@@ -65,7 +66,7 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
         ],
       });
     },
-    [`CallExpression[callee.property.name=/toHaveProperty|toHaveAttribute/][callee.object.property.name='not'][callee.object.object.callee.name='expect']`](
+    "CallExpression[callee.property.name=/toHaveProperty|toHaveAttribute/][callee.object.property.name='not'][callee.object.object.callee.name='expect']"(
       node
     ) {
       const arg = node.arguments[0].value;
@@ -86,7 +87,7 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
           ),
       });
     },
-    [`CallExpression[callee.object.callee.name='expect'][callee.property.name=/toHaveProperty|toHaveAttribute/]`](
+    "CallExpression[callee.object.callee.name='expect'][callee.property.name=/toHaveProperty|toHaveAttribute/]"(
       node
     ) {
       if (!isBannedArg(node)) {
@@ -98,17 +99,27 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
       const incorrectFunction = node.callee.property.name;
 
       const message = `Use ${correctFunction}() instead of ${incorrectFunction}(${node.arguments
-        .map(({ raw }) => raw)
+        .map(({ raw, name }) => raw || name)
         .join(", ")})`;
+
+      const secondArgIsLiteral =
+        node.arguments.length === 2 && node.arguments[1].type === "Literal";
+
       context.report({
         node: node.callee.property,
         message,
-        fix: (fixer) => [
-          fixer.replaceTextRange(
-            [node.callee.property.range[0], node.range[1]],
-            `${correctFunction}()`
-          ),
-        ],
+        fix: (fixer) => {
+          if (node.arguments.length === 1 || secondArgIsLiteral) {
+            return [
+              fixer.replaceTextRange(
+                [node.callee.property.range[0], node.range[1]],
+                `${correctFunction}()`
+              ),
+            ];
+          }
+
+          return null;
+        },
       });
     },
   };
