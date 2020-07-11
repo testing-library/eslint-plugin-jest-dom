@@ -16,17 +16,28 @@ export const create = (context) => ({
     node
   ) {
     const expectedArg = node.parent.parent.parent.arguments[0];
+
     context.report({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
-      fix: (fixer) => [
-        fixer.removeRange([node.property.range[0] - 1, node.property.range[1]]),
-        fixer.replaceTextRange(
-          node.parent.parent.property.range,
-          "toHaveTextContent"
-        ),
-        fixer.replaceTextRange(expectedArg.range, `/${expectedArg.value}/`),
-      ],
+      fix: (fixer) => {
+        return [
+          fixer.removeRange([
+            node.property.range[0] - 1,
+            node.property.range[1],
+          ]),
+          fixer.replaceTextRange(
+            node.parent.parent.property.range,
+            "toHaveTextContent"
+          ),
+          fixer.replaceTextRange(
+            expectedArg.range,
+            expectedArg.type === "Literal"
+              ? `/${expectedArg.value}/`
+              : `new RegExp(${context.getSourceCode().getText(expectedArg)})`
+          ),
+        ];
+      },
     });
   },
   [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
@@ -72,7 +83,12 @@ export const create = (context) => ({
           node.parent.parent.parent.property.range,
           "toHaveTextContent"
         ),
-        fixer.replaceTextRange(expectedArg.range, `/${expectedArg.value}/`),
+        fixer.replaceTextRange(
+          expectedArg.range,
+          expectedArg.type === "Literal"
+            ? `/${expectedArg.value}/`
+            : `new RegExp(${context.getSourceCode().getText(expectedArg)})`
+        ),
       ],
     });
   },
