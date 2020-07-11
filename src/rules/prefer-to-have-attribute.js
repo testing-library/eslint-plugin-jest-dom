@@ -30,7 +30,9 @@ export const create = (context) => ({
             node.parent.parent.property.range[0],
             node.parent.parent.parent.range[1],
           ],
-          `not.toHaveAttribute(${node.arguments[0].raw})`
+          `not.toHaveAttribute(${context
+            .getSourceCode()
+            .getText(node.arguments[0])})`
         ),
       ],
     });
@@ -38,6 +40,7 @@ export const create = (context) => ({
   [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toContain$|toMatch$/]`](
     node
   ) {
+    const sourceCode = context.getSourceCode();
     context.report({
       node: node.parent,
       message: `Use toHaveAttribute instead of asserting on getAttribute`,
@@ -46,11 +49,11 @@ export const create = (context) => ({
         fixer.replaceText(node.parent.parent.property, "toHaveAttribute"),
         fixer.replaceText(
           node.parent.parent.parent.arguments[0],
-          `${
-            node.arguments[0].raw
-          }, expect.string${node.parent.parent.property.name.slice(2)}ing(${
-            node.parent.parent.parent.arguments[0].raw
-          })`
+          `${sourceCode.getText(
+            node.arguments[0]
+          )}, expect.string${node.parent.parent.property.name.slice(
+            2
+          )}ing(${sourceCode.getText(node.parent.parent.parent.arguments[0])})`
         ),
       ],
     });
@@ -62,6 +65,7 @@ export const create = (context) => ({
     const isNullOrEmpty =
       arg.length > 0 && (arg[0].value === null || arg[0].value === "");
 
+    const sourceCode = context.getSourceCode();
     context.report({
       node: node.parent,
       message: `Use toHaveAttribute instead of asserting on getAttribute`,
@@ -69,11 +73,11 @@ export const create = (context) => ({
         const lastFixer = isNullOrEmpty
           ? fixer.replaceText(
               node.parent.parent.parent.arguments[0],
-              node.arguments[0].raw
+              sourceCode.getText(node.arguments[0])
             )
           : fixer.insertTextBefore(
               node.parent.parent.parent.arguments[0],
-              `${node.arguments[0].raw}, `
+              `${sourceCode.getText(node.arguments[0])}, `
             );
 
         return [
@@ -122,7 +126,7 @@ export const create = (context) => ({
           ),
           fixer.replaceText(
             node.parent.parent.parent.arguments[0],
-            node.arguments[0].raw
+            context.getSourceCode().getText(node.arguments[0])
           ),
         ],
       });
@@ -148,7 +152,9 @@ export const create = (context) => ({
           ],
           `${
             node.parent.parent.property.name === "toBeFalsy" ? "not." : ""
-          }toHaveAttribute(${node.arguments[0].raw})`
+          }toHaveAttribute(${context
+            .getSourceCode()
+            .getText(node.arguments[0])})`
         ),
       ],
     });
