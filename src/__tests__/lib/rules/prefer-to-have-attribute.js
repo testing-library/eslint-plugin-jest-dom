@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 /**
  * @fileoverview prefer toHaveAttribute over checking  getAttribute/hasAttribute
  * @author Ben Monro
@@ -14,7 +15,7 @@ import * as rule from "../../../rules/prefer-to-have-attribute";
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ruleTester.run("prefer-to-have-attribute", rule, {
   valid: [
     "expect(element.foo).toBeTruthy()",
@@ -41,6 +42,17 @@ ruleTester.run("prefer-to-have-attribute", rule, {
         },
       ],
       output: `expect(element).toHaveAttribute('foo', expect.stringContaining('bar'));`,
+    },
+    {
+      code:
+        "expect(element.getAttribute('foo')).toContain(`bar=${encodeURIComponent(baz.id)}`);",
+      errors: [
+        {
+          message: "Use toHaveAttribute instead of asserting on getAttribute",
+        },
+      ],
+      output:
+        "expect(element).toHaveAttribute('foo', expect.stringContaining(`bar=${encodeURIComponent(baz.id)}`));",
     },
     {
       code: 'expect(element.getAttribute("foo")).toBe("bar")',
