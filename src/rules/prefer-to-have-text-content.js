@@ -17,6 +17,7 @@ export const create = (context) => ({
   ) {
     const expectedArg = node.parent.parent.parent.arguments[0];
 
+    const expectedArgSource = context.getSourceCode().getText(expectedArg);
     context.report({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
@@ -33,8 +34,10 @@ export const create = (context) => ({
           fixer.replaceTextRange(
             expectedArg.range,
             expectedArg.type === "Literal"
-              ? `/${expectedArg.value}/`
-              : `new RegExp(${context.getSourceCode().getText(expectedArg)})`
+              ? expectedArg.regex
+                ? expectedArgSource
+                : `/${expectedArg.value}/`
+              : `new RegExp(${expectedArgSource})`
           ),
         ];
       },
@@ -74,6 +77,7 @@ export const create = (context) => ({
     node
   ) {
     const expectedArg = node.parent.parent.parent.parent.arguments[0];
+    const expectedArgSource = context.getSourceCode().getText(expectedArg);
     context.report({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
@@ -86,8 +90,10 @@ export const create = (context) => ({
         fixer.replaceTextRange(
           expectedArg.range,
           expectedArg.type === "Literal"
-            ? `/${expectedArg.value}/`
-            : `new RegExp(${context.getSourceCode().getText(expectedArg)})`
+            ? expectedArg.regex
+              ? expectedArgSource
+              : `/${expectedArg.value}/`
+            : `new RegExp(${expectedArgSource})`
         ),
       ],
     });

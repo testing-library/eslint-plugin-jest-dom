@@ -146,6 +146,27 @@ ruleTester.run("prefer-to-have-text-content", rule, {
       output: `expect(element).toHaveTextContent(/foo/)`,
     },
     {
+      code: "expect(element.textContent).toMatch(/foo bar/)",
+      errors: [
+        {
+          message:
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
+        },
+      ],
+      output: "expect(element).toHaveTextContent(/foo bar/)",
+    },
+    {
+      code: "expect(element.textContent).not.toMatch(/foo bar/)",
+      errors: [
+        {
+          message:
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
+        },
+      ],
+      output: "expect(element).not.toHaveTextContent(/foo bar/)",
+    },
+
+    {
       code: 'expect(element.textContent).not.toMatch("foo")',
       errors: [
         {
