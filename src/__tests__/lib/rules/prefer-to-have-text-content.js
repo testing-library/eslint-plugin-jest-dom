@@ -85,6 +85,26 @@ ruleTester.run("prefer-to-have-text-content", rule, {
       output: `expect(element).toHaveTextContent(/foo/)`,
     },
     {
+      code: 'expect(element.textContent).toContain("$42/month?")',
+      errors: [
+        {
+          message:
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
+        },
+      ],
+      output: "expect(element).toHaveTextContent(/\\$42\\/month\\?/)",
+    },
+    {
+      code: "expect(element.textContent).toContain(100)",
+      errors: [
+        {
+          message:
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
+        },
+      ],
+      output: `expect(element).toHaveTextContent(/100/)`,
+    },
+    {
       code: 'expect(container.firstChild.textContent).toContain("foo")',
       errors: [
         {
@@ -165,7 +185,6 @@ ruleTester.run("prefer-to-have-text-content", rule, {
       ],
       output: "expect(element).not.toHaveTextContent(/foo bar/)",
     },
-
     {
       code: 'expect(element.textContent).not.toMatch("foo")',
       errors: [
@@ -175,6 +194,16 @@ ruleTester.run("prefer-to-have-text-content", rule, {
         },
       ],
       output: `expect(element).not.toHaveTextContent(/foo/)`,
+    },
+    {
+      code: 'expect(element.textContent).not.toMatch("$42/month?")',
+      errors: [
+        {
+          message:
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
+        },
+      ],
+      output: `expect(element).not.toHaveTextContent(/\\$42\\/month\\?/)`,
     },
   ],
 });
