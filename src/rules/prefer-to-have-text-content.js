@@ -36,7 +36,11 @@ export const create = (context) => ({
             expectedArg.type === "Literal"
               ? expectedArg.regex
                 ? expectedArgSource
-                : `/${expectedArg.value}/`
+                : new RegExp(
+                    expectedArg.value
+                      .toString()
+                      .replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&")
+                  )
               : `new RegExp(${expectedArgSource})`
           ),
         ];
@@ -92,7 +96,11 @@ export const create = (context) => ({
           expectedArg.type === "Literal"
             ? expectedArg.regex
               ? expectedArgSource
-              : `/${expectedArg.value}/`
+              : new RegExp(
+                  expectedArg.value
+                    .toString()
+                    .replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&")
+                )
             : `new RegExp(${expectedArgSource})`
         ),
       ],
