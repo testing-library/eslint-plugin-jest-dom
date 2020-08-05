@@ -56,7 +56,11 @@ export const create = (context) => ({
     node
   ) {
     const args = node.parent.parent.parent.arguments[0];
-    if (args.value || args.name) {
+    if (
+      args.value ||
+      args.name ||
+      (args.expressions && args.expressions.length)
+    ) {
       return;
     }
 
@@ -74,7 +78,11 @@ export const create = (context) => ({
     node
   ) {
     const args = node.parent.parent.parent.parent.arguments[0];
-    if (args.value || args.name) {
+    if (
+      args.value ||
+      args.name ||
+      (args.expressions && args.expressions.length)
+    ) {
       return;
     }
 

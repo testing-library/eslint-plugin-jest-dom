@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 /**
  * @fileoverview Prefer toBeEmptyDOMElement over checking innerHTML
  * @author Ben Monro
@@ -14,13 +15,15 @@ import * as rule from "../../../rules/prefer-empty";
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ruleTester.run("prefer-empty", rule, {
   valid: [
     `expect(element.innerHTML).toBe('foo')`,
     `expect(element.innerHTML).toBe(foo)`,
     `expect(element.innerHTML).not.toBe('foo')`,
     `expect(element.innerHTML).not.toBe(foo)`,
+    "expect(statusText.innerHTML).toBe(`${value}%`)",
+    "expect(statusText.innerHTML).not.toBe(`${value}%`)",
     `expect(element.firstChild).toBe('foo')`,
     `expect(element.firstChild).not.toBe('foo')`,
     `expect(getByText("foo").innerHTML).toBe('foo')`,
@@ -104,6 +107,15 @@ ruleTester.run("prefer-empty", rule, {
       ],
       output: `expect(element).toBeEmptyDOMElement()`,
     },
+    {
+      code: "expect(element.innerHTML).toBe(``)",
+      errors: [
+        {
+          message: "Use toBeEmptyDOMElement instead of checking inner html.",
+        },
+      ],
+      output: `expect(element).toBeEmptyDOMElement()`,
+    },
 
     {
       code: `expect(element.innerHTML).toBe(null)`,
@@ -126,6 +138,15 @@ ruleTester.run("prefer-empty", rule, {
 
     {
       code: `expect(element.innerHTML).not.toBe('')`,
+      errors: [
+        {
+          message: "Use toBeEmptyDOMElement instead of checking inner html.",
+        },
+      ],
+      output: `expect(element).not.toBeEmptyDOMElement()`,
+    },
+    {
+      code: "expect(element.innerHTML).not.toBe(``)",
       errors: [
         {
           message: "Use toBeEmptyDOMElement instead of checking inner html.",

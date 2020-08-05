@@ -43,7 +43,8 @@
   "eslintConfig": {
     "extends": "./node_modules/kcd-scripts/eslint.js",
     "rules": {
-      "babel/quotes": "off"
+      "babel/quotes": "off",
+      "max-lines-per-function": "off"
     }
   },
   "eslintIgnore": [
