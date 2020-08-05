@@ -93,6 +93,15 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "atsikov",
+      "name": "Aleksei Tsikov",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1422928?v=4",
+      "profile": "https://github.com/atsikov",
+      "contributions": [
+        "bug"
+      ]
     }
   ]
 }
