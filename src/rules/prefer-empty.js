@@ -56,11 +56,7 @@ export const create = (context) => ({
     node
   ) {
     const args = node.parent.parent.parent.arguments[0];
-    if (
-      args.value ||
-      args.name ||
-      (args.expressions && args.expressions.length)
-    ) {
+    if (isNonEmptyStringOrTemplateLiteral(args)) {
       return;
     }
 
@@ -74,15 +70,12 @@ export const create = (context) => ({
       ],
     });
   },
+
   [`MemberExpression[property.name='innerHTML'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal$/][parent.parent.object.callee.name='expect']`](
     node
   ) {
     const args = node.parent.parent.parent.parent.arguments[0];
-    if (
-      args.value ||
-      args.name ||
-      (args.expressions && args.expressions.length)
-    ) {
+    if (isNonEmptyStringOrTemplateLiteral(args)) {
       return;
     }
 
@@ -164,3 +157,13 @@ export const create = (context) => ({
     });
   },
 });
+
+function isNonEmptyStringOrTemplateLiteral(node) {
+  return (
+    !(node.type === "Literal" || node.type === "TemplateLiteral") ||
+    node.value ||
+    node.name ||
+    (node?.quasis?.length > 0 &&
+      !(node?.quasis?.length === 1 && node?.quasis[0]?.value?.raw === ""))
+  );
+}
