@@ -30,7 +30,7 @@ export const create = (context) => ({
       message: "Use toHaveStyle instead of asserting on element style",
       fix(fixer) {
         return [
-          fixer.removeRange([node.property.start - 1, styleName.end]),
+          fixer.removeRange([node.object.range[1], styleName.range[1]]),
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceText(
             styleValue,
@@ -53,7 +53,7 @@ export const create = (context) => ({
       message: "Use toHaveStyle instead of asserting on element style",
       fix(fixer) {
         return [
-          fixer.removeRange([node.property.start - 1, styleName.end]),
+          fixer.removeRange([node.object.range[1], styleName.range[1]]),
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceText(
             styleValue,
@@ -75,7 +75,7 @@ export const create = (context) => ({
       message: "Use toHaveStyle instead of asserting on element style",
       fix(fixer) {
         return [
-          fixer.removeRange([node.property.start - 1, node.property.end]),
+          fixer.removeRange([node.object.range[1], node.property.range[1]]),
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceText(
             styleName,
@@ -97,7 +97,7 @@ export const create = (context) => ({
       message: "Use toHaveStyle instead of asserting on element style",
       fix(fixer) {
         return [
-          fixer.removeRange([node.property.start - 1, node.property.end]),
+          fixer.removeRange([node.object.range[1], node.property.range[1]]),
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceText(
             styleName,
@@ -118,7 +118,10 @@ export const create = (context) => ({
       fix(fixer) {
         return [
           fixer.replaceText(node.callee.property, "toHaveStyle"),
-          fixer.removeRange([node.arguments[0].start, node.arguments[1].start]),
+          fixer.removeRange([
+            node.arguments[0].range[0],
+            node.arguments[1].range[0],
+          ]),
         ];
       },
     });
@@ -131,7 +134,8 @@ export const create = (context) => ({
     const styleName = node.parent.property;
     const [styleValue] = node.parent.parent.parent.parent.arguments;
     const matcher = node.parent.parent.parent.property;
-    const endOfStyleMemberExpression = node.parent.parent.arguments[0].end;
+    const startOfStyleMemberExpression = node.object.range[1];
+    const endOfStyleMemberExpression = node.parent.parent.arguments[0].range[1];
 
     context.report({
       node: node.property,
@@ -139,7 +143,7 @@ export const create = (context) => ({
       fix(fixer) {
         return [
           fixer.removeRange([
-            node.property.start - 1,
+            startOfStyleMemberExpression,
             endOfStyleMemberExpression,
           ]),
           fixer.replaceText(matcher, "toHaveStyle"),
@@ -158,17 +162,14 @@ export const create = (context) => ({
     const styleName = node.parent.property;
     const [styleValue] = node.parent.parent.parent.parent.parent.arguments;
     const matcher = node.parent.parent.parent.parent.property;
-    const endOfStyleMemberExpression = node.parent.parent.arguments[0].end;
+    const endOfStyleMemberExpression = node.parent.parent.arguments[0].range[1];
 
     context.report({
       node: node.property,
       message: "Use toHaveStyle instead of asserting on element style",
       fix(fixer) {
         return [
-          fixer.removeRange([
-            node.property.start - 1,
-            endOfStyleMemberExpression,
-          ]),
+          fixer.removeRange([node.object.range[1], endOfStyleMemberExpression]),
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceText(
             styleValue,
@@ -190,10 +191,10 @@ export const create = (context) => ({
       message: "Use toHaveStyle instead of asserting on element style",
       fix(fixer) {
         return [
-          fixer.removeRange([node.property.start - 1, node.property.end]),
+          fixer.removeRange([node.object.range[1], node.property.range[1]]),
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceTextRange(
-            [styleName.start, styleValue.end],
+            [styleName.range[0], styleValue.range[1]],
             `{${camelCase(styleName.value)}: ${styleValue.raw}}`
           ),
         ];
@@ -213,10 +214,10 @@ export const create = (context) => ({
       message: "Use toHaveStyle instead of asserting on element style",
       fix(fixer) {
         return [
-          fixer.removeRange([node.property.start - 1, node.property.end]),
+          fixer.removeRange([node.object.range[1], node.property.range[1]]),
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceTextRange(
-            [styleName.start, styleValue.end],
+            [styleName.range[0], styleValue.range[1]],
             `{${camelCase(styleName.value)}: ${styleValue.raw}}`
           ),
         ];

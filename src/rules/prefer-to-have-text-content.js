@@ -25,10 +25,7 @@ export const create = (context) => ({
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
       fix: (fixer) => {
         return [
-          fixer.removeRange([
-            node.property.range[0] - 1,
-            node.property.range[1],
-          ]),
+          fixer.removeRange([node.object.range[1], node.property.range[1]]),
           fixer.replaceTextRange(
             node.parent.parent.property.range,
             "toHaveTextContent"
@@ -56,7 +53,7 @@ export const create = (context) => ({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
       fix: (fixer) => [
-        fixer.removeRange([node.property.range[0] - 1, node.property.range[1]]),
+        fixer.removeRange([node.object.range[1], node.property.range[1]]),
         fixer.replaceTextRange(
           node.parent.parent.property.range,
           "toHaveTextContent"
@@ -71,7 +68,7 @@ export const create = (context) => ({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
       fix: (fixer) => [
-        fixer.removeRange([node.property.range[0] - 1, node.property.range[1]]),
+        fixer.removeRange([node.object.range[1], node.property.range[1]]),
         fixer.replaceTextRange(
           node.parent.parent.parent.property.range,
           "toHaveTextContent"
@@ -88,7 +85,7 @@ export const create = (context) => ({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
       fix: (fixer) => [
-        fixer.removeRange([node.property.range[0] - 1, node.property.range[1]]),
+        fixer.removeRange([node.object.range[1], node.property.range[1]]),
         fixer.replaceTextRange(
           node.parent.parent.parent.property.range,
           "toHaveTextContent"

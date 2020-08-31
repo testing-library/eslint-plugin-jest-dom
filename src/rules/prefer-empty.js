@@ -21,7 +21,7 @@ export const create = (context) => ({
       node,
       message: "Use toBeEmptyDOMElement instead of checking inner html.",
       fix: (fixer) => [
-        fixer.removeRange([node.left.property.range[0] - 1, node.range[1]]),
+        fixer.removeRange([node.left.object.range[1], node.range[1]]),
         fixer.replaceText(
           node.parent.parent.property,
           Boolean(node.parent.parent.parent.arguments[0].value) ===
@@ -40,7 +40,7 @@ export const create = (context) => ({
       node,
       message: "Use toBeEmptyDOMElement instead of checking inner html.",
       fix: (fixer) => [
-        fixer.removeRange([node.left.property.range[0] - 1, node.range[1]]),
+        fixer.removeRange([node.left.object.range[1], node.range[1]]),
         fixer.replaceText(
           node.parent.parent.property,
           Boolean(node.parent.parent.parent.arguments[0].value) ===
@@ -64,7 +64,7 @@ export const create = (context) => ({
       node,
       message: "Use toBeEmptyDOMElement instead of checking inner html.",
       fix: (fixer) => [
-        fixer.removeRange([node.property.range[0] - 1, node.property.range[1]]),
+        fixer.removeRange([node.object.range[1], node.property.range[1]]),
         fixer.replaceText(node.parent.parent.property, "toBeEmptyDOMElement"),
         fixer.remove(node.parent.parent.parent.arguments[0]),
       ],
@@ -83,7 +83,7 @@ export const create = (context) => ({
       node,
       message: "Use toBeEmptyDOMElement instead of checking inner html.",
       fix: (fixer) => [
-        fixer.removeRange([node.property.range[0] - 1, node.property.range[1]]),
+        fixer.removeRange([node.object.range[1], node.property.range[1]]),
         fixer.replaceText(
           node.parent.parent.parent.property,
           "toBeEmptyDOMElement"
@@ -99,7 +99,7 @@ export const create = (context) => ({
       node,
       message: "Use toBeEmptyDOMElement instead of checking inner html.",
       fix: (fixer) => [
-        fixer.removeRange([node.property.range[0] - 1, node.property.range[1]]),
+        fixer.removeRange([node.object.range[1], node.property.range[1]]),
         fixer.replaceText(node.parent.parent.property, "toBeEmptyDOMElement"),
       ],
     });
@@ -115,7 +115,7 @@ export const create = (context) => ({
       node,
       message: "Use toBeEmptyDOMElement instead of checking inner html.",
       fix: (fixer) => [
-        fixer.removeRange([node.property.range[0] - 1, node.property.range[1]]),
+        fixer.removeRange([node.object.range[1], node.property.range[1]]),
         fixer.replaceText(
           node.parent.parent.parent.property,
           "toBeEmptyDOMElement"
@@ -131,7 +131,7 @@ export const create = (context) => ({
       node,
       message: "Use toBeEmptyDOMElement instead of checking inner html.",
       fix: (fixer) => [
-        fixer.removeRange([node.property.range[0] - 1, node.property.range[1]]),
+        fixer.removeRange([node.object.range[1], node.property.range[1]]),
         fixer.replaceText(
           node.parent.parent.parent.property,
           "toBeEmptyDOMElement"
@@ -150,7 +150,7 @@ export const create = (context) => ({
       node,
       message: "Use toBeEmptyDOMElement instead of checking inner html.",
       fix: (fixer) => [
-        fixer.removeRange([node.property.range[0] - 1, node.property.range[1]]),
+        fixer.removeRange([node.object.range[1], node.property.range[1]]),
         fixer.replaceText(node.parent.parent.property, "toBeEmptyDOMElement"),
         fixer.remove(node.parent.parent.parent.arguments[0]),
       ],
