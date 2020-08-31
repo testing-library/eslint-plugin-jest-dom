@@ -9,8 +9,10 @@
 
 export const meta = {
   docs: {
+    category: "jest-dom",
     description:
       "prefer toHaveAttribute over checking  getAttribute/hasAttribute ",
+    url: "prefer-to-have-attribute",
     recommended: true,
   },
   fixable: "code",
@@ -107,7 +109,7 @@ export const create = (context) => ({
       message: "Invalid matcher for getAttribute",
     });
   },
-  [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Striclty)?Equal/]`](
+  [`CallExpression[callee.property.name='hasAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
     node
   ) {
     if (typeof node.parent.parent.parent.arguments[0].value === "boolean") {
