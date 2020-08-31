@@ -12,7 +12,7 @@ install: npm install
 script:
   - npm run validate
   - npm i -D eslint@7
-  - num run test --no-watch
+  - npm run test -- --no-watch
   - npx codecov@3
 branches:
   only:
