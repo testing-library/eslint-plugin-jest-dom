@@ -15,7 +15,7 @@ const expectedTableLines = Object.keys(rules)
       lines.push(
         [
           `[${ruleId}](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/${ruleId}.md)`,
-          rule.meta.docs.recommended ? "✅" : "",
+          rule.meta.docs.recommended ? "👍" : "",
           rule.meta.fixable ? "🔧" : "",
           rule.meta.docs.description,
         ].join(" | ")
@@ -23,7 +23,7 @@ const expectedTableLines = Object.keys(rules)
 
       return lines;
     },
-    ["Name | ✅ | 🔧 | Description", "----- | ----- | ----- | -----"]
+    ["Name | 👍 | 🔧 | Description", "----- | ----- | ----- | -----"]
   )
   .join("\n");
 
