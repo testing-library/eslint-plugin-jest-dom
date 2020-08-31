@@ -14,6 +14,7 @@ const variantsOfDoc = [
 
 export const meta = {
   docs: {
+    url: "prefer-focus",
     description: "prefer toHaveFocus over checking document.activeElement",
     category: "jest-dom",
     recommended: true,
