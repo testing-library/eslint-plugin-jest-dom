@@ -6,7 +6,14 @@
   "keywords": [
     "eslint",
     "eslintplugin",
-    "eslint-plugin"
+    "eslint-plugin",
+    "jest-dom",
+    "testing-library",
+    "react-testing-library",
+    "dom-testing-library",
+    "RTL",
+    "DTL",
+    "tests"
   ],
   "author": "Ben Monro",
   "license": "MIT",
