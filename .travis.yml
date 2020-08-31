@@ -11,6 +11,8 @@ node_js:
 install: npm install
 script:
   - npm run validate
+  - npm i -D eslint@7
+  - num run validate
   - npx codecov@3
 branches:
   only:
