@@ -11,6 +11,11 @@ ruleTester.run("prefer-to-have-attribute", rule, {
     `expect(el.style).toMatchSnapshot()`,
     `expect(el.style).toEqual(foo)`,
     `expect(el).toHaveAttribute("style")`,
+    `React.useLayoutEffect(() => {
+      if (foo) {
+        document.body.setAttribute("style", "foo");
+      }
+    }, [foo]);`,
   ],
   invalid: [
     {
