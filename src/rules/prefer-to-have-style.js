@@ -34,7 +34,7 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceText(
             styleValue,
-            `{${styleName.name}:${styleValue.raw}}`
+            `{${styleName.name}:${context.getSourceCode().getText(styleValue)}}`
           ),
         ];
       },
@@ -57,7 +57,7 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceText(
             styleValue,
-            `{${styleName.name}:${styleValue.raw}}`
+            `{${styleName.name}:${context.getSourceCode().getText(styleValue)}}`
           ),
         ];
       },
@@ -136,7 +136,6 @@ export const create = (context) => ({
     const matcher = node.parent.parent.parent.property;
     const startOfStyleMemberExpression = node.object.range[1];
     const endOfStyleMemberExpression = node.parent.parent.arguments[0].range[1];
-
     context.report({
       node: node.property,
       message: "Use toHaveStyle instead of asserting on element style",
@@ -149,7 +148,9 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceText(
             styleValue,
-            `{${camelCase(styleName.value)}: ${styleValue.raw}}`
+            `{${camelCase(styleName.value)}: ${context
+              .getSourceCode()
+              .getText(styleValue)}}`
           ),
         ];
       },
@@ -173,7 +174,9 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceText(
             styleValue,
-            `{${camelCase(styleName.value)}: ${styleValue.raw}}`
+            `{${camelCase(styleName.value)}: ${context
+              .getSourceCode()
+              .getText(styleValue)}}`
           ),
         ];
       },
@@ -195,7 +198,9 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceTextRange(
             [styleName.range[0], styleValue.range[1]],
-            `{${camelCase(styleName.value)}: ${styleValue.raw}}`
+            `{${camelCase(styleName.value)}: ${context
+              .getSourceCode()
+              .getText(styleValue)}}`
           ),
         ];
       },
@@ -218,7 +223,9 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceTextRange(
             [styleName.range[0], styleValue.range[1]],
-            `{${camelCase(styleName.value)}: ${styleValue.raw}}`
+            `{${camelCase(styleName.value)}: ${context
+              .getSourceCode()
+              .getText(styleValue)}}`
           ),
         ];
       },
