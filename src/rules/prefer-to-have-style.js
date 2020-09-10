@@ -109,7 +109,7 @@ export const create = (context) => ({
   },
 
   //expect(el).toHaveAttribute("style", "foo: bar");
-  [`CallExpression[callee.property.name][arguments.0.value=style][arguments.1]`](
+  [`CallExpression[callee.property.name=toHaveAttribute][arguments.0.value=style][arguments.1][callee.object.callee.name=expect]`](
     node
   ) {
     context.report({
