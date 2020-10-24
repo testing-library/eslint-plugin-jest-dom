@@ -9,6 +9,8 @@ import * as rule from "../../../rules/prefer-focus";
 const ruleTester = new RuleTester();
 ruleTester.run("prefer-focus", rule, {
   valid: [
+    `expect(input).not.toHaveFocus();`,
+    `expect(input).toHaveFocus();`,
     `expect(document.activeElement).toBeNull()`,
     `expect(document.activeElement).not.toBeNull()`,
   ],
