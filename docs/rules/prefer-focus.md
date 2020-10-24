@@ -35,8 +35,10 @@ expect(foo).not.toEqual(document.activeElement);
 Examples of **correct** code for this rule:
 
 ```js
+expect(input).not.toHaveFocus();
 expect(document.activeElement).not.toBeNull();
 
+expect(input).toHaveFocus();
 expect(document.activeElement).toBeNull();
 ```
 
