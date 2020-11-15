@@ -1,4 +1,4 @@
-# Prefer asserting DOM node presence with .toBeInTheDocument over .toHaveLength (prefer-in-document)
+# Prefer .toBeInTheDocument in favor of .toHaveLength(1) (prefer-in-document)
 
 ## Rule Details
 

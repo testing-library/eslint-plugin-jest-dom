@@ -9,32 +9,12 @@
 //------------------------------------------------------------------------------
 
 import { RuleTester } from "eslint";
+import { queries } from "../../../queryNames";
 import * as rule from "../../../rules/prefer-in-document";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
-
-const queryStrats = [
-  "ByLabelText",
-  "ByPlaceholderText",
-  "ByText",
-  "ByAltText",
-  "ByTitle",
-  "ByDisplayValue",
-  "ByRole",
-  "ByTestId",
-];
-const queries = [
-  "get",
-  "getAll",
-  "query",
-  "queryAll",
-  "find",
-  "findAll",
-].reduce((acc, q) => {
-  return [...acc, ...queryStrats.map((qs) => q + qs)];
-}, []);
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ruleTester.run("prefer-in-document", rule, {
@@ -65,6 +45,7 @@ ruleTester.run("prefer-in-document", rule, {
           messageId: "useDocument",
         },
       ],
+      output: `expect(screen.${q}('foo')).toBeInTheDocument()`,
     })),
   ],
 });

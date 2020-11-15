@@ -3,6 +3,8 @@
  * @author Anton Niklasson
  */
 
+import { queries } from "../queryNames";
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
@@ -16,6 +18,7 @@ export const meta = {
     url: "prefer-in-document",
     recommended: false,
   },
+  fixable: "code",
   messages: {
     useDocument: `Prefer .toBeInTheDocument() in favor of .toHaveLength(1)`,
   },
@@ -23,39 +26,25 @@ export const meta = {
 
 /* eslint-disable no-console */
 
-const queryStrats = [
-  "ByLabelText",
-  "ByPlaceholderText",
-  "ByText",
-  "ByAltText",
-  "ByTitle",
-  "ByDisplayValue",
-  "ByRole",
-  "ByTestId",
-];
-const queries = [
-  "get",
-  "getAll",
-  "query",
-  "queryAll",
-  "find",
-  "findAll",
-].reduce((acc, q) => {
-  return [...acc, ...queryStrats.map((qs) => q + qs)];
-}, []);
-
 export const create = (context) => {
   return {
-    [`ExpressionStatement[expression.arguments.0.value=1][expression.callee.object.callee.name='expect'][expression.callee.property.name='toHaveLength']`](
+    [`CallExpression[callee.object.callee.name='expect'][callee.property.name='toHaveLength'][arguments.0.value=1]`](
       node
     ) {
-      const screenQuery =
-        node.expression.callee.object.arguments[0].callee.property.name;
+      const screenQuery = node.callee.object.arguments[0].callee.property.name;
+      const toHaveLengthNode = node.callee.property;
 
       if (queries.includes(screenQuery)) {
         context.report({
-          node: node.expression.callee.property,
+          node: node.callee,
           messageId: "useDocument",
+          loc: toHaveLengthNode.loc,
+          fix(fixer) {
+            return [
+              fixer.replaceText(toHaveLengthNode, "toBeInTheDocument"),
+              fixer.remove(node.arguments[0]),
+            ];
+          },
         });
       }
     },
