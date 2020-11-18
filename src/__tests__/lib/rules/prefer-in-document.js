@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 import { RuleTester } from "eslint";
-import { queries } from "../../../queryNames";
+import { queries } from "@testing-library/dom";
 import * as rule from "../../../rules/prefer-in-document";
 
 //------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ import * as rule from "../../../rules/prefer-in-document";
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ruleTester.run("prefer-in-document", rule, {
   valid: [
-    ...queries
+    ...Object.keys(queries)
       .map((q) => [
         `expect(screen.${q}('foo')).toBeInTheDocument()`,
         `expect(${q}('foo')).toBeInTheDocument()`,
@@ -44,7 +44,7 @@ ruleTester.run("prefer-in-document", rule, {
     },
   ],
   invalid: [
-    ...queries
+    ...Object.keys(queries)
       .map((q) => [
         {
           code: `expect(screen.${q}('foo')).toHaveLength(1)`,

@@ -42,6 +42,7 @@
     "requireindex": "^1.2.0"
   },
   "devDependencies": {
+    "@testing-library/dom": "^7.27.1",
     "eslint": "6.8",
     "jest-extended": "^0.11.5",
     "kcd-scripts": "6.5.1"
@@ -53,7 +54,8 @@
     "extends": "./node_modules/kcd-scripts/eslint.js",
     "rules": {
       "babel/quotes": "off",
-      "max-lines-per-function": "off"
+      "max-lines-per-function": "off",
+      "testing-library/no-dom-import": "off"
     }
   },
   "eslintIgnore": [

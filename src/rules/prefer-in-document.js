@@ -3,11 +3,7 @@
  * @author Anton Niklasson
  */
 
-import { queries } from "../queryNames";
-
-//------------------------------------------------------------------------------
-// Rule Definition
-//------------------------------------------------------------------------------
+import { queries } from "@testing-library/dom";
 
 export const meta = {
   type: "suggestion",
@@ -24,8 +20,6 @@ export const meta = {
   },
 };
 
-/* eslint-disable no-console */
-
 export const create = (context) => {
   return {
     [`CallExpression[callee.object.callee.name='expect'][callee.property.name='toHaveLength'][arguments.0.value=1]`](
@@ -35,7 +29,7 @@ export const create = (context) => {
       const query = queryNode.name || queryNode.property.name;
       const toHaveLengthNode = node.callee.property;
 
-      if (queries.includes(query)) {
+      if (Object.keys(queries).includes(query)) {
         context.report({
           node: node.callee,
           messageId: "useDocument",
