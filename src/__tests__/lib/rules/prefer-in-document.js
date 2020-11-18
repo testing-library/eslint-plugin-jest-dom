@@ -26,22 +26,8 @@ ruleTester.run("prefer-in-document", rule, {
         `expect(wrapper.${q}('foo')).toBeInTheDocument()`,
       ])
       .flat(),
-    {
-      code: `expect(screen.notAQuery('foo-bar')).toHaveLength(1)`,
-      errors: [
-        {
-          messageId: "useDocument",
-        },
-      ],
-    },
-    {
-      code: `expect(screen.getByText('foo-bar')).toHaveLength(2)`,
-      errors: [
-        {
-          messageId: "useDocument",
-        },
-      ],
-    },
+    `expect(screen.notAQuery('foo-bar')).toHaveLength(1)`,
+    `expect(screen.getByText('foo-bar')).toHaveLength(2)`,
   ],
   invalid: [
     ...Object.keys(queries)
