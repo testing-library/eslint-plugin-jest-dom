@@ -31,10 +31,11 @@ export const create = (context) => {
     [`CallExpression[callee.object.callee.name='expect'][callee.property.name='toHaveLength'][arguments.0.value=1]`](
       node
     ) {
-      const screenQuery = node.callee.object.arguments[0].callee.property.name;
+      const queryNode = node.callee.object.arguments[0].callee;
+      const query = queryNode.name || queryNode.property.name;
       const toHaveLengthNode = node.callee.property;
 
-      if (queries.includes(screenQuery)) {
+      if (queries.includes(query)) {
         context.report({
           node: node.callee,
           messageId: "useDocument",

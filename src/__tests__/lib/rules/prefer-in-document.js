@@ -19,7 +19,13 @@ import * as rule from "../../../rules/prefer-in-document";
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ruleTester.run("prefer-in-document", rule, {
   valid: [
-    ...queries.map((q) => `expect(screen.${q}('foo')).toBeInTheDocument()`),
+    ...queries
+      .map((q) => [
+        `expect(screen.${q}('foo')).toBeInTheDocument()`,
+        `expect(${q}('foo')).toBeInTheDocument()`,
+        `expect(wrapper.${q}('foo')).toBeInTheDocument()`,
+      ])
+      .flat(),
     {
       code: `expect(screen.notAQuery('foo-bar')).toHaveLength(1)`,
       errors: [
@@ -38,14 +44,24 @@ ruleTester.run("prefer-in-document", rule, {
     },
   ],
   invalid: [
-    ...queries.map((q) => ({
-      code: `expect(screen.${q}('foo')).toHaveLength(1)`,
-      errors: [
+    ...queries
+      .map((q) => [
         {
-          messageId: "useDocument",
+          code: `expect(screen.${q}('foo')).toHaveLength(1)`,
+          errors: 1,
+          output: `expect(screen.${q}('foo')).toBeInTheDocument()`,
         },
-      ],
-      output: `expect(screen.${q}('foo')).toBeInTheDocument()`,
-    })),
+        {
+          code: `expect(${q}('foo')).toHaveLength(1)`,
+          errors: 1,
+          output: `expect(${q}('foo')).toBeInTheDocument()`,
+        },
+        {
+          code: `expect(wrapper.${q}('foo')).toHaveLength(1)`,
+          errors: 1,
+          output: `expect(wrapper.${q}('foo')).toBeInTheDocument()`,
+        },
+      ])
+      .flat(),
   ],
 });
