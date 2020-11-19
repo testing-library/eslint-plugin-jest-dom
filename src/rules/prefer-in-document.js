@@ -16,7 +16,7 @@ export const meta = {
   },
   fixable: "code",
   messages: {
-    useDocument: `Prefer .toBeInTheDocument() in favor of .toHaveLength(1)`,
+    "use-document": `Prefer .toBeInTheDocument() in favor of .toHaveLength(1)`,
   },
 };
 
@@ -32,7 +32,7 @@ export const create = (context) => {
       if (Object.keys(queries).includes(query)) {
         context.report({
           node: node.callee,
-          messageId: "useDocument",
+          messageId: "use-document",
           loc: toHaveLengthNode.loc,
           fix(fixer) {
             return [

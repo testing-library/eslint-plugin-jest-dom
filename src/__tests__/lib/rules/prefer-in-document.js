@@ -1,4 +1,3 @@
-/* eslint-disable no-template-curly-in-string */
 /**
  * @fileoverview Prefer toBeInTheDocument over querying and asserting length.
  * @author Anton Niklasson
@@ -9,17 +8,29 @@
 //------------------------------------------------------------------------------
 
 import { RuleTester } from "eslint";
-import { queries } from "@testing-library/dom";
+import { queries, queriesByVariant } from "../../../queries";
 import * as rule from "../../../rules/prefer-in-document";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
+function invalidCase(code, output) {
+  return {
+    code,
+    output,
+    errors: [
+      {
+        messageId: "use-document",
+      },
+    ],
+  };
+}
+
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ruleTester.run("prefer-in-document", rule, {
   valid: [
-    ...Object.keys(queries)
+    ...queries
       .map((q) => [
         `expect(screen.${q}('foo')).toBeInTheDocument()`,
         `expect(${q}('foo')).toBeInTheDocument()`,
@@ -30,23 +41,47 @@ ruleTester.run("prefer-in-document", rule, {
     `expect(screen.getByText('foo-bar')).toHaveLength(2)`,
   ],
   invalid: [
-    ...Object.keys(queries)
+    // Invalid cases that applies to all variants
+    ...queries
       .map((q) => [
-        {
-          code: `expect(screen.${q}('foo')).toHaveLength(1)`,
-          errors: 1,
-          output: `expect(screen.${q}('foo')).toBeInTheDocument()`,
-        },
-        {
-          code: `expect(${q}('foo')).toHaveLength(1)`,
-          errors: 1,
-          output: `expect(${q}('foo')).toBeInTheDocument()`,
-        },
-        {
-          code: `expect(wrapper.${q}('foo')).toHaveLength(1)`,
-          errors: 1,
-          output: `expect(wrapper.${q}('foo')).toBeInTheDocument()`,
-        },
+        invalidCase(
+          `expect(screen.${q}('foo')).toHaveLength(1)`,
+          `expect(screen.${q}('foo')).toBeInTheDocument()`
+        ),
+        invalidCase(
+          `expect(${q}('foo')).toHaveLength(1)`,
+          `expect(${q}('foo')).toBeInTheDocument()`
+        ),
+        invalidCase(
+          `expect(wrapper.${q}('foo')).toHaveLength(1)`,
+          `expect(wrapper.${q}('foo')).toBeInTheDocument()`
+        ),
+      ])
+      .flat(),
+
+    // Invalid cases that applies to queryBy* and queryAllBy*
+    ...queriesByVariant.query
+      .map((q) => [
+        invalidCase(
+          `expect(${q}('foo')).toHaveLength(0)`,
+          `expect(${q}('foo')).not.toBeInTheDocument()`
+        ),
+        invalidCase(
+          `expect(${q}('foo')).toBeNull()`,
+          `expect(${q}('foo')).not.toBeInTheDocument()`
+        ),
+        invalidCase(
+          `expect(${q}('foo')).not.toBeNull()`,
+          `expect(${q}('foo')).toBeInTheDocument()`
+        ),
+        invalidCase(
+          `expect(${q}('foo')).toBeDefined()`,
+          `expect(${q}('foo')).toBeInTheDocument()`
+        ),
+        invalidCase(
+          `expect(${q}('foo')).not.toBeDefined()`,
+          `expect(${q}('foo')).not.toBeInTheDocument()`
+        ),
       ])
       .flat(),
   ],
