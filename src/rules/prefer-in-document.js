@@ -3,7 +3,7 @@
  * @author Anton Niklasson
  */
 
-import { queries } from "@testing-library/dom";
+import { queries } from "../queries";
 
 export const meta = {
   type: "suggestion",
@@ -20,26 +20,94 @@ export const meta = {
   },
 };
 
+function isAntonymMatcher(matcherNode, matcherArguments) {
+  return (
+    matcherNode.name === "toBeNull" ||
+    (matcherNode.name === "toHaveLength" && matcherArguments[0].value === 0)
+  );
+}
+
+function check(
+  context,
+  // eslint-disable-next-line no-unused-vars
+  { queryNode, matcherNode, matcherArguments, negatedMatcher }
+) {
+  const query = queryNode.name || queryNode.property.name;
+
+  // toHaveLength should only be invalid if the argument is 1
+  if (matcherNode.name === "toHaveLength" && matcherArguments[0].value > 1) {
+    return;
+  }
+
+  if (queries.includes(query)) {
+    context.report({
+      node: matcherNode,
+      messageId: "use-document",
+      loc: matcherNode.loc,
+      fix(fixer) {
+        const operations = [];
+
+        // Flip the .not if neccessary
+        if (isAntonymMatcher(matcherNode, matcherArguments)) {
+          if (negatedMatcher) {
+            operations.push(
+              fixer.removeRange([matcherNode.start - 5, matcherNode.start - 1])
+            );
+          } else {
+            operations.push(fixer.insertTextBefore(matcherNode, "not."));
+          }
+        }
+
+        // Replace the actual matcher
+        operations.push(fixer.replaceText(matcherNode, "toBeInTheDocument"));
+
+        // Remove any arguments in the matcher
+        for (const argument of matcherArguments) {
+          operations.push(fixer.remove(argument));
+        }
+
+        return operations;
+      },
+    });
+  }
+}
+
 export const create = (context) => {
+  const alternativeMatchers = /(toHaveLength|toBeDefined|toBeNull)/;
+
   return {
-    [`CallExpression[callee.object.callee.name='expect'][callee.property.name='toHaveLength'][arguments.0.value=1]`](
+    // Grabbing expect(<query>).not.<matcher>
+    [`CallExpression[callee.object.object.callee.name='expect'][callee.object.property.name='not'][callee.property.name=${alternativeMatchers}]`](
+      node
+    ) {
+      const queryNode = node.callee.object.object.arguments[0].callee;
+      const matcherNode = node.callee.property;
+      const matcherArguments = node.arguments;
+
+      if (queryNode && matcherNode) {
+        check(context, {
+          negatedMatcher: true,
+          queryNode,
+          matcherNode,
+          matcherArguments,
+        });
+      }
+    },
+
+    // Grabbing expect(<query>).<matcher>
+    [`CallExpression[callee.object.callee.name='expect'][callee.property.name=${alternativeMatchers}]`](
       node
     ) {
       const queryNode = node.callee.object.arguments[0].callee;
-      const query = queryNode.name || queryNode.property.name;
-      const toHaveLengthNode = node.callee.property;
+      const matcherNode = node.callee.property;
+      const matcherArguments = node.arguments;
 
-      if (Object.keys(queries).includes(query)) {
-        context.report({
-          node: node.callee,
-          messageId: "use-document",
-          loc: toHaveLengthNode.loc,
-          fix(fixer) {
-            return [
-              fixer.replaceText(toHaveLengthNode, "toBeInTheDocument"),
-              fixer.remove(node.arguments[0]),
-            ];
-          },
+      if (queryNode && matcherNode) {
+        check(context, {
+          negatedMatcher: false,
+          queryNode,
+          matcherNode,
+          matcherArguments,
         });
       }
     },
