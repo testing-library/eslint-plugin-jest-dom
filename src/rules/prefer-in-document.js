@@ -10,13 +10,13 @@ export const meta = {
   docs: {
     category: "jest-dom",
     description:
-      "Prefer .toBeInTheDocument() in favor of checking the length of the result using .toHaveLength(1)",
+      "Prefer .toBeInTheDocument() for asserting the existence of a DOM node",
     url: "prefer-in-document",
     recommended: false,
   },
   fixable: "code",
   messages: {
-    "use-document": `Prefer .toBeInTheDocument() in favor of .toHaveLength(1)`,
+    "use-document": `Prefer .toBeInTheDocument() for asserting DOM node existence`,
   },
 };
 
@@ -29,12 +29,11 @@ function isAntonymMatcher(matcherNode, matcherArguments) {
 
 function check(
   context,
-  // eslint-disable-next-line no-unused-vars
   { queryNode, matcherNode, matcherArguments, negatedMatcher }
 ) {
   const query = queryNode.name || queryNode.property.name;
 
-  // toHaveLength should only be invalid if the argument is 1
+  // toHaveLength() is only invalid with 0 or 1
   if (matcherNode.name === "toHaveLength" && matcherArguments[0].value > 1) {
     return;
   }
