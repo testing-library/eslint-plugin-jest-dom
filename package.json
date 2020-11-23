@@ -44,7 +44,7 @@
   "devDependencies": {
     "eslint": "7.14",
     "jest-extended": "^0.11.5",
-    "kcd-scripts": "6.5.1"
+    "kcd-scripts": "7.1.0"
   },
   "peerDependencies": {
     "eslint": ">=6.8"
