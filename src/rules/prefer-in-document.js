@@ -51,7 +51,10 @@ function check(
         if (isAntonymMatcher(matcherNode, matcherArguments)) {
           if (negatedMatcher) {
             operations.push(
-              fixer.removeRange([matcherNode.start - 5, matcherNode.start - 1])
+              fixer.removeRange([
+                matcherNode.range[0] - 5,
+                matcherNode.range[0] - 1,
+              ])
             );
           } else {
             operations.push(fixer.insertTextBefore(matcherNode, "not."));
