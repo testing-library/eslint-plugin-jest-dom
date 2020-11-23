@@ -194,7 +194,7 @@ export const create = (context) => ({
       message: "Use toHaveStyle instead of asserting on element style",
       fix(fixer) {
         if (!styleValue) {
-          return;
+          return null;
         }
         return [
           fixer.removeRange([node.object.range[1], node.property.range[1]]),
