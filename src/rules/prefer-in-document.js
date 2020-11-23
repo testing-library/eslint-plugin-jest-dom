@@ -84,14 +84,12 @@ export const create = (context) => {
       const matcherNode = node.callee.property;
       const matcherArguments = node.arguments;
 
-      if (queryNode && matcherNode) {
-        check(context, {
-          negatedMatcher: true,
-          queryNode,
-          matcherNode,
-          matcherArguments,
-        });
-      }
+      check(context, {
+        negatedMatcher: true,
+        queryNode,
+        matcherNode,
+        matcherArguments,
+      });
     },
 
     // Grabbing expect(<query>).<matcher>
@@ -102,14 +100,12 @@ export const create = (context) => {
       const matcherNode = node.callee.property;
       const matcherArguments = node.arguments;
 
-      if (queryNode && matcherNode) {
-        check(context, {
-          negatedMatcher: false,
-          queryNode,
-          matcherNode,
-          matcherArguments,
-        });
-      }
+      check(context, {
+        negatedMatcher: false,
+        queryNode,
+        matcherNode,
+        matcherArguments,
+      });
     },
   };
 };
