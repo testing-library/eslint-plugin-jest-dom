@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.9.6",
+    "@testing-library/dom": "^7.28.1",
     "requireindex": "^1.2.0"
   },
   "devDependencies": {
@@ -53,7 +54,8 @@
     "extends": "./node_modules/kcd-scripts/eslint.js",
     "rules": {
       "babel/quotes": "off",
-      "max-lines-per-function": "off"
+      "max-lines-per-function": "off",
+      "testing-library/no-dom-import": "off"
     }
   },
   "eslintIgnore": [
