@@ -39,10 +39,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.9.6",
+    "@testing-library/dom": "^7.28.1",
     "requireindex": "^1.2.0"
   },
   "devDependencies": {
-    "@testing-library/dom": "^7.27.1",
     "eslint": "7.14",
     "jest-extended": "^0.11.5",
     "kcd-scripts": "6.5.1"
