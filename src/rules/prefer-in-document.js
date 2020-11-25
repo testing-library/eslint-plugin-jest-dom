@@ -29,14 +29,18 @@ function isAntonymMatcher(matcherNode, matcherArguments) {
 
 function check(
   context,
-  { queryNode, matcherNode, matcherArguments, negatedMatcher }
+  { subject, matcherNode, matcherArguments, negatedMatcher }
 ) {
-  const query = queryNode.name || queryNode.property.name;
+  if (subject.type !== "CallExpression") {
+    return;
+  }
 
   // toHaveLength() is only invalid with 0 or 1
   if (matcherNode.name === "toHaveLength" && matcherArguments[0].value > 1) {
     return;
   }
+
+  const query = subject.callee.name || subject.callee.property.name;
 
   if (queries.includes(query)) {
     context.report({
@@ -82,13 +86,13 @@ export const create = (context) => {
     [`CallExpression[callee.object.object.callee.name='expect'][callee.object.property.name='not'][callee.property.name=${alternativeMatchers}]`](
       node
     ) {
-      const queryNode = node.callee.object.object.arguments[0].callee;
+      const subject = node.callee.object.object.arguments[0];
       const matcherNode = node.callee.property;
       const matcherArguments = node.arguments;
 
       check(context, {
         negatedMatcher: true,
-        queryNode,
+        subject,
         matcherNode,
         matcherArguments,
       });
@@ -98,13 +102,13 @@ export const create = (context) => {
     [`CallExpression[callee.object.callee.name='expect'][callee.property.name=${alternativeMatchers}]`](
       node
     ) {
-      const queryNode = node.callee.object.arguments[0].callee;
+      const subject = node.callee.object.arguments[0];
       const matcherNode = node.callee.property;
       const matcherArguments = node.arguments;
 
       check(context, {
         negatedMatcher: false,
-        queryNode,
+        subject,
         matcherNode,
         matcherArguments,
       });

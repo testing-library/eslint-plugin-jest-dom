@@ -35,7 +35,11 @@ const valid = [
   ]),
   `expect(screen.notAQuery('foo-bar')).toHaveLength(1)`,
   `expect(screen.getByText('foo-bar')).toHaveLength(2)`,
-  `const element = screen.findByText('lorem ipsum'); expect(element).toBeDefined();`,
+
+  `expect(foo).toBeDefined();`,
+  `expect(foo).not.toBeDefined();`,
+  `expect(foo).toBeNull();`,
+  `expect(foo).not.toBeNull();`,
 ];
 const invalid = [
   // Invalid cases that applies to all variants
