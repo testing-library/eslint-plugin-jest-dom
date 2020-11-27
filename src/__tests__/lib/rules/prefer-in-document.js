@@ -36,6 +36,11 @@ const valid = [
       foo = screen.${q}('foo');
       foo = somethingElse;
       expect(foo).toHaveLength(1);`,
+    `let foo;
+      foo = "bar";
+      expect(foo).toHaveLength(1);`,
+    `let foo;
+      expect(foo).toHaveLength(1);`,
   ]),
   `expect(screen.notAQuery('foo-bar')).toHaveLength(1)`,
   `expect(screen.getAllByText('foo-bar')).toHaveLength(2)`,
