@@ -31,13 +31,13 @@ function check(
   context,
   { queryNode, matcherNode, matcherArguments, negatedMatcher }
 ) {
+  if (!queryNode.name && !queryNode.property) return;
   const query = queryNode.name || queryNode.property.name;
 
   // toHaveLength() is only invalid with 0 or 1
   if (matcherNode.name === "toHaveLength" && matcherArguments[0].value > 1) {
     return;
   }
-
   if (queries.includes(query)) {
     context.report({
       node: matcherNode,
@@ -78,7 +78,7 @@ export const create = (context) => {
   const alternativeMatchers = /(toHaveLength|toBeDefined|toBeNull)/;
 
   return {
-    // Grabbing expect(<query>).not.<matcher>
+    // expect(<query>).not.<matcher>
     [`CallExpression[callee.object.object.callee.name='expect'][callee.object.property.name='not'][callee.property.name=${alternativeMatchers}]`](
       node
     ) {
@@ -93,14 +93,33 @@ export const create = (context) => {
         matcherArguments,
       });
     },
-
-    // Grabbing expect(<query>).<matcher>
-    [`CallExpression[callee.object.callee.name='expect'][callee.property.name=${alternativeMatchers}]`](
+    // const foo = <query> expect(foo).<matcher>
+    [`MemberExpression[object.callee.name=expect][property.name=${alternativeMatchers}][object.arguments.0.type=Identifier]`](
       node
     ) {
-      const queryNode = node.callee.object.arguments[0].callee;
-      const matcherNode = node.callee.property;
-      const matcherArguments = node.arguments;
+      const variable = context
+        .getScope()
+        .set.get(node.object.arguments[0].name);
+      const init = variable.defs[0].node.init;
+
+      let queryNode;
+      if (init) {
+        queryNode = init.callee.property || init.callee;
+      } else {
+        const assignmentRef = variable.references
+          .reverse()
+          .find((ref) => !!ref.writeExpr);
+        if (!assignmentRef) {
+          return;
+        }
+        queryNode =
+          assignmentRef.writeExpr.type === "CallExpression"
+            ? assignmentRef.writeExpr.callee
+            : assignmentRef.writeExpr;
+      }
+      const matcherNode = node.property;
+
+      const matcherArguments = node.parent.arguments;
 
       check(context, {
         negatedMatcher: false,
@@ -108,6 +127,23 @@ export const create = (context) => {
         matcherNode,
         matcherArguments,
       });
+    },
+    // expect(<query>).<matcher>
+    [`CallExpression[callee.object.callee.name='expect'][callee.property.name=${alternativeMatchers}]`](
+      node
+    ) {
+      const queryNode = node.callee.object.arguments[0].callee;
+      const matcherNode = node.callee.property;
+      const matcherArguments = node.arguments;
+
+      if (queryNode) {
+        check(context, {
+          negatedMatcher: false,
+          queryNode,
+          matcherNode,
+          matcherArguments,
+        });
+      }
     },
   };
 };

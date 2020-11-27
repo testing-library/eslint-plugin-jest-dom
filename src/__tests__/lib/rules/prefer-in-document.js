@@ -32,9 +32,13 @@ const valid = [
     `expect(screen.${q}('foo')).toBeInTheDocument()`,
     `expect(${q}('foo')).toBeInTheDocument()`,
     `expect(wrapper.${q}('foo')).toBeInTheDocument()`,
+    `let foo;
+      foo = screen.${q}('foo');
+      foo = somethingElse;
+      expect(foo).toHaveLength(1);`,
   ]),
   `expect(screen.notAQuery('foo-bar')).toHaveLength(1)`,
-  `expect(screen.getByText('foo-bar')).toHaveLength(2)`,
+  `expect(screen.getAllByText('foo-bar')).toHaveLength(2)`,
 ];
 const invalid = [
   // Invalid cases that applies to all variants
@@ -50,6 +54,38 @@ const invalid = [
     invalidCase(
       `expect(wrapper.${q}('foo')).toHaveLength(1)`,
       `expect(wrapper.${q}('foo')).toBeInTheDocument()`
+    ),
+    invalidCase(
+      `
+      const foo = screen.${q}('foo');
+      expect(foo).toHaveLength(1);
+      `,
+      `
+      const foo = screen.${q}('foo');
+      expect(foo).toBeInTheDocument();
+      `
+    ),
+    invalidCase(
+      `const foo = ${q}('foo');
+      expect(foo).toHaveLength(1);`,
+      `const foo = ${q}('foo');
+      expect(foo).toBeInTheDocument();`
+    ),
+    invalidCase(
+      `let foo;
+      foo = ${q}('foo');
+      expect(foo).toHaveLength(1);`,
+      `let foo;
+      foo = ${q}('foo');
+      expect(foo).toBeInTheDocument();`
+    ),
+    invalidCase(
+      `let foo;
+      foo = screen.${q}('foo');
+      expect(foo).toHaveLength(1);`,
+      `let foo;
+      foo = screen.${q}('foo');
+      expect(foo).toBeInTheDocument();`
     ),
   ]),
   // Invalid cases that applies to queryBy* and queryAllBy*
