@@ -31,7 +31,19 @@ function check(
   context,
   { subject, matcherNode, matcherArguments, negatedMatcher }
 ) {
-  if (subject.type !== "CallExpression") {
+  let query;
+
+  if (subject.type === "Identifier") {
+    // Backtrack the variable to see if it was populated by a query.
+    try {
+      const variable = context
+        .getScope()
+        .variables.find((v) => v.name === subject.name).defs[0].node.init;
+      query = variable.callee.name || variable.callee.property.name;
+    } catch (error) {
+      return;
+    }
+  } else if (subject.type !== "CallExpression") {
     return;
   }
 
@@ -40,7 +52,9 @@ function check(
     return;
   }
 
-  const query = subject.callee.name || subject.callee.property.name;
+  if (!query) {
+    query = subject.callee.name || subject.callee.property.name;
+  }
 
   if (queries.includes(query)) {
     context.report({

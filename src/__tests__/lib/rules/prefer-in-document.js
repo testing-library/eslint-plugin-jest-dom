@@ -35,11 +35,8 @@ const valid = [
   ]),
   `expect(screen.notAQuery('foo-bar')).toHaveLength(1)`,
   `expect(screen.getByText('foo-bar')).toHaveLength(2)`,
-
-  `expect(foo).toBeDefined();`,
-  `expect(foo).not.toBeDefined();`,
-  `expect(foo).toBeNull();`,
-  `expect(foo).not.toBeNull();`,
+  `expect(undefinedVariable).toBeDefined()`,
+  `expect([1,2,3]).toHaveLength(1);`,
 ];
 const invalid = [
   // Invalid cases that applies to all variants
@@ -55,6 +52,14 @@ const invalid = [
     invalidCase(
       `expect(wrapper.${q}('foo')).toHaveLength(1)`,
       `expect(wrapper.${q}('foo')).toBeInTheDocument()`
+    ),
+    invalidCase(
+      `const element = screen.${q}('foo'); expect(element).toHaveLength(1);`,
+      `const element = screen.${q}('foo'); expect(element).toBeInTheDocument();`
+    ),
+    invalidCase(
+      `const element = ${q}('foo'); expect(element).toBeNull();`,
+      `const element = ${q}('foo'); expect(element).not.toBeInTheDocument();`
     ),
   ]),
   // Invalid cases that applies to queryBy* and queryAllBy*
