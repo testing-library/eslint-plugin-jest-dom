@@ -64,14 +64,10 @@ const invalid = [
       `expect(wrapper.${q}('foo')).toBeInTheDocument()`
     ),
     invalidCase(
-      `
-      const foo = screen.${q}('foo');
-      expect(foo).toHaveLength(1);
-      `,
-      `
-      const foo = screen.${q}('foo');
-      expect(foo).toBeInTheDocument();
-      `
+      `const foo = screen.${q}('foo');
+      expect(foo).toHaveLength(1);`,
+      `const foo = screen.${q}('foo');
+      expect(foo).toBeInTheDocument();`
     ),
     invalidCase(
       `const foo = ${q}('foo');
