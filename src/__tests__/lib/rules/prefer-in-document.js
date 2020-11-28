@@ -107,12 +107,16 @@ const invalid = [
       `expect(${q}('foo')).toBeInTheDocument()`
     ),
     invalidCase(
+      `expect(${q}('foo')) .not .toBeNull()`,
+      `expect(${q}('foo')).toBeInTheDocument()`
+    ),
+    invalidCase(
       `expect(${q}('foo')).toBeDefined()`,
       `expect(${q}('foo')).toBeInTheDocument()`
     ),
     invalidCase(
-      `expect(${q}('foo')).not.toBeDefined()`,
-      `expect(${q}('foo')).not.toBeInTheDocument()`
+      `expect(${q}('foo')) .not .toBeDefined()`,
+      `expect(${q}('foo')) .not .toBeInTheDocument()`
     ),
     invalidCase(
       `let foo;
@@ -125,7 +129,7 @@ const invalid = [
     invalidCase(
       `let foo;
       foo = screen.${q}('foo');
-      expect(foo).not.toBeNull();`,
+      expect(foo) .not.toBeNull();`,
       `let foo;
       foo = screen.${q}('foo');
       expect(foo).toBeInTheDocument();`

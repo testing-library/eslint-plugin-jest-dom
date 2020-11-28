@@ -29,7 +29,7 @@ function isAntonymMatcher(matcherNode, matcherArguments) {
 
 function check(
   context,
-  { queryNode, matcherNode, matcherArguments, negatedMatcher }
+  { queryNode, matcherNode, matcherArguments, negatedMatcher, expect }
 ) {
   if (!queryNode || (!queryNode.name && !queryNode.property)) return;
   // toHaveLength() is only invalid with 0 or 1
@@ -47,15 +47,21 @@ function check(
       fix(fixer) {
         const operations = [];
 
+        // Remove any arguments in the matcher
+        for (const argument of Array.from(matcherArguments)) {
+          operations.push(fixer.remove(argument));
+        }
         // Flip the .not if necessary
         if (isAntonymMatcher(matcherNode, matcherArguments)) {
           if (negatedMatcher) {
             operations.push(
-              fixer.removeRange([
-                matcherNode.range[0] - 5,
-                matcherNode.range[0] - 1,
-              ])
+              fixer.replaceTextRange(
+                [expect.range[1], matcherNode.range[1]],
+                ".toBeInTheDocument"
+              )
             );
+
+            return operations;
           } else {
             operations.push(fixer.insertTextBefore(matcherNode, "not."));
           }
@@ -63,11 +69,6 @@ function check(
 
         // Replace the actual matcher
         operations.push(fixer.replaceText(matcherNode, "toBeInTheDocument"));
-
-        // Remove any arguments in the matcher
-        for (const argument of Array.from(matcherArguments)) {
-          operations.push(fixer.remove(argument));
-        }
 
         return operations;
       },
@@ -108,13 +109,15 @@ export const create = (context) => {
     ) {
       const queryNode = node.callee.object.object.arguments[0].callee;
       const matcherNode = node.callee.property;
-      const matcherArguments = node;
+      const matcherArguments = node.arguments;
 
+      const expect = node.callee.object.object;
       check(context, {
         negatedMatcher: true,
         queryNode,
         matcherNode,
         matcherArguments,
+        expect,
       });
     },
 
@@ -129,11 +132,14 @@ export const create = (context) => {
 
       const matcherArguments = node.parent.arguments;
 
+      const expect = node.object.object;
+
       check(context, {
         negatedMatcher: true,
         queryNode,
         matcherNode,
         matcherArguments,
+        expect,
       });
     },
     // const foo = <query> expect(foo).<matcher>
