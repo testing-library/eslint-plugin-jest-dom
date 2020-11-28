@@ -31,13 +31,14 @@ function check(
   context,
   { queryNode, matcherNode, matcherArguments, negatedMatcher }
 ) {
-  if (!queryNode.name && !queryNode.property) return;
-  const query = queryNode.name || queryNode.property.name;
-
+  if (!queryNode || (!queryNode.name && !queryNode.property)) return;
   // toHaveLength() is only invalid with 0 or 1
   if (matcherNode.name === "toHaveLength" && matcherArguments[0].value > 1) {
     return;
   }
+
+  const query = queryNode.name || queryNode.property.name;
+
   if (queries.includes(query)) {
     context.report({
       node: matcherNode,
@@ -64,7 +65,7 @@ function check(
         operations.push(fixer.replaceText(matcherNode, "toBeInTheDocument"));
 
         // Remove any arguments in the matcher
-        for (const argument of matcherArguments) {
+        for (const argument of Array.from(matcherArguments)) {
           operations.push(fixer.remove(argument));
         }
 
@@ -76,7 +77,30 @@ function check(
 
 export const create = (context) => {
   const alternativeMatchers = /(toHaveLength|toBeDefined|toBeNull)/;
+  function getQueryNodeFromAssignment(identifierName) {
+    const variable = context.getScope().set.get(identifierName);
+    const init = variable.defs[0].node.init;
 
+    let queryNode;
+    if (init) {
+      // let foo = screen.<query>();
+      queryNode = init.callee.property || init.callee;
+    } else {
+      // let foo;
+      // foo = screen.<query>();
+      const assignmentRef = variable.references
+        .reverse()
+        .find((ref) => !!ref.writeExpr);
+      if (!assignmentRef) {
+        return;
+      }
+      queryNode =
+        assignmentRef.writeExpr.type === "CallExpression"
+          ? assignmentRef.writeExpr.callee
+          : assignmentRef.writeExpr;
+    }
+    return queryNode;
+  }
   return {
     // expect(<query>).not.<matcher>
     [`CallExpression[callee.object.object.callee.name='expect'][callee.object.property.name='not'][callee.property.name=${alternativeMatchers}]`](
@@ -84,7 +108,26 @@ export const create = (context) => {
     ) {
       const queryNode = node.callee.object.object.arguments[0].callee;
       const matcherNode = node.callee.property;
-      const matcherArguments = node.arguments;
+      const matcherArguments = node;
+
+      check(context, {
+        negatedMatcher: true,
+        queryNode,
+        matcherNode,
+        matcherArguments,
+      });
+    },
+
+    // // const foo = <query> expect(foo).not.<matcher>
+    [`MemberExpression[object.object.callee.name=expect][object.property.name=not][property.name=${alternativeMatchers}][object.object.arguments.0.type=Identifier]`](
+      node
+    ) {
+      const queryNode = getQueryNodeFromAssignment(
+        node.object.object.arguments[0].name
+      );
+      const matcherNode = node.property;
+
+      const matcherArguments = node.parent.arguments;
 
       check(context, {
         negatedMatcher: true,
@@ -97,26 +140,9 @@ export const create = (context) => {
     [`MemberExpression[object.callee.name=expect][property.name=${alternativeMatchers}][object.arguments.0.type=Identifier]`](
       node
     ) {
-      const variable = context
-        .getScope()
-        .set.get(node.object.arguments[0].name);
-      const init = variable.defs[0].node.init;
-
-      let queryNode;
-      if (init) {
-        queryNode = init.callee.property || init.callee;
-      } else {
-        const assignmentRef = variable.references
-          .reverse()
-          .find((ref) => !!ref.writeExpr);
-        if (!assignmentRef) {
-          return;
-        }
-        queryNode =
-          assignmentRef.writeExpr.type === "CallExpression"
-            ? assignmentRef.writeExpr.callee
-            : assignmentRef.writeExpr;
-      }
+      const queryNode = getQueryNodeFromAssignment(
+        node.object.arguments[0].name
+      );
       const matcherNode = node.property;
 
       const matcherArguments = node.parent.arguments;
@@ -136,14 +162,12 @@ export const create = (context) => {
       const matcherNode = node.callee.property;
       const matcherArguments = node.arguments;
 
-      if (queryNode) {
-        check(context, {
-          negatedMatcher: false,
-          queryNode,
-          matcherNode,
-          matcherArguments,
-        });
-      }
+      check(context, {
+        negatedMatcher: false,
+        queryNode,
+        matcherNode,
+        matcherArguments,
+      });
     },
   };
 };

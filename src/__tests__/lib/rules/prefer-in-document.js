@@ -36,12 +36,15 @@ const valid = [
       foo = screen.${q}('foo');
       foo = somethingElse;
       expect(foo).toHaveLength(1);`,
-    `let foo;
-      foo = "bar";
-      expect(foo).toHaveLength(1);`,
-    `let foo;
-      expect(foo).toHaveLength(1);`,
   ]),
+  `let foo;
+  foo = "bar";
+  expect(foo).toHaveLength(1);`,
+  `let foo;
+  foo = "bar";
+  expect(foo).toHaveLength(0);`,
+  `let foo;
+  expect(foo).toHaveLength(1);`,
   `expect(screen.notAQuery('foo-bar')).toHaveLength(1)`,
   `expect(screen.getAllByText('foo-bar')).toHaveLength(2)`,
 ];
@@ -114,6 +117,28 @@ const invalid = [
     invalidCase(
       `expect(${q}('foo')).not.toBeDefined()`,
       `expect(${q}('foo')).not.toBeInTheDocument()`
+    ),
+    invalidCase(
+      `let foo;
+      foo = screen.${q}('foo');
+      expect(foo).toHaveLength(0);`,
+      `let foo;
+      foo = screen.${q}('foo');
+      expect(foo).not.toBeInTheDocument();`
+    ),
+    invalidCase(
+      `let foo;
+      foo = screen.${q}('foo');
+      expect(foo).not.toBeNull();`,
+      `let foo;
+      foo = screen.${q}('foo');
+      expect(foo).toBeInTheDocument();`
+    ),
+    invalidCase(
+      `let foo = screen.${q}('foo');
+      expect(foo).not.toBeNull();`,
+      `let foo = screen.${q}('foo');
+      expect(foo).toBeInTheDocument();`
     ),
   ]),
 ];
