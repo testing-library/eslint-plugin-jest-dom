@@ -47,7 +47,7 @@ function check(
       fix(fixer) {
         const operations = [];
 
-        // Flip the .not if neccessary
+        // Flip the .not if necessary
         if (isAntonymMatcher(matcherNode, matcherArguments)) {
           if (negatedMatcher) {
             operations.push(
