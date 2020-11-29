@@ -7,3 +7,7 @@ dist
 # when working with contributors
 package-lock.json
 yarn.lock
+
+# Smoke test
+.cache-eslint-remote-tester
+eslint-remote-tester-results
