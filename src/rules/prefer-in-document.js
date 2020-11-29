@@ -85,7 +85,10 @@ export const create = (context) => {
     let queryNode;
     if (init) {
       // let foo = screen.<query>();
-      queryNode = init.callee.property || init.callee;
+      queryNode =
+        init.type === "AwaitExpression"
+          ? init.argument.callee.property
+          : init.callee.property || init.callee;
     } else {
       // let foo;
       // foo = screen.<query>();
@@ -96,7 +99,9 @@ export const create = (context) => {
         return;
       }
       queryNode =
-        assignmentRef.writeExpr.type === "CallExpression"
+        assignmentRef.writeExpr.type === "AwaitExpression"
+          ? assignmentRef.writeExpr.argument.callee
+          : assignmentRef.writeExpr.type === "CallExpression"
           ? assignmentRef.writeExpr.callee
           : assignmentRef.writeExpr;
     }
@@ -160,11 +165,14 @@ export const create = (context) => {
         matcherArguments,
       });
     },
+    // expect(await <query>).<matcher>
     // expect(<query>).<matcher>
-    [`CallExpression[callee.object.callee.name='expect'][callee.property.name=${alternativeMatchers}]`](
+    [`CallExpression[callee.object.callee.name='expect'][callee.property.name=${alternativeMatchers}], CallExpression[callee.object.callee.name='expect'][callee.object.arguments.0.argument.callee.name=${alternativeMatchers}]`](
       node
     ) {
-      const queryNode = node.callee.object.arguments[0].callee;
+      const arg = node.callee.object.arguments[0];
+      const queryNode =
+        arg.type === "AwaitExpression" ? arg.argument.callee : arg.callee;
       const matcherNode = node.callee.property;
       const matcherArguments = node.arguments;
 

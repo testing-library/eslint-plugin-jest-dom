@@ -8,7 +8,6 @@
 //------------------------------------------------------------------------------
 
 import { RuleTester } from "eslint";
-import { queries, queriesByVariant } from "../../../queries";
 import * as rule from "../../../rules/prefer-in-document";
 
 //------------------------------------------------------------------------------
@@ -28,7 +27,7 @@ function invalidCase(code, output) {
 }
 
 const valid = [
-  ...queries.map((q) => [
+  ...["getByText", "getByRole"].map((q) => [
     `expect(screen.${q}('foo')).toBeInTheDocument()`,
     `expect(${q}('foo')).toBeInTheDocument()`,
     `expect(wrapper.${q}('foo')).toBeInTheDocument()`,
@@ -50,7 +49,7 @@ const valid = [
 ];
 const invalid = [
   // Invalid cases that applies to all variants
-  ...queries.map((q) => [
+  ...["getByText", "getByRole"].map((q) => [
     invalidCase(
       `expect(screen.${q}('foo')).toHaveLength(1)`,
       `expect(screen.${q}('foo')).toBeInTheDocument()`
@@ -93,7 +92,7 @@ const invalid = [
     ),
   ]),
   // Invalid cases that applies to queryBy* and queryAllBy*
-  ...queriesByVariant.query.map((q) => [
+  ...["queryByText"].map((q) => [
     invalidCase(
       `expect(${q}('foo')).toHaveLength(0)`,
       `expect(${q}('foo')).not.toBeInTheDocument()`
@@ -141,9 +140,47 @@ const invalid = [
       expect(foo).toBeInTheDocument();`
     ),
   ]),
+  invalidCase(
+    `it("foo", async () => {
+      expect(await findByRole("button")).toBeDefined();
+    })`,
+    `it("foo", async () => {
+      expect(await findByRole("button")).toBeInTheDocument();
+    })`
+  ),
+  invalidCase(
+    `it("foo", async () => {
+      expect(await screen.findByText(/Compressing video/)).toBeDefined();
+    })`,
+    `it("foo", async () => {
+      expect(await screen.findByText(/Compressing video/)).toBeInTheDocument();
+    })`
+  ),
+  invalidCase(
+    `it("foo", async () => {
+      const compressingFeedback = await screen.findByText(/Compressing video/);
+      expect(compressingFeedback).toBeDefined();
+    });`,
+    `it("foo", async () => {
+      const compressingFeedback = await screen.findByText(/Compressing video/);
+      expect(compressingFeedback).toBeInTheDocument();
+    });`
+  ),
+  invalidCase(
+    `it("foo", async () => {
+      let compressingFeedback;
+      compressingFeedback = await screen.findByText(/Compressing video/);
+      expect(compressingFeedback).toBeDefined();
+    });`,
+    `it("foo", async () => {
+      let compressingFeedback;
+      compressingFeedback = await screen.findByText(/Compressing video/);
+      expect(compressingFeedback).toBeInTheDocument();
+    });`
+  ),
 ];
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } });
 ruleTester.run("prefer-in-document", rule, {
   valid: [].concat(...valid),
   invalid: [].concat(...invalid),
