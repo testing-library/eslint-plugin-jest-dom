@@ -109,10 +109,12 @@ export const create = (context) => {
   }
   return {
     // expect(<query>).not.<matcher>
-    [`CallExpression[callee.object.object.callee.name='expect'][callee.object.property.name='not'][callee.property.name=${alternativeMatchers}]`](
+    [`CallExpression[callee.object.object.callee.name='expect'][callee.object.property.name='not'][callee.property.name=${alternativeMatchers}], CallExpression[callee.object.callee.name='expect'][callee.object.property.name='not'][callee.object.arguments.0.argument.callee.name=${alternativeMatchers}]`](
       node
     ) {
-      const queryNode = node.callee.object.object.arguments[0].callee;
+      const arg = node.callee.object.object.arguments[0];
+      const queryNode =
+        arg.type === "AwaitExpression" ? arg.argument.callee : arg.callee;
       const matcherNode = node.callee.property;
       const matcherArguments = node.arguments;
 

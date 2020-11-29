@@ -49,7 +49,7 @@ const valid = [
 ];
 const invalid = [
   // Invalid cases that applies to all variants
-  ...["getByText", "getByRole"].map((q) => [
+  ...["getByText", "getAllByRole"].map((q) => [
     invalidCase(
       `expect(screen.${q}('foo')).toHaveLength(1)`,
       `expect(screen.${q}('foo')).toBeInTheDocument()`
@@ -92,7 +92,7 @@ const invalid = [
     ),
   ]),
   // Invalid cases that applies to queryBy* and queryAllBy*
-  ...["queryByText"].map((q) => [
+  ...["queryByText", "queryAllByText"].map((q) => [
     invalidCase(
       `expect(${q}('foo')).toHaveLength(0)`,
       `expect(${q}('foo')).not.toBeInTheDocument()`
@@ -150,6 +150,14 @@ const invalid = [
   ),
   invalidCase(
     `it("foo", async () => {
+      expect(await findByRole("button")).not.toBeNull();
+    })`,
+    `it("foo", async () => {
+      expect(await findByRole("button")).toBeInTheDocument();
+    })`
+  ),
+  invalidCase(
+    `it("foo", async () => {
       expect(await screen.findByText(/Compressing video/)).toBeDefined();
     })`,
     `it("foo", async () => {
@@ -158,8 +166,26 @@ const invalid = [
   ),
   invalidCase(
     `it("foo", async () => {
+      expect(await screen.findByText(/Compressing video/)).not.toBeDefined();
+    })`,
+    `it("foo", async () => {
+      expect(await screen.findByText(/Compressing video/)).not.toBeInTheDocument();
+    })`
+  ),
+  invalidCase(
+    `it("foo", async () => {
       const compressingFeedback = await screen.findByText(/Compressing video/);
       expect(compressingFeedback).toBeDefined();
+    });`,
+    `it("foo", async () => {
+      const compressingFeedback = await screen.findByText(/Compressing video/);
+      expect(compressingFeedback).toBeInTheDocument();
+    });`
+  ),
+  invalidCase(
+    `it("foo", async () => {
+      const compressingFeedback = await screen.findByText(/Compressing video/);
+      expect(compressingFeedback).not.toBeNull();
     });`,
     `it("foo", async () => {
       const compressingFeedback = await screen.findByText(/Compressing video/);
@@ -176,6 +202,18 @@ const invalid = [
       let compressingFeedback;
       compressingFeedback = await screen.findByText(/Compressing video/);
       expect(compressingFeedback).toBeInTheDocument();
+    });`
+  ),
+  invalidCase(
+    `it("foo", async () => {
+      let compressingFeedback;
+      compressingFeedback = await screen.findByText(/Compressing video/);
+      expect(compressingFeedback).not.toBeDefined();
+    });`,
+    `it("foo", async () => {
+      let compressingFeedback;
+      compressingFeedback = await screen.findByText(/Compressing video/);
+      expect(compressingFeedback).not.toBeInTheDocument();
     });`
   ),
 ];
