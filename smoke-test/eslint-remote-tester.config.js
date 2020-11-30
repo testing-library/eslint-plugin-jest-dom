@@ -46,9 +46,6 @@ module.exports = {
       },
     },
     plugins: ["jest-dom"],
-    // extends: ["plugin:jest-dom/all"],
-    rules: {
-      "jest-dom/prefer-to-have-value": "error",
-    },
+    extends: ["plugin:jest-dom/all"],
   },
 };
