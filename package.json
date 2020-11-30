@@ -59,7 +59,8 @@
     "rules": {
       "babel/quotes": "off",
       "max-lines-per-function": "off",
-      "testing-library/no-dom-import": "off"
+      "testing-library/no-dom-import": "off",
+      "consistent-return": "off"
     }
   },
   "eslintIgnore": [

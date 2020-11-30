@@ -17,17 +17,32 @@ expect(queryByText("foo")).toBeNull();
 expect(queryByText("foo")).not.toBeNull();
 expect(queryByText("foo")).toBeDefined();
 expect(queryByText("foo")).not.toBeDefined();
+
+const foo = screen.getByText("foo");
+expect(foo).toHaveLength(1);
+
+const bar = screen.queryByText("bar");
+expect(bar).toHaveLength(0);
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
 expect(screen.queryByText("foo")).toBeInTheDocument();
-expect(screen.queryByText("foo")).toBeInTheDocument();
-expect(queryByText("foo")).toBeInTheDocument()`;
-expect(wrapper.queryAllByTestId('foo')).toBeInTheDocument()`;
-expect(screen.getAllByLabel("foo-bar")).toHaveLength(2)`;
-expect(notAQuery('foo-bar')).toHaveLength(1)`;
+expect(await screen.findByText("foo")).toBeInTheDocument();
+expect(queryByText("foo")).toBeInTheDocument();
+expect(wrapper.queryAllByTestId("foo")).toBeInTheDocument();
+expect(screen.getAllByLabel("foo-bar")).toHaveLength(2);
+expect(notAQuery("foo-bar")).toHaveLength(1);
+
+const foo = screen.getAllByText("foo");
+expect(foo).toHaveLength(3);
+
+const bar = screen.queryByText("bar");
+expect(bar).not.toBeDefined();
+
+const baz = await screen.findByText("baz");
+expect(baz).toBeDefined();
 ```
 
 ## When Not To Use It
