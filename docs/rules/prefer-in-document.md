@@ -29,7 +29,7 @@ Examples of **correct** code for this rule:
 
 ```js
 expect(screen.queryByText("foo")).toBeInTheDocument();
-expect(screen.queryByText("foo")).toBeInTheDocument();
+expect(await screen.findByText("foo")).toBeInTheDocument();
 expect(queryByText("foo")).toBeInTheDocument();
 expect(wrapper.queryAllByTestId("foo")).toBeInTheDocument();
 expect(screen.getAllByLabel("foo-bar")).toHaveLength(2);
@@ -39,7 +39,10 @@ const foo = screen.getAllByText("foo");
 expect(foo).toHaveLength(3);
 
 const bar = screen.queryByText("bar");
-expect(bar).not.toBeInTheDocument();
+expect(bar).not.toBeDefined();
+
+const baz = await screen.findByText("baz");
+expect(baz).toBeDefined()
 ```
 
 ## When Not To Use It
