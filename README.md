@@ -106,7 +106,7 @@ Name | 👍 | 🔧 | Description
 [prefer-empty](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-empty.md) | 👍 | 🔧 | Prefer toBeEmpty over checking innerHTML
 [prefer-enabled-disabled](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-enabled-disabled.md) | 👍 | 🔧 | prefer toBeDisabled or toBeEnabled over checking attributes
 [prefer-focus](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-focus.md) | 👍 | 🔧 | prefer toHaveFocus over checking document.activeElement
-[prefer-in-document](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-in-document.md) |  | 🔧 | Prefer .toBeInTheDocument() in favor of checking the length of the result using .toHaveLength(1)
+[prefer-in-document](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-in-document.md) | 👍 | 🔧 | Prefer .toBeInTheDocument() for asserting the existence of a DOM node
 [prefer-required](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-required.md) | 👍 | 🔧 | prefer toBeRequired over checking properties
 [prefer-to-have-attribute](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-to-have-attribute.md) | 👍 | 🔧 | prefer toHaveAttribute over checking  getAttribute/hasAttribute 
 [prefer-to-have-style](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-to-have-style.md) | 👍 | 🔧 | prefer toHaveStyle over checking element style

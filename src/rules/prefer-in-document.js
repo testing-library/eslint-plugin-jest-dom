@@ -12,7 +12,7 @@ export const meta = {
     description:
       "Prefer .toBeInTheDocument() for asserting the existence of a DOM node",
     url: "prefer-in-document",
-    recommended: false,
+    recommended: true,
   },
   fixable: "code",
   messages: {
