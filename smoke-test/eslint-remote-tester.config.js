@@ -20,21 +20,6 @@ module.exports = {
         'bundle\\.js',
         'react-dom\\.development\\.js',
         '\\.min\\.js', // Any *.min.js
-
-        // Project specific ignores
-        'codesandbox-client/packages/app/static/js',
-        'codesandbox-client/standalone-packages',
-        'dockunit/platform/assets',
-        'hyper/bin',
-        'react-solitaire/lib/index\\.js',
-        'Khan/perseus/lib',
-        'glortho/react-keydown/example/public',
-        'reach/reach-ui/packages/combobox/examples/cities\\.ts',
-        'reach/reach-ui/website/src/components/cities\\.js',
-        'reach/reach-ui/website/static/router/static',
-        'Automattic/wp-calypso/client/components/phone-input/data\\.js',
-        'test262-main\\.ts',
-        'sample_vis\\.test\\.mocks\\.ts',
     ].join('|')})`,
 
     /** Empty array since we are only interested in linter crashes */
@@ -67,7 +52,7 @@ module.exports = {
             'plugin:jest-dom/recommended',
         ],
         rules: {
-            'prefer-in-document': 'error'
+            'jest-dom/prefer-in-document': 'error'
         },
     },
 };
