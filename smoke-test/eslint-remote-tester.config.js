@@ -52,7 +52,7 @@ module.exports = {
             'plugin:jest-dom/recommended',
         ],
         rules: {
-            'prefer-in-document': 'error'
+            'jest-dom/prefer-in-document': 'error'
         },
     },
 };
