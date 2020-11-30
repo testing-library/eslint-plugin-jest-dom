@@ -25,9 +25,22 @@ export const generateRecommendedConfig = (allRules) =>
     {}
   );
 
+export const generateAllRulesConfig = (allRules) =>
+  Object.entries(allRules).reduce(
+    (memo, [name]) => ({
+      ...memo,
+      ...{ [`jest-dom/${name}`]: "error" },
+    }),
+    {}
+  );
+
 export const configs = {
   recommended: {
     plugins: ["jest-dom"],
     rules: generateRecommendedConfig(rules),
+  },
+  all: {
+    plugins: ["jest-dom"],
+    rules: generateAllRulesConfig(rules),
   },
 };
