@@ -1,0 +1,22 @@
+name: Smoke test
+
+on:
+  schedule:
+    - cron: '0 0 * * SUN'
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12.11
+    - run: yarn install
+    - run: yarn build
+    - run: yarn link
+    - run: yarn link eslint-plugin-jest-dom
+    - run: yarn test:smoke
+      env:
+        CI: true
