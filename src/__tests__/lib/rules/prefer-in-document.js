@@ -51,6 +51,23 @@ const valid = [
     expect(useBoolean).toBeDefined();
   })`,
   `const span = foo('foo') as HTMLSpanElement`,
+  `const rtl = render()
+  const stars = rtl.container.querySelector('div').children
+
+  expect(rtl.container.children).toHaveLength(1)
+  expect(stars).toHaveLength(5)`,
+  `    let content = container.querySelector('p')
+
+    expect(content).not.toBeNull()
+
+    fireEvent.click(closeButton)
+
+    await waitExpect(
+      () => {
+        content = container.querySelector('p')
+        expect(content).toBeNull()
+      }
+    )`,
 ];
 const invalid = [
   // Invalid cases that applies to all variants

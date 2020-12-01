@@ -16,10 +16,20 @@ ruleTester.run("prefer-to-have-style", rule, {
         document.body.setAttribute("style", "foo");
       }
     }, [foo]);`,
+    `expect(collapse.style).not.toContain(
+      expect.objectContaining({
+        display: 'none',
+        height: '0px',
+      })
+    )`,
   ],
   invalid: [
     {
       code: `expect(a.style).toHaveProperty('transform')`,
+      errors,
+    },
+    {
+      code: `expect(a.style).not.toHaveProperty('transform')`,
       errors,
     },
     {

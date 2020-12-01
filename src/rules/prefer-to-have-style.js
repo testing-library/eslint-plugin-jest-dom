@@ -19,7 +19,7 @@ export const meta = {
 
 export const create = (context) => ({
   //expect(el.style.foo).toBe("bar");
-  [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.callee.name=expect]`](
+  [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.arguments.0.type=/(Template)?Literal/][parent.parent.callee.name=expect]`](
     node
   ) {
     const styleName = node.parent.property;
@@ -41,13 +41,12 @@ export const create = (context) => ({
     });
   },
   //expect(el.style.foo).not.toBe("bar");
-  [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=not][parent.parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.callee.name=expect]`](
+  [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=not][parent.parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.parent.arguments.0.type=/(Template)?Literal$/][parent.parent.callee.name=expect]`](
     node
   ) {
     const styleName = node.parent.property;
     const styleValue = node.parent.parent.parent.parent.parent.arguments[0];
     const matcher = node.parent.parent.parent.parent.property;
-
     context.report({
       node: node.property,
       message: "Use toHaveStyle instead of asserting on element style",
@@ -64,7 +63,7 @@ export const create = (context) => ({
     });
   },
   // expect(el.style).toContain("foo-bar")
-  [`MemberExpression[property.name=style][parent.parent.property.name=toContain][parent.callee.name=expect]`](
+  [`MemberExpression[property.name=style][parent.parent.property.name=toContain][parent.parent.parent.arguments.0.type=/(Template)?Literal$/][parent.callee.name=expect]`](
     node
   ) {
     const [styleName] = node.parent.parent.parent.arguments;
@@ -86,7 +85,7 @@ export const create = (context) => ({
     });
   },
   // expect(el.style).not.toContain("foo-bar")
-  [`MemberExpression[property.name=style][parent.parent.property.name=not][parent.parent.parent.property.name=toContain]`](
+  [`MemberExpression[property.name=style][parent.parent.property.name=not][parent.parent.parent.property.name=toContain][parent.parent.parent.parent.arguments.0.type=/(Template)?Literal$/]`](
     node
   ) {
     const [styleName] = node.parent.parent.parent.parent.arguments;
@@ -128,7 +127,7 @@ export const create = (context) => ({
   },
 
   //expect(el.style["foo-bar"]).toBe("baz")
-  [`MemberExpression[property.name=style][parent.computed=true][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.callee.name=expect]`](
+  [`MemberExpression[property.name=style][parent.computed=true][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.arguments.0.type=/(Template)?Literal/][parent.parent.callee.name=expect]`](
     node
   ) {
     const styleName = node.parent.property;
@@ -157,7 +156,7 @@ export const create = (context) => ({
     });
   },
   //expect(el.style["foo-bar"]).not.toBe("baz")
-  [`MemberExpression[property.name=style][parent.computed=true][parent.parent.parent.property.name=not][parent.parent.parent.parent.parent.callee.property.name=/toBe$|to(Strict)?Equal/][parent.parent.callee.name=expect]`](
+  [`MemberExpression[property.name=style][parent.computed=true][parent.parent.parent.property.name=not][parent.parent.parent.parent.parent.callee.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.parent.arguments.0.type=/(Template)?Literal/][parent.parent.callee.name=expect]`](
     node
   ) {
     const styleName = node.parent.property;
@@ -193,7 +192,11 @@ export const create = (context) => ({
       node: node.property,
       message: "Use toHaveStyle instead of asserting on element style",
       fix(fixer) {
-        if (!styleValue) {
+        if (
+          !styleValue ||
+          (styleValue.type !== "Literal" &&
+            styleValue.type !== "TemplateLiteral")
+        ) {
           return null;
         }
         return [
@@ -221,6 +224,13 @@ export const create = (context) => ({
       node: node.property,
       message: "Use toHaveStyle instead of asserting on element style",
       fix(fixer) {
+        if (
+          !styleValue ||
+          (styleValue.type !== "Literal" &&
+            styleValue.type !== "TemplateLiteral")
+        ) {
+          return null;
+        }
         return [
           fixer.removeRange([node.object.range[1], node.property.range[1]]),
           fixer.replaceText(matcher, "toHaveStyle"),
