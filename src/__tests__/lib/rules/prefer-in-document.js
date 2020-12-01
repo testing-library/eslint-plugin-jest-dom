@@ -71,48 +71,133 @@ const valid = [
 ];
 const invalid = [
   // Invalid cases that applies to all variants
-  ...["getByText", "getAllByRole"].map((q) => [
-    invalidCase(
-      `expect(screen.${q}('foo')).toHaveLength(1)`,
-      `expect(screen.${q}('foo')).toBeInTheDocument()`
-    ),
-    invalidCase(
-      `expect(${q}('foo')).toHaveLength(1)`,
-      `expect(${q}('foo')).toBeInTheDocument()`
-    ),
-    invalidCase(
-      `expect(wrapper.${q}('foo')).toHaveLength(1)`,
-      `expect(wrapper.${q}('foo')).toBeInTheDocument()`
-    ),
-    invalidCase(
-      `const foo = screen.${q}('foo');
-      expect(foo).toHaveLength(1);`,
-      `const foo = screen.${q}('foo');
-      expect(foo).toBeInTheDocument();`
-    ),
-    invalidCase(
-      `const foo = ${q}('foo');
-      expect(foo).toHaveLength(1);`,
-      `const foo = ${q}('foo');
-      expect(foo).toBeInTheDocument();`
-    ),
-    invalidCase(
-      `let foo;
-      foo = ${q}('foo');
-      expect(foo).toHaveLength(1);`,
-      `let foo;
-      foo = ${q}('foo');
-      expect(foo).toBeInTheDocument();`
-    ),
-    invalidCase(
-      `let foo;
-      foo = screen.${q}('foo');
-      expect(foo).toHaveLength(1);`,
-      `let foo;
-      foo = screen.${q}('foo');
-      expect(foo).toBeInTheDocument();`
-    ),
-  ]),
+
+  invalidCase(
+    `expect(screen.getByText('foo')).toHaveLength(1)`,
+    `expect(screen.getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(getByText('foo')).toHaveLength(1)`,
+    `expect(getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(wrapper.getByText('foo')).toHaveLength(1)`,
+    `expect(wrapper.getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `const foo = screen.getByText('foo');
+    expect(foo).toHaveLength(1);`,
+    `const foo = screen.getByText('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `const foo = getByText('foo');
+    expect(foo).toHaveLength(1);`,
+    `const foo = getByText('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+    foo = getByText('foo');
+    expect(foo).toHaveLength(1);`,
+    `let foo;
+    foo = getByText('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+    foo = screen.getByText('foo');
+    expect(foo).toHaveLength(1);`,
+    `let foo;
+    foo = screen.getByText('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength(1)`,
+    `expect(screen.getByRole('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(await screen.findAllByRole('foo')).toHaveLength(1)`,
+    `expect(await screen.findByRole('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(getAllByRole('foo')).toHaveLength(1)`,
+    `expect(getByRole('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(wrapper.getAllByRole('foo')).toHaveLength(1)`,
+    `expect(wrapper.getByRole('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `const foo = screen.getAllByRole('foo');
+    expect(foo).toHaveLength(1);`,
+    `const foo = screen.getByRole('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `const foo = getAllByRole('foo');
+    expect(foo).toHaveLength(1);`,
+    `const foo = getByRole('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+    foo = getAllByRole('foo');
+    expect(foo).toHaveLength(1);`,
+    `let foo;
+    foo = getByRole('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+    foo = screen.getAllByRole('foo');
+    expect(foo).toHaveLength(1);`,
+    `let foo;
+    foo = screen.getByRole('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+
+  invalidCase(
+    `expect(screen.getByText('foo')).toHaveLength(1)`,
+    `expect(screen.getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(getByText('foo')).toHaveLength(1)`,
+    `expect(getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(wrapper.getByText('foo')).toHaveLength(1)`,
+    `expect(wrapper.getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `const foo = screen.getByText('foo');
+  expect(foo).toHaveLength(1);`,
+    `const foo = screen.getByText('foo');
+  expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `const foo = getByText('foo');
+  expect(foo).toHaveLength(1);`,
+    `const foo = getByText('foo');
+  expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+  foo = getByText('foo');
+  expect(foo).toHaveLength(1);`,
+    `let foo;
+  foo = getByText('foo');
+  expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+  foo = screen.getByText('foo');
+  expect(foo).toHaveLength(1);`,
+    `let foo;
+  foo = screen.getByText('foo');
+  expect(foo).toBeInTheDocument();`
+  ),
+
   // Invalid cases that applies to queryBy* and queryAllBy*
   ...["queryByText", "queryAllByText"].map((q) => [
     invalidCase(
@@ -258,6 +343,12 @@ const invalid = [
     `let span;
      span = getByText('foo') as HTMLSpanElement
   expect(span).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `const things = screen.getAllByText("foo");
+  expect(things).toHaveLength(1);`,
+    `const things = screen.getByText("foo");
+  expect(things).toBeInTheDocument();`
   ),
 ];
 

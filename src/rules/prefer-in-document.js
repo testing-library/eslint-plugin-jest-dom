@@ -56,6 +56,18 @@ export const create = (context) => {
           for (const argument of Array.from(matcherArguments)) {
             operations.push(fixer.remove(argument));
           }
+          if (
+            matcherNode.name === "toHaveLength" &&
+            matcherArguments[0].value === 1 &&
+            query.indexOf("All") > 0
+          ) {
+            operations.push(
+              fixer.replaceText(
+                queryNode.property || queryNode,
+                query.replace("All", "")
+              )
+            );
+          }
           // Flip the .not if necessary
           if (isAntonymMatcher(matcherNode, matcherArguments)) {
             if (negatedMatcher) {
