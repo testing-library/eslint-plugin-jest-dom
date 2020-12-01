@@ -194,8 +194,7 @@ export const create = (context) => ({
       fix(fixer) {
         if (
           !styleValue ||
-          (styleValue.type !== "Literal" &&
-            styleValue.type !== "TemplateLiteral")
+          !["Literal", "TemplateLiteral"].includes(styleValue.type)
         ) {
           return null;
         }
@@ -226,8 +225,7 @@ export const create = (context) => ({
       fix(fixer) {
         if (
           !styleValue ||
-          (styleValue.type !== "Literal" &&
-            styleValue.type !== "TemplateLiteral")
+          !["Literal", "TemplateLiteral"].includes(styleValue.type)
         ) {
           return null;
         }

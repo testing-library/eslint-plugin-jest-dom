@@ -33,6 +33,10 @@ ruleTester.run("prefer-to-have-style", rule, {
       errors,
     },
     {
+      code: `expect(a.style).not.toHaveProperty(\`\${foo}\`)`,
+      errors,
+    },
+    {
       code: `expect(el.style.foo).toBe("bar")`,
       errors,
       output: `expect(el).toHaveStyle({foo:"bar"})`,
