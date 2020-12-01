@@ -107,9 +107,19 @@ ruleTester.run("prefer-to-have-style", rule, {
       output: `expect(imageElement).toHaveStyle(  \`box-shadow: inset 0px 0px 0px 400px \${c}\`)`,
     },
     {
+      code: `expect(imageElement.style[\`box-\${shadow}\`]).toBe("inset 0px 0px 0px 400px 40px")`,
+      errors,
+      output: `expect(imageElement).toHaveStyle(\`box-\${shadow}: inset 0px 0px 0px 400px 40px\`)`,
+    },
+    {
       code: `expect(imageElement.style[\`box-shadow\`]).not.toBe(\`inset 0px 0px 0px 400px \${c}\`)`,
       errors,
       output: `expect(imageElement).not.toHaveStyle(\`box-shadow: inset 0px 0px 0px 400px \${c}\`)`,
+    },
+    {
+      code: `expect(imageElement.style[\`box-shadow\`]).not.toBe("inset 0px 0px 0px 400px 40px")`,
+      errors,
+      output: `expect(imageElement).not.toHaveStyle(\`box-shadow: inset 0px 0px 0px 400px 40px\`)`,
     },
   ],
 });
