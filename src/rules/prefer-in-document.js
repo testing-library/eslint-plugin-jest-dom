@@ -83,6 +83,7 @@ export const create = (context) => {
 
   function getQueryNodeFromAssignment(identifierName) {
     const variable = context.getScope().set.get(identifierName);
+    if (!variable) return;
     const init = variable.defs[0].node.init;
 
     let queryNode;

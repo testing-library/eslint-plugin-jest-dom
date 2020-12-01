@@ -46,6 +46,11 @@ const valid = [
   expect(foo).toHaveLength(1);`,
   `expect(screen.notAQuery('foo-bar')).toHaveLength(1)`,
   `expect(screen.getAllByText('foo-bar')).toHaveLength(2)`,
+  `import foo from "./foo";
+  it('should be defined', () => {
+    expect(useBoolean).toBeDefined();
+  });
+  `,
 ];
 const invalid = [
   // Invalid cases that applies to all variants
@@ -218,7 +223,9 @@ const invalid = [
   ),
 ];
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } });
+const ruleTester = new RuleTester({
+  parserOptions: { ecmaVersion: 2017, sourceType: "module" },
+});
 ruleTester.run("prefer-in-document", rule, {
   valid: [].concat(...valid),
   invalid: [].concat(...invalid),
