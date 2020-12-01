@@ -147,9 +147,15 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceText(
             styleValue,
-            `{${camelCase(styleName.value)}: ${context
-              .getSourceCode()
-              .getText(styleValue)}}`
+            styleName.type === "Literal"
+              ? `{${camelCase(
+                  styleName.value
+                )}: ${context.getSourceCode().getText(styleValue)}}`
+              : `${context.getSourceCode().getText(styleName).slice(0, -1)}: ${
+                  styleValue.type === "TemplateLiteral"
+                    ? context.getSourceCode().getText(styleValue).substring(1)
+                    : `${styleValue.value}\``
+                }`
           ),
         ];
       },
@@ -173,9 +179,15 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveStyle"),
           fixer.replaceText(
             styleValue,
-            `{${camelCase(styleName.value)}: ${context
-              .getSourceCode()
-              .getText(styleValue)}}`
+            styleName.type === "Literal"
+              ? `{${camelCase(
+                  styleName.value
+                )}: ${context.getSourceCode().getText(styleValue)}}`
+              : `${context.getSourceCode().getText(styleName).slice(0, -1)}: ${
+                  styleValue.type === "TemplateLiteral"
+                    ? context.getSourceCode().getText(styleValue).substring(1)
+                    : `${styleValue.value}\``
+                }`
           ),
         ];
       },
