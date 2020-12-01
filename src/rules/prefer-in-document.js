@@ -81,6 +81,14 @@ export const create = (context) => {
     }
   }
 
+  function getQueryNodeFrom(expression) {
+    return expression.type === "TSAsExpression"
+      ? getQueryNodeFrom(expression.expression)
+      : expression.type === "AwaitExpression"
+      ? getQueryNodeFrom(expression.argument)
+      : expression.callee;
+  }
+
   function getQueryNodeFromAssignment(identifierName) {
     const variable = context.getScope().set.get(identifierName);
     if (!variable) return;
@@ -89,10 +97,7 @@ export const create = (context) => {
     let queryNode;
     if (init) {
       // let foo = screen.<query>();
-      queryNode =
-        init.type === "AwaitExpression"
-          ? init.argument.callee.property
-          : init.callee.property || init.callee;
+      queryNode = getQueryNodeFrom(init);
     } else {
       // let foo;
       // foo = screen.<query>();
@@ -102,12 +107,8 @@ export const create = (context) => {
       if (!assignmentRef) {
         return;
       }
-      queryNode =
-        assignmentRef.writeExpr.type === "AwaitExpression"
-          ? assignmentRef.writeExpr.argument.callee
-          : assignmentRef.writeExpr.type === "CallExpression"
-          ? assignmentRef.writeExpr.callee
-          : assignmentRef.writeExpr;
+      const assignment = assignmentRef.writeExpr;
+      queryNode = getQueryNodeFrom(assignment);
     }
     return queryNode;
   }
@@ -131,7 +132,6 @@ export const create = (context) => {
         expect,
       });
     },
-
     // // const foo = <query> expect(foo).not.<matcher>
     [`MemberExpression[object.object.callee.name=expect][object.property.name=not][property.name=${alternativeMatchers}][object.object.arguments.0.type=Identifier]`](
       node

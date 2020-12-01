@@ -49,8 +49,8 @@ const valid = [
   `import foo from "./foo";
   it('should be defined', () => {
     expect(useBoolean).toBeDefined();
-  });
-  `,
+  })`,
+  `const span = foo('foo') as HTMLSpanElement`,
 ];
 const invalid = [
   // Invalid cases that applies to all variants
@@ -177,6 +177,7 @@ const invalid = [
       expect(await screen.findByText(/Compressing video/)).not.toBeInTheDocument();
     })`
   ),
+
   invalidCase(
     `it("foo", async () => {
       const compressingFeedback = await screen.findByText(/Compressing video/);
@@ -221,10 +222,31 @@ const invalid = [
       expect(compressingFeedback).not.toBeInTheDocument();
     });`
   ),
+  invalidCase(
+    `const span = getByText('foo') as HTMLSpanElement
+  expect(span).not.toBeNull()`,
+    `const span = getByText('foo') as HTMLSpanElement
+  expect(span).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `const span = await findByText('foo') as HTMLSpanElement
+  expect(span).not.toBeNull()`,
+    `const span = await findByText('foo') as HTMLSpanElement
+  expect(span).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `let span;
+     span = getByText('foo') as HTMLSpanElement
+  expect(span).not.toBeNull()`,
+    `let span;
+     span = getByText('foo') as HTMLSpanElement
+  expect(span).toBeInTheDocument()`
+  ),
 ];
 
 const ruleTester = new RuleTester({
-  parserOptions: { ecmaVersion: 2017, sourceType: "module" },
+  parser: require.resolve("@typescript-eslint/parser"),
+  parserOptions: { ecmaVersion: 2020, sourceType: "module" },
 });
 ruleTester.run("prefer-in-document", rule, {
   valid: [].concat(...valid),
