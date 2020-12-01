@@ -10,20 +10,20 @@
 export const meta = {
   docs: {
     category: "jest-dom",
-    description: "prefer toHaveValue over checking  element.value",
+    description: "prefer toHaveValue over checking element.value",
     url: "prefer-to-have-value",
     recommended: false,
   },
   fixable: "code",
   messages: {
-    "use-to-have-value": `Prefer .toBeInTheDocument() for asserting DOM node existence`,
+    "use-to-have-value": `Prefer .toHaveValue() over other attribute checks`,
   },
 };
 const messageId = "use-to-have-value";
 
 export const create = (context) => ({
   // expect(element.value).toBe('foo') / toEqual / toStrictEqual
-  [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.arguments.0.property.name=value][arguments.0][callee.object.callee.name=expect]`](
+  [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.arguments.0.property.name=value][callee.object.callee.name=expect]`](
     node
   ) {
     context.report({
