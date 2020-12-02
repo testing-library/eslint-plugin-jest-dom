@@ -30,6 +30,7 @@
   ],
   "scripts": {
     "build": "kcd-scripts build",
+    "pregenerate-readme-table": "yarn build",
     "generate-readme-table": "node build/generate-readme-table.js",
     "lint": "kcd-scripts lint",
     "setup": "npm install && npm run validate -s",

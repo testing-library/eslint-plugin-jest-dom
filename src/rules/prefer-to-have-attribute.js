@@ -9,7 +9,7 @@
 
 export const meta = {
   docs: {
-    category: "jest-dom",
+    category: "Best Practices",
     description:
       "prefer toHaveAttribute over checking  getAttribute/hasAttribute ",
     url: "prefer-to-have-attribute",

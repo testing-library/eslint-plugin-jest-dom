@@ -42,7 +42,7 @@ const bar = screen.queryByText("bar");
 expect(bar).not.toBeDefined();
 
 const baz = await screen.findByText("baz");
-expect(baz).toBeDefined()
+expect(baz).toBeDefined();
 ```
 
 ## When Not To Use It

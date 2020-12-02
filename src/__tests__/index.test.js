@@ -9,7 +9,7 @@ it.each(Object.keys(rules))("%s should export required fields", (ruleName) => {
   const rule = rules[ruleName];
   expect(rule).toHaveProperty("create", expect.any(Function));
   expect(rule.meta.docs.url).not.toBeEmpty();
-  expect(rule.meta.docs.category).toBe("jest-dom");
+  expect(rule.meta.docs.category).toBe("Best Practices");
   expect(rule.meta.docs.description).not.toBeEmpty();
 });
 

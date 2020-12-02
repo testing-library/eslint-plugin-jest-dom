@@ -8,7 +8,7 @@ import createBannedAttributeRule from "../createBannedAttributeRule";
 export const meta = {
   docs: {
     description: "prefer toBeChecked over checking attributes",
-    category: "jest-dom",
+    category: "Best Practices",
     recommended: true,
     url: "prefer-checked",
   },

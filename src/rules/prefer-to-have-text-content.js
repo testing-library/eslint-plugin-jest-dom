@@ -5,7 +5,7 @@
 
 export const meta = {
   docs: {
-    category: "jest-dom",
+    category: "Best Practices",
     url: "prefer-to-have-text-content",
     description: "Prefer toHaveTextContent over checking element.textContent",
     recommended: true,
