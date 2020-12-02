@@ -16,7 +16,7 @@ export const meta = {
   docs: {
     url: "prefer-focus",
     description: "prefer toHaveFocus over checking document.activeElement",
-    category: "jest-dom",
+    category: "Best Practices",
     recommended: true,
   },
   fixable: "code",

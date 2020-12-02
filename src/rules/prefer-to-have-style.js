@@ -9,7 +9,7 @@
 const camelCase = (str) => str.replace(/-([a-z])/g, (c) => c[1].toUpperCase());
 export const meta = {
   docs: {
-    category: "jest-dom",
+    category: "Best Practices",
     url: "prefer-to-have-style",
     description: "prefer toHaveStyle over checking element style",
     recommended: true,

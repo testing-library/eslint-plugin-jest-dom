@@ -8,7 +8,7 @@ import { queries } from "../queries";
 export const meta = {
   type: "suggestion",
   docs: {
-    category: "jest-dom",
+    category: "Best Practices",
     description:
       "Prefer .toBeInTheDocument() for asserting the existence of a DOM node",
     url: "prefer-in-document",

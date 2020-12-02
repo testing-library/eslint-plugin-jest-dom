@@ -6,7 +6,7 @@
 export const meta = {
   docs: {
     description: "Prefer toBeEmpty over checking innerHTML",
-    category: "jest-dom",
+    category: "Best Practices",
     recommended: true,
     url: "prefer-empty",
   },

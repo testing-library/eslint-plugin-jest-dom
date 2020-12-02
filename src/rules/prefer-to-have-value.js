@@ -9,7 +9,7 @@
 
 export const meta = {
   docs: {
-    category: "jest-dom",
+    category: "Best Practices",
     description: "prefer toHaveValue over checking element.value",
     url: "prefer-to-have-value",
     recommended: true,
