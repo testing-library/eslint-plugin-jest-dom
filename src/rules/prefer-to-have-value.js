@@ -12,7 +12,7 @@ export const meta = {
     category: "jest-dom",
     description: "prefer toHaveValue over checking element.value",
     url: "prefer-to-have-value",
-    recommended: false,
+    recommended: true,
   },
   fixable: "code",
   messages: {
