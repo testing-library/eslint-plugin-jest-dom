@@ -46,51 +46,158 @@ const valid = [
   expect(foo).toHaveLength(1);`,
   `expect(screen.notAQuery('foo-bar')).toHaveLength(1)`,
   `expect(screen.getAllByText('foo-bar')).toHaveLength(2)`,
+  `import foo from "./foo";
+  it('should be defined', () => {
+    expect(useBoolean).toBeDefined();
+  })`,
+  `const span = foo('foo') as HTMLSpanElement`,
+  `const rtl = render()
+  const stars = rtl.container.querySelector('div').children
+
+  expect(rtl.container.children).toHaveLength(1)
+  expect(stars).toHaveLength(5)`,
+  `    let content = container.querySelector('p')
+
+    expect(content).not.toBeNull()
+
+    fireEvent.click(closeButton)
+
+    await waitExpect(
+      () => {
+        content = container.querySelector('p')
+        expect(content).toBeNull()
+      }
+    )`,
 ];
 const invalid = [
   // Invalid cases that applies to all variants
-  ...["getByText", "getAllByRole"].map((q) => [
-    invalidCase(
-      `expect(screen.${q}('foo')).toHaveLength(1)`,
-      `expect(screen.${q}('foo')).toBeInTheDocument()`
-    ),
-    invalidCase(
-      `expect(${q}('foo')).toHaveLength(1)`,
-      `expect(${q}('foo')).toBeInTheDocument()`
-    ),
-    invalidCase(
-      `expect(wrapper.${q}('foo')).toHaveLength(1)`,
-      `expect(wrapper.${q}('foo')).toBeInTheDocument()`
-    ),
-    invalidCase(
-      `const foo = screen.${q}('foo');
-      expect(foo).toHaveLength(1);`,
-      `const foo = screen.${q}('foo');
-      expect(foo).toBeInTheDocument();`
-    ),
-    invalidCase(
-      `const foo = ${q}('foo');
-      expect(foo).toHaveLength(1);`,
-      `const foo = ${q}('foo');
-      expect(foo).toBeInTheDocument();`
-    ),
-    invalidCase(
-      `let foo;
-      foo = ${q}('foo');
-      expect(foo).toHaveLength(1);`,
-      `let foo;
-      foo = ${q}('foo');
-      expect(foo).toBeInTheDocument();`
-    ),
-    invalidCase(
-      `let foo;
-      foo = screen.${q}('foo');
-      expect(foo).toHaveLength(1);`,
-      `let foo;
-      foo = screen.${q}('foo');
-      expect(foo).toBeInTheDocument();`
-    ),
-  ]),
+
+  invalidCase(
+    `expect(screen.getByText('foo')).toHaveLength(1)`,
+    `expect(screen.getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(getByText('foo')).toHaveLength(1)`,
+    `expect(getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(wrapper.getByText('foo')).toHaveLength(1)`,
+    `expect(wrapper.getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `const foo = screen.getByText('foo');
+    expect(foo).toHaveLength(1);`,
+    `const foo = screen.getByText('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `const foo = getByText('foo');
+    expect(foo).toHaveLength(1);`,
+    `const foo = getByText('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+    foo = getByText('foo');
+    expect(foo).toHaveLength(1);`,
+    `let foo;
+    foo = getByText('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+    foo = screen.getByText('foo');
+    expect(foo).toHaveLength(1);`,
+    `let foo;
+    foo = screen.getByText('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength(1)`,
+    `expect(screen.getByRole('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(await screen.findAllByRole('foo')).toHaveLength(1)`,
+    `expect(await screen.findByRole('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(getAllByRole('foo')).toHaveLength(1)`,
+    `expect(getByRole('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(wrapper.getAllByRole('foo')).toHaveLength(1)`,
+    `expect(wrapper.getByRole('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `const foo = screen.getAllByRole('foo');
+    expect(foo).toHaveLength(1);`,
+    `const foo = screen.getByRole('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `const foo = getAllByRole('foo');
+    expect(foo).toHaveLength(1);`,
+    `const foo = getByRole('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+    foo = getAllByRole('foo');
+    expect(foo).toHaveLength(1);`,
+    `let foo;
+    foo = getByRole('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+    foo = screen.getAllByRole('foo');
+    expect(foo).toHaveLength(1);`,
+    `let foo;
+    foo = screen.getByRole('foo');
+    expect(foo).toBeInTheDocument();`
+  ),
+
+  invalidCase(
+    `expect(screen.getByText('foo')).toHaveLength(1)`,
+    `expect(screen.getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(getByText('foo')).toHaveLength(1)`,
+    `expect(getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(wrapper.getByText('foo')).toHaveLength(1)`,
+    `expect(wrapper.getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `const foo = screen.getByText('foo');
+  expect(foo).toHaveLength(1);`,
+    `const foo = screen.getByText('foo');
+  expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `const foo = getByText('foo');
+  expect(foo).toHaveLength(1);`,
+    `const foo = getByText('foo');
+  expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+  foo = getByText('foo');
+  expect(foo).toHaveLength(1);`,
+    `let foo;
+  foo = getByText('foo');
+  expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+  foo = screen.getByText('foo');
+  expect(foo).toHaveLength(1);`,
+    `let foo;
+  foo = screen.getByText('foo');
+  expect(foo).toBeInTheDocument();`
+  ),
+
   // Invalid cases that applies to queryBy* and queryAllBy*
   ...["queryByText", "queryAllByText"].map((q) => [
     invalidCase(
@@ -172,6 +279,7 @@ const invalid = [
       expect(await screen.findByText(/Compressing video/)).not.toBeInTheDocument();
     })`
   ),
+
   invalidCase(
     `it("foo", async () => {
       const compressingFeedback = await screen.findByText(/Compressing video/);
@@ -216,9 +324,38 @@ const invalid = [
       expect(compressingFeedback).not.toBeInTheDocument();
     });`
   ),
+  invalidCase(
+    `const span = getByText('foo') as HTMLSpanElement
+  expect(span).not.toBeNull()`,
+    `const span = getByText('foo') as HTMLSpanElement
+  expect(span).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `const span = await findByText('foo') as HTMLSpanElement
+  expect(span).not.toBeNull()`,
+    `const span = await findByText('foo') as HTMLSpanElement
+  expect(span).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `let span;
+     span = getByText('foo') as HTMLSpanElement
+  expect(span).not.toBeNull()`,
+    `let span;
+     span = getByText('foo') as HTMLSpanElement
+  expect(span).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `const things = screen.getAllByText("foo");
+  expect(things).toHaveLength(1);`,
+    `const things = screen.getByText("foo");
+  expect(things).toBeInTheDocument();`
+  ),
 ];
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } });
+const ruleTester = new RuleTester({
+  parser: require.resolve("@typescript-eslint/parser"),
+  parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+});
 ruleTester.run("prefer-in-document", rule, {
   valid: [].concat(...valid),
   invalid: [].concat(...invalid),
