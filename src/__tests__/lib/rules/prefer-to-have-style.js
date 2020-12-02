@@ -92,6 +92,11 @@ ruleTester.run("prefer-to-have-style", rule, {
       output: `expect(el).toHaveStyle(\`background-color\`)`,
     },
     {
+      code: `expect(el.style).not.toContain(\`background-color\`)`,
+      errors,
+      output: `expect(el).not.toHaveStyle(\`background-color\`)`,
+    },
+    {
       code: `expect(el.style).not.toContain("background-color")`,
       errors,
       output: `expect(el).not.toHaveStyle({backgroundColor: expect.anything()})`,
