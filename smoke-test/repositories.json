@@ -248,6 +248,7 @@
   "Twistbioscience/DesignerComponents",
   "bopen/react-jsonschema-form-field-geolocation",
   "chuntley/dom-testing-extended",
+  "testing-library/dom-testing-library",
   "frankieyan/custom-meta-input",
   "villeheikkila/fullstackopen",
   "kentcdodds/learn-react",

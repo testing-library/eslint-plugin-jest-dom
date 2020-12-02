@@ -16,10 +16,24 @@ ruleTester.run("prefer-to-have-style", rule, {
         document.body.setAttribute("style", "foo");
       }
     }, [foo]);`,
+    `expect(collapse.style).not.toContain(
+      expect.objectContaining({
+        display: 'none',
+        height: '0px',
+      })
+    )`,
   ],
   invalid: [
     {
       code: `expect(a.style).toHaveProperty('transform')`,
+      errors,
+    },
+    {
+      code: `expect(a.style).not.toHaveProperty('transform')`,
+      errors,
+    },
+    {
+      code: `expect(a.style).not.toHaveProperty(\`\${foo}\`)`,
       errors,
     },
     {
@@ -73,6 +87,16 @@ ruleTester.run("prefer-to-have-style", rule, {
       output: `expect(el).toHaveStyle({backgroundColor: expect.anything()})`,
     },
     {
+      code: `expect(el.style).toContain(\`background-color\`)`,
+      errors,
+      output: `expect(el).toHaveStyle(\`background-color\`)`,
+    },
+    {
+      code: `expect(el.style).not.toContain(\`background-color\`)`,
+      errors,
+      output: `expect(el).not.toHaveStyle(\`background-color\`)`,
+    },
+    {
       code: `expect(el.style).not.toContain("background-color")`,
       errors,
       output: `expect(el).not.toHaveStyle({backgroundColor: expect.anything()})`,
@@ -81,6 +105,31 @@ ruleTester.run("prefer-to-have-style", rule, {
       code: `expect(el).toHaveAttribute("style", "background-color: green; border-width: 10px; color: blue;")`,
       errors,
       output: `expect(el).toHaveStyle("background-color: green; border-width: 10px; color: blue;")`,
+    },
+    {
+      code: `expect(imageElement.style[\`box-shadow\`]).toBe(\`inset 0px 0px 0px 400px \${c}\`)`,
+      errors,
+      output: `expect(imageElement).toHaveStyle(\`box-shadow: inset 0px 0px 0px 400px \${c}\`)`,
+    },
+    {
+      code: `expect(imageElement.style[\`box-shadow\`  ]).toBe(  \`inset 0px 0px 0px 400px \${c}\`)`,
+      errors,
+      output: `expect(imageElement).toHaveStyle(  \`box-shadow: inset 0px 0px 0px 400px \${c}\`)`,
+    },
+    {
+      code: `expect(imageElement.style[\`box-\${shadow}\`]).toBe("inset 0px 0px 0px 400px 40px")`,
+      errors,
+      output: `expect(imageElement).toHaveStyle(\`box-\${shadow}: inset 0px 0px 0px 400px 40px\`)`,
+    },
+    {
+      code: `expect(imageElement.style[\`box-shadow\`]).not.toBe(\`inset 0px 0px 0px 400px \${c}\`)`,
+      errors,
+      output: `expect(imageElement).not.toHaveStyle(\`box-shadow: inset 0px 0px 0px 400px \${c}\`)`,
+    },
+    {
+      code: `expect(imageElement.style[\`box-shadow\`]).not.toBe("inset 0px 0px 0px 400px 40px")`,
+      errors,
+      output: `expect(imageElement).not.toHaveStyle(\`box-shadow: inset 0px 0px 0px 400px 40px\`)`,
     },
   ],
 });
