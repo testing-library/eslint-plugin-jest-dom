@@ -10,7 +10,7 @@
 const messageId = "use-to-have-class";
 export const meta = {
   docs: {
-    category: "Best Practice",
+    category: "Best Practices",
     url: "prefer-to-have-class",
     description: "prefer toHaveClass over checking element className",
     recommended: true,
