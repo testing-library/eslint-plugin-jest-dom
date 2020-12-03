@@ -172,8 +172,8 @@ export const create = (context) => ({
     });
   },
 
-  //expect(el).toHaveProperty(`className`, expect.containing("foo"));
-  //expect(el).toHaveAttribute(`class`, expect.containing("foo"));
+  //expect(el).toHaveProperty(`className`, expect.stringContaining("foo"));
+  //expect(el).toHaveAttribute(`class`, expect.stringContaining("foo"));
   [[
     `CallExpression[callee.object.callee.name=expect][callee.property.name=toHaveAttribute][arguments.0.type=/Literal/][arguments.1.callee.object.name=expect][arguments.1.callee.property.name=stringContaining]`,
     `CallExpression[callee.object.callee.name=expect][callee.property.name=toHaveProperty][arguments.0.type=/Literal/][arguments.1.callee.object.name=expect][arguments.1.callee.property.name=stringContaining]`,

@@ -9,7 +9,15 @@ ruleTester.run("prefer-to-have-class", rule, {
     `expect(el.class).toEqual(foo)`,
     `expect(el).toHaveAttribute("class")`,
     `expect(el).toHaveAttribute("className", "bar")`,
+    `expect(el).toHaveAttribute("clazz", "bar")`,
+    `expect(el).not.toHaveAttribute("clazz", "bar")`,
+    `expect(el).not.toHaveAttribute("clazz", expect.stringContaining("bar"))`,
+    `expect(el).toHaveAttribute("clazz", expect.stringContaining("bar"))`,
     `expect(el).toHaveProperty("class", "foo")`,
+    `expect(el).toHaveProperty("clazz", "foo")`,
+    `expect(el).not.toHaveProperty("clazz", "foo")`,
+    `expect(el).toHaveProperty("clazz", expect.stringContaining("bar"))`,
+    `expect(el).not.toHaveProperty("clazz", expect.stringContaining("bar"))`,
   ],
   invalid: [
     {
@@ -61,6 +69,11 @@ ruleTester.run("prefer-to-have-class", rule, {
       code: `expect(el.className).toContain("foo")`,
       errors,
       output: `expect(el).toHaveClass("foo")`,
+    },
+    {
+      code: `expect(el.className).not.toContain("foo")`,
+      errors,
+      output: `expect(el).not.toHaveClass("foo")`,
     },
     {
       code: `expect(el.className).toBe("foo")`,
