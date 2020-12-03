@@ -1,4 +1,4 @@
-# prefer toHaveProperty over checking element.style (prefer-to-have-style)
+# prefer toHaveStyle over checking element.style (prefer-to-have-style)
 
 This rule is an autofixable rule that reports usages of checking element.style in expect statements in preference of using the jest-dom
 `toHaveStyle` matcher.
