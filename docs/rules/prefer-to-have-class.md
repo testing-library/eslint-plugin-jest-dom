@@ -1,7 +1,7 @@
 # prefer toHaveClass over checking element.class (prefer-to-have-class)
 
-This rule is an autofixable rule that reports usages of checking element.class in expect statements in preference of using the jest-dom
-`toHaveStyle` matcher.
+This rule is an autofixable rule that reports usages of checking element.className in expect statements in preference of using the jest-dom
+`toHaveClass` matcher.
 
 ## Rule Details
 
