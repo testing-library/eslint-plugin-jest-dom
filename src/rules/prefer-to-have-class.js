@@ -22,11 +22,51 @@ export const meta = {
 };
 
 export const create = (context) => ({
-  //expect(el.className).toBe("bar") / toStrict?Equal / toContain
-  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.property.name=className][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
+  //expect(el.classList[0]).toBe("bar")
+  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.object.property.name=classList][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
     node
   ) {
-    const className = node.callee.object.arguments[0].property;
+    const [classValue] = node.arguments;
+    const matcher = node.callee.property;
+    const classNameProp = node.callee.object.arguments[0].object;
+    const expectArg = node.callee.object.arguments[0];
+
+    context.report({
+      node: matcher,
+      messageId,
+      fix(fixer) {
+        //can't autofix here as it toHaveClass doesn't have a partial matcher / regex for class names.
+        if (matcher.name === "toContain") return;
+        return [
+          fixer.removeRange([
+            classNameProp.object.range[1],
+            expectArg.range[1],
+          ]),
+          fixer.replaceText(matcher, "toHaveClass"),
+          fixer.replaceText(
+            classValue,
+            context.getSourceCode().getText(classValue)
+          ),
+        ];
+      },
+    });
+  },
+
+  //expect(el.classList[0]).not.toBe("bar")
+  [`CallExpression[callee.object.object.callee.name=expect][callee.object.object.arguments.0.object.property.name=classList][callee.object.property.name=not][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
+    node
+  ) {
+    //can't autofix this case because the class could be in another element of the classList array.
+    context.report({
+      node,
+      messageId,
+    });
+  },
+  //expect(el.className).toBe("bar") / toStrict?Equal / toContain
+  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.property.name=/class(Name|List)/][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
+    node
+  ) {
+    const checkedProp = node.callee.object.arguments[0].property;
     const [classValue] = node.arguments;
     const matcher = node.callee.property;
     const classNameProp = node.callee.object.arguments[0].object;
@@ -35,8 +75,10 @@ export const create = (context) => ({
       node: matcher,
       messageId,
       fix(fixer) {
+        if (checkedProp.name === "classList" && matcher.name !== "toContain")
+          return;
         return [
-          fixer.removeRange([classNameProp.range[1], className.range[1]]),
+          fixer.removeRange([classNameProp.range[1], checkedProp.range[1]]),
           fixer.replaceText(matcher, "toHaveClass"),
           fixer.replaceText(
             classValue,

@@ -18,6 +18,7 @@ ruleTester.run("prefer-to-have-class", rule, {
     `expect(el).not.toHaveProperty("clazz", "foo")`,
     `expect(el).toHaveProperty("clazz", expect.stringContaining("bar"))`,
     `expect(el).not.toHaveProperty("clazz", expect.stringContaining("bar"))`,
+    `expect(closeButton).toHaveAttribute("class", expect.stringMatching("bar"));`,
   ],
   invalid: [
     {
@@ -109,6 +110,28 @@ ruleTester.run("prefer-to-have-class", rule, {
       code: `expect(el.className).toEqual(expect.stringContaining("bar"))`,
       errors,
       output: `expect(el).toHaveClass("bar")`,
+    },
+    {
+      code: `expect(el.classList).toContain("bar")`,
+      errors,
+      output: `expect(el).toHaveClass("bar")`,
+    },
+    {
+      code: `expect(el.classList).toBe("bar")`,
+      errors,
+    },
+    {
+      code: `expect(el.classList[0]).toBe("bar")`,
+      errors,
+      output: `expect(el).toHaveClass("bar")`,
+    },
+    {
+      code: `expect(el.classList[0]).not.toBe("bar")`,
+      errors,
+    },
+    {
+      code: `expect(el.classList[0]).toContain(("fo"))`,
+      errors,
     },
   ],
 });

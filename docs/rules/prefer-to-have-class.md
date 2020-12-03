@@ -1,6 +1,6 @@
 # prefer toHaveClass over checking element.class (prefer-to-have-class)
 
-This rule is an autofixable rule that reports usages of checking element.className in expect statements in preference of using the jest-dom
+This rule is an autofixable rule that reports usages of checking element className or classList in expect statements in preference of using the jest-dom
 `toHaveClass` matcher.
 
 ## Rule Details
@@ -15,11 +15,15 @@ expect(screen.getByTestId("foo").className).toBe("foo");
 expect(el.className).toContain("bar");
 expect(el.className).not.toContain("baz");
 expect(el).toHaveAttribute("class", "qux");
+
+expect(el.classList[0]).toBe("foo");
+expect(el.classList[0]).toBe("bar");
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
+expect(el).toHaveClass("bar");
 expect(el).toHaveStyle({ foo: "bar" });
 expect(el.class).toMatchSnapshot();
 expect(el.class).toEqual(foo);
