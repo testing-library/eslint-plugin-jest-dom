@@ -172,5 +172,40 @@ ruleTester.run("prefer-to-have-class", rule, {
       errors,
       output: `expect(el).toHaveClass("foo")`,
     },
+    {
+      code: `expect(el.classList).not.toContain("bar")`,
+      errors,
+      output: `expect(el).not.toHaveClass("bar")`,
+    },
+    {
+      code: `expect(el.classList).not.toBe("bar")`,
+      errors,
+    },
+    {
+      code: `expect(el.classList[0]).not.toContain(("fo"))`,
+      errors,
+    },
+
+    {
+      code: `expect(el.classList).not.toEqual(expect.objectContaining({0:"foo"}))`,
+      errors,
+    },
+
+    {
+      code: `expect(el.classList).not.toContain(className)`,
+      errors,
+      output: `expect(el).not.toHaveClass(className)`,
+    },
+    {
+      code: `expect(el.classList).not.toContain("className")`,
+      errors,
+      output: `expect(el).not.toHaveClass("className")`,
+    },
+
+    {
+      code: `expect(el.classList).not.toContain(foo("bar"))`,
+      errors,
+      output: `expect(el).not.toHaveClass(foo("bar"))`,
+    },
   ],
 });

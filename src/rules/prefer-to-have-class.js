@@ -162,11 +162,10 @@ export const create = (context) => ({
     });
   },
 
-  //expect(screen.getByRole("button").className).not.toBe("foo"); / toStrict?Equal / toContain
-  [`CallExpression[callee.object.object.callee.name=expect][callee.object.object.arguments.0.property.name=className][callee.object.property.name=not][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
+  //expect(screen.getByRole("button").className | classList).not.toBe("foo"); / toStrict?Equal / toContain
+  [`CallExpression[callee.object.object.callee.name=expect][callee.object.object.arguments.0.property.name=/class(Name|List)/][callee.object.property.name=not][callee.property.name=/toBe$|to(Strict)?Equal|toContain/]`](
     node
   ) {
-    //[callee.object.arguments.0.property.name=className][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]
     const className = node.callee.object.object.arguments[0].property;
     const [classValue] = node.arguments;
     const matcher = node.callee.property;
@@ -176,6 +175,9 @@ export const create = (context) => ({
       node: matcher,
       messageId,
       fix(fixer) {
+        if (className.name === "classList" && matcher.name !== "toContain")
+          return;
+
         return [
           fixer.removeRange([classNameProp.range[1], className.range[1]]),
           fixer.replaceText(matcher, "toHaveClass"),
