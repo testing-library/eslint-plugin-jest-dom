@@ -22,6 +22,42 @@ export const meta = {
 };
 
 export const create = (context) => ({
+  //expect(el.classList.contains("foo")).toBe(true)
+  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.callee.object.property.name=classList][callee.object.arguments.0.callee.property.name=contains][callee.property.name=/toBe(Truthy|Falsy)?|to(Strict)?Equal/]`](
+    node
+  ) {
+    const classValue = node.callee.object.arguments[0].arguments[0];
+    const checkedProp = node.callee.object.arguments[0].callee.object.object;
+    const matcher = node.callee.property;
+    const [matcherArg] = node.arguments ? node.arguments : [];
+    const [expectArg] = node.callee.object.arguments;
+    const isTruthy =
+      (matcher.name === "toBe" && matcherArg.value === true) ||
+      matcher.name === "toBeTruthy";
+
+    context.report({
+      node: matcher,
+      messageId,
+      fix(fixer) {
+        return [
+          fixer.removeRange([checkedProp.range[1], expectArg.range[1]]),
+
+          fixer.replaceText(matcher, `${isTruthy ? "" : "not."}toHaveClass`),
+          matcherArg
+            ? fixer.replaceText(
+                matcherArg,
+                context.getSourceCode().getText(classValue)
+              )
+            : fixer.insertTextBeforeRange(
+                [node.range[1] - 1, node.range[1] - 1],
+                context.getSourceCode().getText(classValue)
+              ),
+          //  !!matcherArg ?  fixer.replaceText(matcherArg, context.getSourceCode().getText(classValue)): null
+        ];
+      },
+    });
+  },
+
   //expect(el.classList[0]).toBe("bar")
   [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.object.property.name=classList][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
     node
@@ -62,8 +98,8 @@ export const create = (context) => ({
       messageId,
     });
   },
-  //expect(el.className).toBe("bar") / toStrict?Equal / toContain
-  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.property.name=/class(Name|List)/][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
+  //expect(el.className | el.classList).toBe("bar") / toStrict?Equal / toContain
+  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.property.name=/class(Name|List)/][callee.property.name=/toBe$|to(Strict)?Equal|toContain/]`](
     node
   ) {
     const checkedProp = node.callee.object.arguments[0].property;
@@ -71,6 +107,14 @@ export const create = (context) => ({
     const matcher = node.callee.property;
     const classNameProp = node.callee.object.arguments[0].object;
 
+    // don't report here if using `expect.foo()`
+
+    if (
+      classValue.type === "CallExpression" &&
+      classValue.callee.type === "MemberExpression" &&
+      classValue.callee.object.name === "expect"
+    )
+      return;
     context.report({
       node: matcher,
       messageId,
@@ -91,19 +135,21 @@ export const create = (context) => ({
     });
   },
 
-  //expect(el.className).toEqual(expect.stringContaining("foo")) / toStrictEqual
-  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.property.name=className][callee.property.name=/to(Strict)?Equal/][arguments.0.callee.object.name=expect][arguments.0.callee.property.name=stringContaining]`](
+  //expect(el.className | el.classList).toEqual(expect.stringContaining("foo") | objectContaining) / toStrictEqual
+  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.property.name=/class(Name|List)/][callee.property.name=/to(Strict)?Equal/][arguments.0.callee.object.name=expect]`](
     node
   ) {
     const className = node.callee.object.arguments[0].property;
     const [classValue] = node.arguments[0].arguments;
     const matcher = node.callee.property;
     const classNameProp = node.callee.object.arguments[0].object;
+    const matcherArg = node.arguments[0].callee.property;
 
     context.report({
       node: matcher,
       messageId,
       fix(fixer) {
+        if (matcherArg.name !== "stringContaining") return;
         return [
           fixer.removeRange([classNameProp.range[1], className.range[1]]),
           fixer.replaceText(matcher, "toHaveClass"),
