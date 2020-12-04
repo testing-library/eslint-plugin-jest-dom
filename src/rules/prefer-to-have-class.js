@@ -29,7 +29,7 @@ export const create = (context) => ({
     const classValue = node.callee.object.arguments[0].arguments[0];
     const checkedProp = node.callee.object.arguments[0].callee.object.object;
     const matcher = node.callee.property;
-    const [matcherArg] = node.arguments ? node.arguments : [];
+    const [matcherArg] = node.arguments;
     const [expectArg] = node.callee.object.arguments;
     const isTruthy =
       (matcher.name === "toBe" && matcherArg.value === true) ||
