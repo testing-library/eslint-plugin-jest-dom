@@ -52,7 +52,6 @@ export const create = (context) => ({
                 [node.range[1] - 1, node.range[1] - 1],
                 context.getSourceCode().getText(classValue)
               ),
-          //  !!matcherArg ?  fixer.replaceText(matcherArg, context.getSourceCode().getText(classValue)): null
         ];
       },
     });
