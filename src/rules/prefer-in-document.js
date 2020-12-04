@@ -38,7 +38,10 @@ export const create = (context) => {
   }) {
     if (!queryNode || (!queryNode.name && !queryNode.property)) return;
     // toHaveLength() is only invalid with 0 or 1
-    if (matcherNode.name === "toHaveLength" && matcherArguments[0].value > 1) {
+    if (
+      matcherNode.name === "toHaveLength" &&
+      (matcherArguments[0].type !== "Literal" || matcherArguments[0].value > 1)
+    ) {
       return;
     }
 

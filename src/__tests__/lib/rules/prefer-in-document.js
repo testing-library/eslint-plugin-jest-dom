@@ -68,6 +68,12 @@ const valid = [
         expect(content).toBeNull()
       }
     )`,
+  `expect(await screen.findAllByRole("button")).toHaveLength(
+      NUM_BUTTONS
+    )`,
+  `expect(await screen.findAllByRole("button")).not.toHaveLength(
+      NUM_BUTTONS
+    )`,
 ];
 const invalid = [
   // Invalid cases that applies to all variants
