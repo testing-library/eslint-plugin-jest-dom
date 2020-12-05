@@ -23,12 +23,31 @@ export const meta = {
 function isAntonymMatcher(matcherNode, matcherArguments) {
   return (
     matcherNode.name === "toBeNull" ||
-    (matcherNode.name === "toHaveLength" && matcherArguments[0].value === 0)
+    usesToHaveLengthZero(matcherNode, matcherArguments)
   );
+}
+
+function usesToHaveLengthZero(matcherNode, matcherArguments) {
+  return matcherNode.name === "toHaveLength" && matcherArguments[0].value === 0;
 }
 
 export const create = (context) => {
   const alternativeMatchers = /(toHaveLength|toBeDefined|toBeNull)/;
+  function getLengthValue(matcherArguments) {
+    let lengthValue;
+    if (matcherArguments.length) {
+      if (matcherArguments[0].type === "Identifier") {
+        const assignment = getAssignmentForIdentifier(matcherArguments[0].name);
+        if (!assignment) {
+          return;
+        }
+        lengthValue = assignment.value;
+      } else if (matcherArguments[0].type === "Literal") {
+        lengthValue = matcherArguments[0].value;
+      }
+    }
+    return lengthValue;
+  }
   function check({
     queryNode,
     matcherNode,
@@ -36,13 +55,24 @@ export const create = (context) => {
     negatedMatcher,
     expect,
   }) {
+    // only report on dom nodes which we can resolve to RTL queries.
     if (!queryNode || (!queryNode.name && !queryNode.property)) return;
+
     // toHaveLength() is only invalid with 0 or 1
-    if (
-      matcherNode.name === "toHaveLength" &&
-      (matcherArguments[0].type !== "Literal" || matcherArguments[0].value > 1)
-    ) {
-      return;
+    if (matcherNode.name === "toHaveLength") {
+      const lengthValue = getLengthValue(matcherArguments);
+      // isNotToHaveLengthZero represents .not.toHaveLength(0) which is a valid use of toHaveLength
+      const isNotToHaveLengthZero =
+        usesToHaveLengthZero(matcherNode, matcherArguments) && negatedMatcher;
+      const isValidUseOfToHaveLength =
+        isNotToHaveLengthZero ||
+        !["Literal", "Identifier"].includes(matcherArguments[0].type) ||
+        lengthValue === undefined ||
+        lengthValue > 1;
+
+      if (isValidUseOfToHaveLength) {
+        return;
+      }
     }
 
     const query = queryNode.name || queryNode.property.name;
@@ -59,18 +89,14 @@ export const create = (context) => {
           for (const argument of Array.from(matcherArguments)) {
             operations.push(fixer.remove(argument));
           }
-          if (
-            matcherNode.name === "toHaveLength" &&
-            matcherArguments[0].value === 1 &&
-            query.indexOf("All") > 0
-          ) {
-            operations.push(
-              fixer.replaceText(
-                queryNode.property || queryNode,
-                query.replace("All", "")
-              )
-            );
-          }
+
+          // AllBy should not be used with toBeInTheDocument
+          operations.push(
+            fixer.replaceText(
+              queryNode.property || queryNode,
+              query.replace("All", "")
+            )
+          );
           // Flip the .not if necessary
           if (isAntonymMatcher(matcherNode, matcherArguments)) {
             if (negatedMatcher) {
@@ -96,36 +122,38 @@ export const create = (context) => {
     }
   }
 
-  function getQueryNodeFrom(expression) {
+  function getAssignmentFrom(expression) {
     return expression.type === "TSAsExpression"
-      ? getQueryNodeFrom(expression.expression)
+      ? getAssignmentFrom(expression.expression)
       : expression.type === "AwaitExpression"
-      ? getQueryNodeFrom(expression.argument)
-      : expression.callee;
+      ? getAssignmentFrom(expression.argument)
+      : expression.callee
+      ? expression.callee
+      : expression;
   }
 
-  function getQueryNodeFromAssignment(identifierName) {
+  function getAssignmentForIdentifier(identifierName) {
     const variable = context.getScope().set.get(identifierName);
+
     if (!variable) return;
     const init = variable.defs[0].node.init;
 
-    let queryNode;
+    let assignmentNode;
     if (init) {
-      // let foo = screen.<query>();
-      queryNode = getQueryNodeFrom(init);
+      // let foo = bar;
+      assignmentNode = getAssignmentFrom(init);
     } else {
       // let foo;
-      // foo = screen.<query>();
+      // foo = bar;
       const assignmentRef = variable.references
         .reverse()
         .find((ref) => !!ref.writeExpr);
       if (!assignmentRef) {
         return;
       }
-      const assignment = assignmentRef.writeExpr;
-      queryNode = getQueryNodeFrom(assignment);
+      assignmentNode = getAssignmentFrom(assignmentRef.writeExpr);
     }
-    return queryNode;
+    return assignmentNode;
   }
   return {
     // expect(<query>).not.<matcher>
@@ -151,7 +179,7 @@ export const create = (context) => {
     [`MemberExpression[object.object.callee.name=expect][object.property.name=not][property.name=${alternativeMatchers}][object.object.arguments.0.type=Identifier]`](
       node
     ) {
-      const queryNode = getQueryNodeFromAssignment(
+      const queryNode = getAssignmentForIdentifier(
         node.object.object.arguments[0].name
       );
       const matcherNode = node.property;
@@ -172,7 +200,7 @@ export const create = (context) => {
     [`MemberExpression[object.callee.name=expect][property.name=${alternativeMatchers}][object.arguments.0.type=Identifier]`](
       node
     ) {
-      const queryNode = getQueryNodeFromAssignment(
+      const queryNode = getAssignmentForIdentifier(
         node.object.arguments[0].name
       );
       const matcherNode = node.property;
