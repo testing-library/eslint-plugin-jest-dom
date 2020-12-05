@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - uses: actions/checkout@v1
-      - run: npm install
+      - run: INIT_CWD="$(pwd)" npm install
       - run: npm run validate
       - run: npx codecov@3
   release:
@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: 12
       - uses: actions/checkout@v1
-      - run: INIT_CWD="$(pwd)" npm install
+      - run: npm install
       - run: npm run build
       - run: ls -asl dist
       - run: npx semantic-release
