@@ -35,17 +35,17 @@ export const create = (context) => {
   const alternativeMatchers = /(toHaveLength|toBeDefined|toBeNull)/;
   function getLengthValue(matcherArguments) {
     let lengthValue;
-    if (matcherArguments.length) {
-      if (matcherArguments[0].type === "Identifier") {
-        const assignment = getAssignmentForIdentifier(matcherArguments[0].name);
-        if (!assignment) {
-          return;
-        }
-        lengthValue = assignment.value;
-      } else if (matcherArguments[0].type === "Literal") {
-        lengthValue = matcherArguments[0].value;
+
+    if (matcherArguments[0].type === "Identifier") {
+      const assignment = getAssignmentForIdentifier(matcherArguments[0].name);
+      if (!assignment) {
+        return;
       }
+      lengthValue = assignment.value;
+    } else if (matcherArguments[0].type === "Literal") {
+      lengthValue = matcherArguments[0].value;
     }
+
     return lengthValue;
   }
   function check({

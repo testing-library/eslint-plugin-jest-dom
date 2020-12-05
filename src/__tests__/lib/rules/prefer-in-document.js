@@ -78,12 +78,9 @@ const valid = [
 
   `import {NUM_BUTTONS} from "./foo";
      expect(screen.getByText('foo')).toHaveLength(NUM_BUTTONS)`,
+  `expect(screen.getAllByText("foo")).toHaveLength(getLength())`,
 ];
 const invalid = [
-  // invalidCase(
-  //   `expect(screen.getAllByText("foo").length).toBe(1)`,
-  //   `expect(screen.getByText('foo')).toBeInTheDocument()`
-  // ),
   invalidCase(
     `expect(screen.getByText('foo')).toHaveLength(1)`,
     `expect(screen.getByText('foo')).toBeInTheDocument()`
