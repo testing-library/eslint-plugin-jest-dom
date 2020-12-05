@@ -28,6 +28,7 @@ expect(bar).toHaveLength(0);
 Examples of **correct** code for this rule:
 
 ```js
+expect(screen.getByText("foo").length).toBe(1);
 expect(screen.queryByText("foo")).toBeInTheDocument();
 expect(await screen.findByText("foo")).toBeInTheDocument();
 expect(queryByText("foo")).toBeInTheDocument();
@@ -50,6 +51,11 @@ expect(baz).toBeDefined();
 Don't use this rule if you don't care about the added readability and
 improvements that `toBeInTheDocument` offers to your expects.
 
+Note, that `expect(screen.getByText("foo").length).toBe(1)` is valid. If you want to report on that please use [jest/prefer-to-have-length](https://github.com/jest-community/eslint-plugin-jest/blob/HEAD/docs/rules/prefer-to-have-length.md)
+![fixable][] which will first convert those use cases to use `.toHaveLength`.
+
 ## Further Reading
 
 - [Docs on toBeInTheDocument](https://github.com/testing-library/jest-dom#tobeinthedocument)
+
+[fixable]: https://img.shields.io/badge/-fixable-green.svg
