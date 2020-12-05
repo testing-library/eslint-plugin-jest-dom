@@ -74,13 +74,27 @@ const valid = [
   `expect(await screen.findAllByRole("button")).not.toHaveLength(
       NUM_BUTTONS
     )`,
+  `expect( screen.getAllByRole("link") ).not.toHaveLength(0);`,
+
+  `import {NUM_BUTTONS} from "./foo";
+     expect(screen.getByText('foo')).toHaveLength(NUM_BUTTONS)`,
+  `expect(screen.getAllByText("foo")).toHaveLength(getLength())`,
 ];
 const invalid = [
-  // Invalid cases that applies to all variants
-
   invalidCase(
     `expect(screen.getByText('foo')).toHaveLength(1)`,
     `expect(screen.getByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `const NUM_BUTTONS=1;
+     expect(screen.getByText('foo')).toHaveLength(NUM_BUTTONS)`,
+    `const NUM_BUTTONS=1;
+     expect(screen.getByText('foo')).toBeInTheDocument()`
+  ),
+
+  invalidCase(
+    `expect(screen.queryAllByTestId("foo")).toHaveLength(0)`,
+    `expect(screen.queryByTestId("foo")).not.toBeInTheDocument()`
   ),
   invalidCase(
     `expect(getByText('foo')).toHaveLength(1)`,
@@ -205,54 +219,101 @@ const invalid = [
   ),
 
   // Invalid cases that applies to queryBy* and queryAllBy*
-  ...["queryByText", "queryAllByText"].map((q) => [
-    invalidCase(
-      `expect(${q}('foo')).toHaveLength(0)`,
-      `expect(${q}('foo')).not.toBeInTheDocument()`
-    ),
-    invalidCase(
-      `expect(${q}('foo')).toBeNull()`,
-      `expect(${q}('foo')).not.toBeInTheDocument()`
-    ),
-    invalidCase(
-      `expect(${q}('foo')).not.toBeNull()`,
-      `expect(${q}('foo')).toBeInTheDocument()`
-    ),
-    invalidCase(
-      `expect(${q}('foo')) .not .toBeNull()`,
-      `expect(${q}('foo')).toBeInTheDocument()`
-    ),
-    invalidCase(
-      `expect(${q}('foo')).toBeDefined()`,
-      `expect(${q}('foo')).toBeInTheDocument()`
-    ),
-    invalidCase(
-      `expect(${q}('foo')) .not .toBeDefined()`,
-      `expect(${q}('foo')) .not .toBeInTheDocument()`
-    ),
-    invalidCase(
-      `let foo;
-      foo = screen.${q}('foo');
+
+  invalidCase(
+    `expect(queryByText('foo')).toHaveLength(0)`,
+    `expect(queryByText('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).toBeNull()`,
+    `expect(queryByText('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).not.toBeNull()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryByText('foo')) .not .toBeNull()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).toBeDefined()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryByText('foo')) .not .toBeDefined()`,
+    `expect(queryByText('foo')) .not .toBeInTheDocument()`
+  ),
+  invalidCase(
+    `let foo;
+      foo = screen.queryByText('foo');
       expect(foo).toHaveLength(0);`,
-      `let foo;
-      foo = screen.${q}('foo');
+    `let foo;
+      foo = screen.queryByText('foo');
       expect(foo).not.toBeInTheDocument();`
-    ),
-    invalidCase(
-      `let foo;
-      foo = screen.${q}('foo');
+  ),
+  invalidCase(
+    `let foo;
+      foo = screen.queryByText('foo');
       expect(foo) .not.toBeNull();`,
-      `let foo;
-      foo = screen.${q}('foo');
+    `let foo;
+      foo = screen.queryByText('foo');
       expect(foo).toBeInTheDocument();`
-    ),
-    invalidCase(
-      `let foo = screen.${q}('foo');
+  ),
+  invalidCase(
+    `let foo = screen.queryByText('foo');
       expect(foo).not.toBeNull();`,
-      `let foo = screen.${q}('foo');
+    `let foo = screen.queryByText('foo');
       expect(foo).toBeInTheDocument();`
-    ),
-  ]),
+  ),
+
+  invalidCase(
+    `expect(queryAllByText('foo')).toHaveLength(0)`,
+    `expect(queryByText('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryAllByText('foo')).toBeNull()`,
+    `expect(queryByText('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryAllByText('foo')).not.toBeNull()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryAllByText('foo')) .not .toBeNull()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryAllByText('foo')).toBeDefined()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryAllByText('foo')) .not .toBeDefined()`,
+    `expect(queryByText('foo')) .not .toBeInTheDocument()`
+  ),
+  invalidCase(
+    `let foo;
+      foo = screen.queryAllByText('foo');
+      expect(foo).toHaveLength(0);`,
+    `let foo;
+      foo = screen.queryByText('foo');
+      expect(foo).not.toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo;
+      foo = screen.queryAllByText('foo');
+      expect(foo) .not.toBeNull();`,
+    `let foo;
+      foo = screen.queryByText('foo');
+      expect(foo).toBeInTheDocument();`
+  ),
+  invalidCase(
+    `let foo = screen.queryAllByText('foo');
+      expect(foo).not.toBeNull();`,
+    `let foo = screen.queryByText('foo');
+      expect(foo).toBeInTheDocument();`
+  ),
+  //END
   invalidCase(
     `it("foo", async () => {
       expect(await findByRole("button")).toBeDefined();
