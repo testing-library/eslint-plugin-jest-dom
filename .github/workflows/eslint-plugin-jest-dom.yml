@@ -30,8 +30,7 @@ jobs:
         with:
           node-version: 12
       - uses: actions/checkout@v1
-      - run: export INIT_CWD="$(pwd)"
-      - run: npm install
+      - run: INIT_CWD="$(pwd)" npm install
       - run: npm run build
       - run: ls -asl dist
       - run: npx semantic-release
