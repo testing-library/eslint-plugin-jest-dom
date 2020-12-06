@@ -133,6 +133,17 @@
         "test",
         "doc"
       ]
+    },
+    {
+      "login": "juzerzarif",
+      "name": "Juzer Zarif",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/22772637?v=4",
+      "profile": "http://juzerzarif.com",
+      "contributions": [
+        "code",
+        "test",
+        "bug"
+      ]
     }
   ]
 }
