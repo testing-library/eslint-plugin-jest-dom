@@ -3,6 +3,12 @@
  * @author Ben Monro
  */
 
+import { queries } from "../queries";
+import {
+  getInnerNodeFrom,
+  getAssignmentForIdentifier,
+} from "../assignment-ast";
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
@@ -21,62 +27,119 @@ export const meta = {
 };
 const messageId = "use-to-have-value";
 
-export const create = (context) => ({
-  // expect(element.value).toBe('foo') / toEqual / toStrictEqual
-  [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.arguments.0.property.name=value][callee.object.callee.name=expect]`](
-    node
-  ) {
-    context.report({
-      messageId,
-      node,
-      fix(fixer) {
+export const create = (context) => {
+  function validateQueryNode(nodeWithValueProp) {
+    const queryNode =
+      nodeWithValueProp.type === "Identifier"
+        ? getAssignmentForIdentifier(context, nodeWithValueProp.name)
+        : getInnerNodeFrom(nodeWithValueProp);
+
+    if (!queryNode || !queryNode.callee) {
+      return {
+        isValidQuery: false,
+        isValidElement: false,
+      };
+    }
+
+    const query = queryNode.callee.name || queryNode.callee.property.name;
+    const queryArg = queryNode.arguments[0] && queryNode.arguments[0].value;
+    const isValidQuery = queries.includes(query);
+    const isValidElement =
+      query.match(/^(get|find|query)ByRole$/) &&
+      ["textbox", "dropdown"].includes(queryArg);
+    return { isValidQuery, isValidElement };
+  }
+  return {
+    // expect(element.value).toBe('foo') / toEqual / toStrictEqual
+    // expect(<query>.value).toBe('foo') / toEqual / toStrictEqual
+    // expect((await <query>).value).toBe('foo') / toEqual / toStrictEqual
+    [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.arguments.0.property.name=value][callee.object.callee.name=expect]`](
+      node
+    ) {
+      const valueProp = node.callee.object.arguments[0].property;
+      const matcher = node.callee.property;
+      const queryNode = node.callee.object.arguments[0].object;
+      const { isValidQuery, isValidElement } = validateQueryNode(queryNode);
+
+      function fix(fixer) {
+        return [
+          fixer.remove(context.getSourceCode().getTokenBefore(valueProp)),
+          fixer.remove(valueProp),
+          fixer.replaceText(matcher, "toHaveValue"),
+        ];
+      }
+      if (isValidQuery) {
+        context.report({
+          messageId,
+          node,
+          fix: isValidElement ? fix : undefined,
+          suggest: isValidElement
+            ? undefined
+            : [
+                {
+                  desc: `Replace ${matcher.name} with toHaveValue`,
+                  fix,
+                },
+              ],
+        });
+      }
+    },
+
+    // expect(element.value).not.toBe('foo') / toEqual / toStrictEqual
+    // expect(<query>.value).not.toBe('foo') / toEqual / toStrictEqual
+    // expect((await <query>).value).not.toBe('foo') / toEqual / toStrictEqual
+    [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.object.callee.name=expect][callee.object.property.name=not][callee.object.object.arguments.0.property.name=value]`](
+      node
+    ) {
+      const queryNode = node.callee.object.object.arguments[0].object;
+      const valueProp = node.callee.object.object.arguments[0].property;
+      const matcher = node.callee.property;
+
+      const { isValidQuery, isValidElement } = validateQueryNode(queryNode);
+      function fix(fixer) {
         return [
           fixer.removeRange([
-            node.callee.object.arguments[0].object.range[1],
-            node.callee.object.arguments[0].property.range[1],
+            context.getSourceCode().getTokenBefore(valueProp).range[0],
+            valueProp.range[1],
           ]),
-          fixer.replaceText(node.callee.property, "toHaveValue"),
+          fixer.replaceText(matcher, "toHaveValue"),
         ];
-      },
-    });
-  },
+      }
+      if (isValidQuery) {
+        context.report({
+          messageId,
+          node,
+          fix: isValidElement ? fix : undefined,
+          suggest: isValidElement
+            ? undefined
+            : [
+                {
+                  desc: `Replace ${matcher.name} with toHaveValue`,
+                  fix,
+                },
+              ],
+        });
+      }
+    },
 
-  // expect(element.value).not.toBe('foo') / toEqual / toStrictEqual
-  [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.object.callee.name=expect][callee.object.property.name=not][callee.object.object.arguments.0.property.name=value]`](
-    node
-  ) {
-    context.report({
-      messageId,
-      node,
-      fix(fixer) {
-        return [
-          fixer.removeRange([
-            node.callee.object.object.arguments[0].object.range[1],
-            node.callee.object.object.arguments[0].property.range[1],
-          ]),
-          fixer.replaceText(node.callee.property, "toHaveValue"),
-        ];
-      },
-    });
-  },
+    //expect(element).toHaveAttribute('value', 'foo')  / Property
+    [`CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=value][arguments.1][callee.object.callee.name=expect], CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=value][arguments.1][callee.object.object.callee.name=expect][callee.object.property.name=not]`](
+      node
+    ) {
+      const matcher = node.callee.property;
+      const [prop, value] = node.arguments;
 
-  //expect(element).toHaveAttribute('value', 'foo')  / Property
-  [`CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=value][arguments.1][callee.object.callee.name=expect], CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=value][arguments.1][callee.object.object.callee.name=expect][callee.object.property.name=not]`](
-    node
-  ) {
-    context.report({
-      messageId,
-      node,
+      context.report({
+        messageId,
+        node,
 
-      fix(fixer) {
-        return [
-          fixer.replaceText(node.callee.property, "toHaveValue"),
-          fixer.removeRange([
-            node.arguments[0].range[0],
-            node.arguments[1].range[0],
-          ]),
-        ];
-      },
-    });
-  },
-});
+        fix(fixer) {
+          return [
+            fixer.replaceText(matcher, "toHaveValue"),
+            fixer.removeRange([prop.range[0], value.range[0]]),
+          ];
+        },
+      });
+    },
+  };
+};

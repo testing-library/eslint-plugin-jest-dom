@@ -4,6 +4,7 @@
  */
 
 import { queries } from "../queries";
+import { getAssignmentForIdentifier } from "../assignment-ast";
 
 export const meta = {
   type: "suggestion",
@@ -37,7 +38,10 @@ export const create = (context) => {
     let lengthValue;
 
     if (matcherArguments[0].type === "Identifier") {
-      const assignment = getAssignmentForIdentifier(matcherArguments[0].name);
+      const assignment = getAssignmentForIdentifier(
+        context,
+        matcherArguments[0].name
+      );
       if (!assignment) {
         return;
       }
@@ -122,39 +126,6 @@ export const create = (context) => {
     }
   }
 
-  function getAssignmentFrom(expression) {
-    return expression.type === "TSAsExpression"
-      ? getAssignmentFrom(expression.expression)
-      : expression.type === "AwaitExpression"
-      ? getAssignmentFrom(expression.argument)
-      : expression.callee
-      ? expression.callee
-      : expression;
-  }
-
-  function getAssignmentForIdentifier(identifierName) {
-    const variable = context.getScope().set.get(identifierName);
-
-    if (!variable) return;
-    const init = variable.defs[0].node.init;
-
-    let assignmentNode;
-    if (init) {
-      // let foo = bar;
-      assignmentNode = getAssignmentFrom(init);
-    } else {
-      // let foo;
-      // foo = bar;
-      const assignmentRef = variable.references
-        .reverse()
-        .find((ref) => !!ref.writeExpr);
-      if (!assignmentRef) {
-        return;
-      }
-      assignmentNode = getAssignmentFrom(assignmentRef.writeExpr);
-    }
-    return assignmentNode;
-  }
   return {
     // expect(<query>).not.<matcher>
     [`CallExpression[callee.object.object.callee.name='expect'][callee.object.property.name='not'][callee.property.name=${alternativeMatchers}], CallExpression[callee.object.callee.name='expect'][callee.object.property.name='not'][callee.object.arguments.0.argument.callee.name=${alternativeMatchers}]`](
@@ -180,6 +151,7 @@ export const create = (context) => {
       node
     ) {
       const queryNode = getAssignmentForIdentifier(
+        context,
         node.object.object.arguments[0].name
       );
       const matcherNode = node.property;
@@ -187,10 +159,9 @@ export const create = (context) => {
       const matcherArguments = node.parent.arguments;
 
       const expect = node.object.object;
-
       check({
         negatedMatcher: true,
-        queryNode,
+        queryNode: (queryNode && queryNode.callee) || queryNode,
         matcherNode,
         matcherArguments,
         expect,
@@ -201,15 +172,15 @@ export const create = (context) => {
       node
     ) {
       const queryNode = getAssignmentForIdentifier(
+        context,
         node.object.arguments[0].name
       );
       const matcherNode = node.property;
 
       const matcherArguments = node.parent.arguments;
-
       check({
         negatedMatcher: false,
-        queryNode,
+        queryNode: (queryNode && queryNode.callee) || queryNode,
         matcherNode,
         matcherArguments,
       });
