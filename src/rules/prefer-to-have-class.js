@@ -48,8 +48,8 @@ export const create = (context) => ({
                 matcherArg,
                 context.getSourceCode().getText(classValue)
               )
-            : fixer.insertTextBeforeRange(
-                [node.range[1] - 1, node.range[1] - 1],
+            : fixer.insertTextBefore(
+                context.getSourceCode().getTokenAfter(matcher, { skip: 1 }),
                 context.getSourceCode().getText(classValue)
               ),
         ];

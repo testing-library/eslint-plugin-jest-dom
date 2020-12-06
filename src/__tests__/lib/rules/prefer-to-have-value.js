@@ -15,7 +15,7 @@ import * as rule from "../../../rules/prefer-to-have-value";
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
 
 const errors = [{ messageId: "use-to-have-value" }];
 ruleTester.run("prefer-to-have-value", rule, {

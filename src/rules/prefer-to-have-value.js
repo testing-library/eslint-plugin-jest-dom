@@ -56,16 +56,16 @@ export const create = (context) => {
     [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.arguments.0.property.name=value][callee.object.callee.name=expect]`](
       node
     ) {
-      const { isValidQuery, isValidElement } = validateQueryNode(
-        node.callee.object.arguments[0].object
-      );
+      const valueProp = node.callee.object.arguments[0].property;
+      const matcher = node.callee.property;
+      const queryNode = node.callee.object.arguments[0].object;
+      const { isValidQuery, isValidElement } = validateQueryNode(queryNode);
+
       function fix(fixer) {
         return [
-          fixer.removeRange([
-            node.callee.object.arguments[0].property.range[0] - 1,
-            node.callee.object.arguments[0].property.range[1],
-          ]),
-          fixer.replaceText(node.callee.property, "toHaveValue"),
+          fixer.remove(context.getSourceCode().getTokenBefore(valueProp)),
+          fixer.remove(valueProp),
+          fixer.replaceText(matcher, "toHaveValue"),
         ];
       }
       if (isValidQuery) {
@@ -77,7 +77,7 @@ export const create = (context) => {
             ? undefined
             : [
                 {
-                  desc: `Replace ${node.callee.property.name} with toHaveValue`,
+                  desc: `Replace ${matcher.name} with toHaveValue`,
                   fix,
                 },
               ],
@@ -91,16 +91,18 @@ export const create = (context) => {
     [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.object.callee.name=expect][callee.object.property.name=not][callee.object.object.arguments.0.property.name=value]`](
       node
     ) {
-      const { isValidQuery, isValidElement } = validateQueryNode(
-        node.callee.object.object.arguments[0].object
-      );
+      const queryNode = node.callee.object.object.arguments[0].object;
+      const valueProp = node.callee.object.object.arguments[0].property;
+      const matcher = node.callee.property;
+
+      const { isValidQuery, isValidElement } = validateQueryNode(queryNode);
       function fix(fixer) {
         return [
           fixer.removeRange([
-            node.callee.object.object.arguments[0].property.range[0] - 1,
-            node.callee.object.object.arguments[0].property.range[1],
+            context.getSourceCode().getTokenBefore(valueProp).range[0],
+            valueProp.range[1],
           ]),
-          fixer.replaceText(node.callee.property, "toHaveValue"),
+          fixer.replaceText(matcher, "toHaveValue"),
         ];
       }
       if (isValidQuery) {
@@ -112,7 +114,7 @@ export const create = (context) => {
             ? undefined
             : [
                 {
-                  desc: `Replace ${node.callee.property.name} with toHaveValue`,
+                  desc: `Replace ${matcher.name} with toHaveValue`,
                   fix,
                 },
               ],
@@ -124,13 +126,15 @@ export const create = (context) => {
     [`CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=value][arguments.1][callee.object.callee.name=expect], CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=value][arguments.1][callee.object.object.callee.name=expect][callee.object.property.name=not]`](
       node
     ) {
+      const matcher = node.callee.property;
+
       context.report({
         messageId,
         node,
 
         fix(fixer) {
           return [
-            fixer.replaceText(node.callee.property, "toHaveValue"),
+            fixer.replaceText(matcher, "toHaveValue"),
             fixer.removeRange([
               node.arguments[0].range[0],
               node.arguments[1].range[0],
