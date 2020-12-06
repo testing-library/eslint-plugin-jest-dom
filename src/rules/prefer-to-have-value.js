@@ -127,6 +127,7 @@ export const create = (context) => {
       node
     ) {
       const matcher = node.callee.property;
+      const [prop, value] = node.arguments;
 
       context.report({
         messageId,
@@ -135,10 +136,7 @@ export const create = (context) => {
         fix(fixer) {
           return [
             fixer.replaceText(matcher, "toHaveValue"),
-            fixer.removeRange([
-              node.arguments[0].range[0],
-              node.arguments[1].range[0],
-            ]),
+            fixer.removeRange([prop.range[0], value.range[0]]),
           ];
         },
       });
