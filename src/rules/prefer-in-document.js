@@ -4,7 +4,7 @@
  */
 
 import { queries } from "../queries";
-import { getAssignmentForIdentifier } from "../utils";
+import { getAssignmentForIdentifier } from "../assignment-ast";
 
 export const meta = {
   type: "suggestion",
@@ -38,7 +38,10 @@ export const create = (context) => {
     let lengthValue;
 
     if (matcherArguments[0].type === "Identifier") {
-      const assignment = getAssignmentForIdentifier(context, matcherArguments[0].name);
+      const assignment = getAssignmentForIdentifier(
+        context,
+        matcherArguments[0].name
+      );
       if (!assignment) {
         return;
       }
@@ -148,7 +151,8 @@ export const create = (context) => {
       node
     ) {
       const queryNode = getAssignmentForIdentifier(
-        context, node.object.object.arguments[0].name
+        context,
+        node.object.object.arguments[0].name
       );
       const matcherNode = node.property;
 
@@ -168,7 +172,8 @@ export const create = (context) => {
       node
     ) {
       const queryNode = getAssignmentForIdentifier(
-        context, node.object.arguments[0].name
+        context,
+        node.object.arguments[0].name
       );
       const matcherNode = node.property;
 

@@ -4,7 +4,10 @@
  */
 
 import { queries } from "../queries";
-import { getInnerNodeFrom, getAssignmentForIdentifier } from "../utils";
+import {
+  getInnerNodeFrom,
+  getAssignmentForIdentifier,
+} from "../assignment-ast";
 
 //------------------------------------------------------------------------------
 // Rule Definition
