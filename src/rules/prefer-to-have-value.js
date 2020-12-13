@@ -3,11 +3,7 @@
  * @author Ben Monro
  */
 
-import { queries } from "../queries";
-import {
-  getInnerNodeFrom,
-  getAssignmentForIdentifier,
-} from "../assignment-ast";
+import { getQueryNodeFrom } from "../assignment-ast";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -29,25 +25,20 @@ const messageId = "use-to-have-value";
 
 export const create = (context) => {
   function validateQueryNode(nodeWithValueProp) {
-    const queryNode =
-      nodeWithValueProp.type === "Identifier"
-        ? getAssignmentForIdentifier(context, nodeWithValueProp.name)
-        : getInnerNodeFrom(nodeWithValueProp);
-
-    if (!queryNode || !queryNode.callee) {
+    const { query, queryArg, isDTLQuery } = getQueryNodeFrom(
+      context,
+      nodeWithValueProp
+    );
+    if (!query) {
       return {
-        isValidQuery: false,
+        isDTLQuery: false,
         isValidElement: false,
       };
     }
-
-    const query = queryNode.callee.name || queryNode.callee.property.name;
-    const queryArg = queryNode.arguments[0] && queryNode.arguments[0].value;
-    const isValidQuery = queries.includes(query);
     const isValidElement =
       query.match(/^(get|find|query)ByRole$/) &&
       ["textbox", "dropdown"].includes(queryArg);
-    return { isValidQuery, isValidElement };
+    return { isDTLQuery, isValidElement };
   }
   return {
     // expect(element.value).toBe('foo') / toEqual / toStrictEqual
@@ -59,7 +50,7 @@ export const create = (context) => {
       const valueProp = node.callee.object.arguments[0].property;
       const matcher = node.callee.property;
       const queryNode = node.callee.object.arguments[0].object;
-      const { isValidQuery, isValidElement } = validateQueryNode(queryNode);
+      const { isDTLQuery, isValidElement } = validateQueryNode(queryNode);
 
       function fix(fixer) {
         return [
@@ -68,7 +59,7 @@ export const create = (context) => {
           fixer.replaceText(matcher, "toHaveValue"),
         ];
       }
-      if (isValidQuery) {
+      if (isDTLQuery) {
         context.report({
           messageId,
           node,
@@ -95,7 +86,7 @@ export const create = (context) => {
       const valueProp = node.callee.object.object.arguments[0].property;
       const matcher = node.callee.property;
 
-      const { isValidQuery, isValidElement } = validateQueryNode(queryNode);
+      const { isDTLQuery, isValidElement } = validateQueryNode(queryNode);
       function fix(fixer) {
         return [
           fixer.removeRange([
@@ -105,7 +96,7 @@ export const create = (context) => {
           fixer.replaceText(matcher, "toHaveValue"),
         ];
       }
-      if (isValidQuery) {
+      if (isDTLQuery) {
         context.report({
           messageId,
           node,

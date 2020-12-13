@@ -3,6 +3,8 @@
  * @author Ben Monro
  */
 
+import { getQueryNodeFrom } from "../assignment-ast";
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
@@ -106,6 +108,8 @@ export const create = (context) => ({
     const matcher = node.callee.property;
     const classNameProp = node.callee.object.arguments[0].object;
 
+    const { isDTLQuery } = getQueryNodeFrom(context, classNameProp);
+    if (!isDTLQuery) return;
     // don't report here if using `expect.foo()`
 
     if (
@@ -143,6 +147,8 @@ export const create = (context) => ({
     const matcher = node.callee.property;
     const classNameProp = node.callee.object.arguments[0].object;
     const matcherArg = node.arguments[0].callee.property;
+    const { isDTLQuery } = getQueryNodeFrom(context, classNameProp);
+    if (!isDTLQuery) return;
 
     context.report({
       node: matcher,
@@ -170,6 +176,8 @@ export const create = (context) => ({
     const matcher = node.callee.property;
     const classNameProp = node.callee.object.object.arguments[0].object;
 
+    const { isDTLQuery } = getQueryNodeFrom(context, classNameProp);
+    if (!isDTLQuery) return;
     context.report({
       node: matcher,
       messageId,
@@ -210,6 +218,11 @@ export const create = (context) => ({
     )
       return;
 
+    const { isDTLQuery } = getQueryNodeFrom(
+      context,
+      node.callee.object.arguments[0]
+    );
+    if (!isDTLQuery) return;
     context.report({
       node: matcher,
       messageId,
@@ -244,7 +257,11 @@ export const create = (context) => ({
       (matcher.name === "toHaveProperty" && classNameValue !== "className")
     )
       return;
-
+    const { isDTLQuery } = getQueryNodeFrom(
+      context,
+      node.callee.object.object.arguments[0]
+    );
+    if (!isDTLQuery) return;
     context.report({
       node: matcher,
       messageId,
@@ -280,6 +297,13 @@ export const create = (context) => ({
       (matcher.name === "toHaveProperty" && classNameValue !== "className")
     )
       return;
+
+    const { isDTLQuery } = getQueryNodeFrom(
+      context,
+      node.callee.object.arguments[0]
+    );
+    if (!isDTLQuery) return;
+
     context.report({
       node: matcher,
       messageId,

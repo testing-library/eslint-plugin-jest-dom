@@ -1,3 +1,5 @@
+import { queries } from "./queries";
+
 /**
  * Gets the inner relevant node (CallExpression, Identity, et al.) given a generic expression node
  * await someAsyncFunc() => someAsyncFunc()
@@ -7,11 +9,16 @@
  * @returns {Object} - A node
  */
 export function getInnerNodeFrom(expression) {
-  return expression.type === "TSAsExpression"
-    ? getInnerNodeFrom(expression.expression)
-    : expression.type === "AwaitExpression"
-    ? getInnerNodeFrom(expression.argument)
-    : expression;
+  switch (expression.type) {
+    case "TSAsExpression":
+      return getInnerNodeFrom(expression.expression);
+    case "AwaitExpression":
+      return getInnerNodeFrom(expression.argument);
+    case "MemberExpression":
+      return getInnerNodeFrom(expression.object);
+    default:
+      return expression;
+  }
 }
 
 /**
@@ -43,4 +50,33 @@ export function getAssignmentForIdentifier(context, identifierName) {
     assignmentNode = getInnerNodeFrom(assignmentRef.writeExpr);
   }
   return assignmentNode;
+}
+
+/**
+ * get query node, arg and isDTLQuery flag for a given node.  useful for rules that you only
+ * want to apply to dom elements.
+ *
+ * @param {Object} context - Context for a rule
+ * @param {Object} nodeWithValueProp - AST Node to get the query from
+ * @returns {Object} - Object with query, queryArg & isDTLQuery
+ */
+export function getQueryNodeFrom(context, nodeWithValueProp) {
+  const queryNode =
+    nodeWithValueProp.type === "Identifier"
+      ? getAssignmentForIdentifier(context, nodeWithValueProp.name)
+      : getInnerNodeFrom(nodeWithValueProp);
+
+  if (!queryNode || !queryNode.callee) {
+    return {
+      isDTLQuery: false,
+      query: null,
+      queryArg: null,
+    };
+  }
+
+  const query = queryNode.callee.name || queryNode.callee.property.name;
+  const queryArg = queryNode.arguments[0] && queryNode.arguments[0].value;
+  const isDTLQuery = queries.includes(query);
+
+  return { queryArg, query, isDTLQuery };
 }
