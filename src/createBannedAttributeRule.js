@@ -1,3 +1,5 @@
+import { getQueryNodeFrom } from "./assignment-ast";
+
 export default ({ preferred, negatedPreferred, attributes }) => (context) => {
   const getCorrectFunctionFor = (node, negated = false) =>
     (node.arguments.length === 1 ||
@@ -13,6 +15,7 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
   const isBannedArg = (node) =>
     attributes.some((attr) => attr === node.arguments[0].value);
 
+  //expect(el).not.toBeEnabled() => expect(el).toBeDisabled()
   return {
     [`CallExpression[callee.property.name=/${preferred}|${negatedPreferred}/][callee.object.property.name='not'][callee.object.object.callee.name='expect']`](
       node
@@ -35,6 +38,7 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
           ),
       });
     },
+    //expect(getByText('foo').<attribute>).toBeTruthy()
     "CallExpression[callee.property.name=/toBe(Truthy|Falsy)?|toEqual/][callee.object.callee.name='expect']"(
       node
     ) {
@@ -46,7 +50,11 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
       if (!attributes.some((attr) => attr === name)) {
         return;
       }
-
+      const { isDTLQuery } = getQueryNodeFrom(
+        context,
+        node.callee.object.arguments[0]
+      );
+      if (!isDTLQuery) return;
       const isNegated =
         matcher.endsWith("Falsy") ||
         ((matcher === "toBe" || matcher === "toEqual") && matcherArg !== true);
@@ -93,7 +101,12 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
       if (!isBannedArg(node)) {
         return;
       }
+      const { isDTLQuery } = getQueryNodeFrom(
+        context,
+        node.callee.object.arguments[0]
+      );
 
+      if (!isDTLQuery) return;
       const correctFunction = getCorrectFunctionFor(node);
 
       const incorrectFunction = node.callee.property.name;

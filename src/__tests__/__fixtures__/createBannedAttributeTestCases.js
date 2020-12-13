@@ -4,22 +4,31 @@ export default ({ preferred, negatedPreferred, attribute }) => {
   const doubleNegativeCases = negatedPreferred.startsWith("toBe")
     ? [
         {
-          code: `expect(element).not.${negatedPreferred}`,
+          code: `const el = screen.getByText("foo"); expect(el).not.${negatedPreferred}`,
           errors: [
             {
               message: `Use ${preferred} instead of not.${negatedPreferred}`,
             },
           ],
-          output: `expect(element).${preferred}`,
+          output: `const el = screen.getByText("foo"); expect(el).${preferred}`,
         },
         {
-          code: `expect(element).not.${preferred}`,
+          code: `expect(getByText("foo")).not.${negatedPreferred}`,
+          errors: [
+            {
+              message: `Use ${preferred} instead of not.${negatedPreferred}`,
+            },
+          ],
+          output: `expect(getByText("foo")).${preferred}`,
+        },
+        {
+          code: `const el = screen.getByText("foo"); expect(el).not.${preferred}`,
           errors: [
             {
               message: `Use ${negatedPreferred} instead of not.${preferred}`,
             },
           ],
-          output: `expect(element).${negatedPreferred}`,
+          output: `const el = screen.getByText("foo"); expect(el).${negatedPreferred}`,
         },
       ]
     : [];
@@ -57,85 +66,88 @@ export default ({ preferred, negatedPreferred, attribute }) => {
 
   return {
     valid: [
-      "expect(element).not.toHaveProperty('value', 'foo')",
-      `expect(element).${preferred}`,
-      `expect(element).${negatedPreferred}`,
-      "expect(element).toHaveProperty('value', 'bar')",
+      `const el = screen.getByText("foo"); expect(el).not.toHaveProperty('value', 'foo')`,
+      `const el = screen.getByText("foo"); expect(el).${preferred}`,
+      `const el = screen.getByText("foo"); expect(el).${negatedPreferred}`,
+      `const el = screen.getByText("foo"); expect(el).toHaveProperty('value', 'bar')`,
+      `const el = foo.bar(); expect(el).toHaveProperty("${attribute}", true)`,
+      `expect(getFoo().${attribute}).toBe("bar")`,
+      `expect(getFoo().${attribute}).not.toBe("bar")`,
     ],
     invalid: [
       ...doubleNegativeCases,
       ...directChecks,
       {
-        code: `expect(element).toHaveProperty('${attribute}', true)`,
+        code: `const el = screen.getByText("foo"); expect(el).toHaveProperty('${attribute}', true)`,
         errors: [
           {
             message: `Use ${preferred} instead of toHaveProperty('${attribute}', true)`,
           },
         ],
-        output: `expect(element).${preferred}`,
+        output: `const el = screen.getByText("foo"); expect(el).${preferred}`,
       },
       {
-        code: `expect(element).toHaveProperty('${attribute}', false)`,
+        code: `const el = screen.getByText("foo"); expect(el).toHaveProperty('${attribute}', false)`,
         errors: [
           {
             message: `Use ${negatedPreferred} instead of toHaveProperty('${attribute}', false)`,
           },
         ],
-        output: `expect(element).${negatedPreferred}`,
+        output: `const el = screen.getByText("foo"); expect(el).${negatedPreferred}`,
       },
       {
-        code: `expect(element).toHaveAttribute('${attribute}', false)`,
+        code: `const el = screen.getByText("foo"); expect(el).toHaveAttribute('${attribute}', false)`,
         errors: [
           {
             message: `Use ${negatedPreferred} instead of toHaveAttribute('${attribute}', false)`,
           },
         ],
-        output: `expect(element).${negatedPreferred}`,
+        output: `const el = screen.getByText("foo"); expect(el).${negatedPreferred}`,
       },
       {
-        code: `expect(element).toHaveProperty('${attribute}')`,
+        code: `const el = screen.getByText("foo"); expect(el).toHaveProperty('${attribute}')`,
         errors: [
           {
             message: `Use ${preferred} instead of toHaveProperty('${attribute}')`,
           },
         ],
-        output: `expect(element).${preferred}`,
+        output: `const el = screen.getByText("foo"); expect(el).${preferred}`,
       },
       {
-        code: `expect(element).toHaveAttribute('${attribute}')`,
+        code: `const el = screen.getByText("foo"); expect(el).toHaveAttribute('${attribute}')`,
         errors: [
           {
             message: `Use ${preferred} instead of toHaveAttribute('${attribute}')`,
           },
         ],
-        output: `expect(element).${preferred}`,
+        output: `const el = screen.getByText("foo"); expect(el).${preferred}`,
       },
       {
-        code: `expect(element).not.toHaveAttribute('${attribute}')`,
+        code: `const el = screen.getByText("foo"); expect(el).not.toHaveAttribute('${attribute}')`,
         errors: [
           {
             message: `Use ${negatedPreferred} instead of not.toHaveAttribute('${attribute}')`,
           },
         ],
-        output: `expect(element).${negatedPreferred}`,
+        output: `const el = screen.getByText("foo"); expect(el).${negatedPreferred}`,
       },
       {
-        code: `expect(element).not.toHaveProperty('${attribute}')`,
+        code: `const el = screen.getByText("foo"); expect(el).not.toHaveProperty('${attribute}')`,
         errors: [
           {
             message: `Use ${negatedPreferred} instead of not.toHaveProperty('${attribute}')`,
           },
         ],
-        output: `expect(element).${negatedPreferred}`,
+        output: `const el = screen.getByText("foo"); expect(el).${negatedPreferred}`,
       },
       {
-        code: `expect(element).toHaveAttribute("${attribute}", "")`,
+        code: `const el = screen.getByText("foo"); expect(el).toHaveAttribute("${attribute}", "")`,
         errors: [
           {
             message: `Use ${preferred} instead of toHaveAttribute("${attribute}", "")`,
           },
         ],
-        output: `expect(element).${preferred}`,
+        output: `const el = screen.getByText("foo"); expect(el).${preferred}`,
       },
       {
         code: `expect(getByText("foo")).toHaveAttribute("${attribute}", "true")`,
@@ -174,7 +186,7 @@ export default ({ preferred, negatedPreferred, attribute }) => {
         output: `expect(getByText("foo")).${negatedPreferred}`,
       },
       {
-        code: `expect(element).toHaveProperty('${attribute}', foo)`,
+        code: `const el = screen.getByText("foo"); expect(el).toHaveProperty('${attribute}', foo)`,
         errors: [
           {
             message: `Use ${preferred} instead of toHaveProperty('${attribute}', foo)`,
