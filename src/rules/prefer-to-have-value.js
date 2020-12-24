@@ -24,21 +24,17 @@ export const meta = {
 const messageId = "use-to-have-value";
 
 export const create = (context) => {
-  function validateQueryNode(nodeWithValueProp) {
+  function isValidQueryNode(nodeWithValueProp) {
     const { query, queryArg, isDTLQuery } = getQueryNodeFrom(
       context,
       nodeWithValueProp
     );
-    if (!query) {
-      return {
-        isDTLQuery: false,
-        isValidElement: false,
-      };
-    }
-    const isValidElement =
-      query.match(/^(get|find|query)ByRole$/) &&
-      ["textbox", "dropdown"].includes(queryArg);
-    return { isDTLQuery, isValidElement };
+    return (
+      !!query &&
+      isDTLQuery &&
+      !!query.match(/^(get|find|query)(All)?ByRole$/) &&
+      ["textbox", "dropdown"].includes(queryArg)
+    );
   }
   return {
     // expect(element.value).toBe('foo') / toEqual / toStrictEqual
@@ -50,28 +46,18 @@ export const create = (context) => {
       const valueProp = node.callee.object.arguments[0].property;
       const matcher = node.callee.property;
       const queryNode = node.callee.object.arguments[0].object;
-      const { isDTLQuery, isValidElement } = validateQueryNode(queryNode);
 
-      function fix(fixer) {
-        return [
-          fixer.remove(context.getSourceCode().getTokenBefore(valueProp)),
-          fixer.remove(valueProp),
-          fixer.replaceText(matcher, "toHaveValue"),
-        ];
-      }
-      if (isDTLQuery) {
+      if (isValidQueryNode(queryNode)) {
         context.report({
           messageId,
           node,
-          fix: isValidElement ? fix : undefined,
-          suggest: isValidElement
-            ? undefined
-            : [
-                {
-                  desc: `Replace ${matcher.name} with toHaveValue`,
-                  fix,
-                },
-              ],
+          fix(fixer) {
+            return [
+              fixer.remove(context.getSourceCode().getTokenBefore(valueProp)),
+              fixer.remove(valueProp),
+              fixer.replaceText(matcher, "toHaveValue"),
+            ];
+          },
         });
       }
     },
@@ -86,29 +72,19 @@ export const create = (context) => {
       const valueProp = node.callee.object.object.arguments[0].property;
       const matcher = node.callee.property;
 
-      const { isDTLQuery, isValidElement } = validateQueryNode(queryNode);
-      function fix(fixer) {
-        return [
-          fixer.removeRange([
-            context.getSourceCode().getTokenBefore(valueProp).range[0],
-            valueProp.range[1],
-          ]),
-          fixer.replaceText(matcher, "toHaveValue"),
-        ];
-      }
-      if (isDTLQuery) {
+      if (isValidQueryNode(queryNode)) {
         context.report({
           messageId,
           node,
-          fix: isValidElement ? fix : undefined,
-          suggest: isValidElement
-            ? undefined
-            : [
-                {
-                  desc: `Replace ${matcher.name} with toHaveValue`,
-                  fix,
-                },
-              ],
+          fix(fixer) {
+            return [
+              fixer.removeRange([
+                context.getSourceCode().getTokenBefore(valueProp).range[0],
+                valueProp.range[1],
+              ]),
+              fixer.replaceText(matcher, "toHaveValue"),
+            ];
+          },
         });
       }
     },
