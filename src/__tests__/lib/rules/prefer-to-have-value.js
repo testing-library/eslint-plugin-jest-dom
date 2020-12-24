@@ -21,7 +21,7 @@ const errors = [{ messageId: "use-to-have-value" }];
 ruleTester.run("prefer-to-have-value", rule, {
   valid: [
     `expect(screen.getByRole("radio").value).toEqual("foo")`,
-    `expect(screen.queryAllByRole("checkbox").value).toStrictEqual("foo")`,
+    `expect(screen.queryAllByRole("checkbox")[0].value).toStrictEqual("foo")`,
     `async function x() { expect((await screen.findByRole("button")).value).toBe("foo") }`,
 
     `expect(element).toHaveValue('foo')`,
@@ -39,7 +39,7 @@ ruleTester.run("prefer-to-have-value", rule, {
     expect(element.value).toBe('foo');`,
 
     `expect(screen.getByRole("radio").value).not.toEqual("foo")`,
-    `expect(screen.queryAllByRole("checkbox").value).not.toStrictEqual("foo")`,
+    `expect(screen.queryAllByRole("checkbox")[0].value).not.toStrictEqual("foo")`,
     `async function x() { expect((await screen.findByRole("button")).value).not.toBe("foo") }`,
 
     `const element = document.getElementById('asdfasf');
