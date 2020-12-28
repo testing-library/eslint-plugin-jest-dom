@@ -20,6 +20,10 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
 const errors = [{ messageId: "use-to-have-value" }];
 ruleTester.run("prefer-to-have-value", rule, {
   valid: [
+    `expect(screen.getByRole("radio").value).toEqual("foo")`,
+    `expect(screen.queryAllByRole("checkbox")[0].value).toStrictEqual("foo")`,
+    `async function x() { expect((await screen.findByRole("button")).value).toBe("foo") }`,
+
     `expect(element).toHaveValue('foo')`,
     `expect(element.value).toBeGreaterThan(2);`,
     `expect(element.value).toBeLessThan(2);`,
@@ -33,6 +37,10 @@ ruleTester.run("prefer-to-have-value", rule, {
 
     `const element = { value: 'foo' };
     expect(element.value).toBe('foo');`,
+
+    `expect(screen.getByRole("radio").value).not.toEqual("foo")`,
+    `expect(screen.queryAllByRole("checkbox")[0].value).not.toStrictEqual("foo")`,
+    `async function x() { expect((await screen.findByRole("button")).value).not.toBe("foo") }`,
 
     `const element = document.getElementById('asdfasf');
     expect(element.value).not.toEqual('foo');`,
@@ -105,119 +113,6 @@ ruleTester.run("prefer-to-have-value", rule, {
       code: `const element = screen.getByRole("textbox"); expect(element.value).not.toBe("foo");`,
       errors,
       output: `const element = screen.getByRole("textbox"); expect(element).not.toHaveValue("foo");`,
-    },
-    //==========================================================================
-    {
-      code: `expect(screen.getByTestId('bananas').value).toEqual('foo')`,
-      errors: [
-        {
-          ...errors[0],
-          suggestions: [
-            {
-              desc: "Replace toEqual with toHaveValue",
-              output: `expect(screen.getByTestId('bananas')).toHaveValue('foo')`,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      code: `expect(screen.queryByTestId('bananas').value).toBe('foo')`,
-      errors: [
-        {
-          ...errors[0],
-          suggestions: [
-            {
-              desc: "Replace toBe with toHaveValue",
-              output: `expect(screen.queryByTestId('bananas')).toHaveValue('foo')`,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      code: `async function x() { expect((await screen.findByTestId("bananas")).value).toStrictEqual("foo") }`,
-      errors: [
-        {
-          ...errors[0],
-          suggestions: [
-            {
-              desc: "Replace toStrictEqual with toHaveValue",
-              output: `async function x() { expect((await screen.findByTestId("bananas"))).toHaveValue("foo") }`,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      code: `let element; element = screen.getByTestId('bananas'); expect(element.value).toEqual('foo');`,
-      errors: [
-        {
-          ...errors[0],
-          suggestions: [
-            {
-              desc: "Replace toEqual with toHaveValue",
-              output: `let element; element = screen.getByTestId('bananas'); expect(element).toHaveValue('foo');`,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      code: `expect(screen.getByTestId('bananas').value).not.toEqual('foo')`,
-      errors: [
-        {
-          ...errors[0],
-          suggestions: [
-            {
-              desc: "Replace toEqual with toHaveValue",
-              output: `expect(screen.getByTestId('bananas')).not.toHaveValue('foo')`,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      code: `expect(screen.queryByTestId('bananas').value).not.toBe('foo')`,
-      errors: [
-        {
-          ...errors[0],
-          suggestions: [
-            {
-              desc: "Replace toBe with toHaveValue",
-              output: `expect(screen.queryByTestId('bananas')).not.toHaveValue('foo')`,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      code: `async function x() { expect((await screen.findByTestId("bananas")).value).not.toStrictEqual("foo") }`,
-      errors: [
-        {
-          ...errors[0],
-          suggestions: [
-            {
-              desc: "Replace toStrictEqual with toHaveValue",
-              output: `async function x() { expect((await screen.findByTestId("bananas"))).not.toHaveValue("foo") }`,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      code: `let element; element = screen.getByTestId('bananas'); expect(element.value).not.toEqual('foo');`,
-      errors: [
-        {
-          ...errors[0],
-          suggestions: [
-            {
-              desc: "Replace toEqual with toHaveValue",
-              output: `let element; element = screen.getByTestId('bananas'); expect(element).not.toHaveValue('foo');`,
-            },
-          ],
-        },
-      ],
     },
   ],
 });
