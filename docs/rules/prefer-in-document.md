@@ -15,6 +15,10 @@ expect(wrapper.queryByText("foo")).toHaveLength(1);
 expect(queryByText("foo")).toHaveLength(0);
 expect(queryByText("foo")).toBeNull();
 expect(queryByText("foo")).not.toBeNull();
+expect(queryByText("foo")).toBe(null);
+expect(queryByText("foo")).not.toBe(null);
+expect(queryByText("foo")).toEqual(null);
+expect(queryByText("foo")).not.toEqual(null);
 expect(queryByText("foo")).toBeDefined();
 expect(queryByText("foo")).not.toBeDefined();
 

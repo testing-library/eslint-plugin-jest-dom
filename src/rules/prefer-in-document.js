@@ -3,6 +3,8 @@
  * @author Anton Niklasson
  */
 
+/*eslint complexity: ["error", {"max": 20}]*/
+
 import { queries } from "../queries";
 import { getAssignmentForIdentifier } from "../assignment-ast";
 
@@ -24,8 +26,14 @@ export const meta = {
 function isAntonymMatcher(matcherNode, matcherArguments) {
   return (
     matcherNode.name === "toBeNull" ||
+    usesToBeOrToEqualWithNull(matcherNode, matcherArguments) ||
     usesToHaveLengthZero(matcherNode, matcherArguments)
   );
+}
+
+function usesToBeOrToEqualWithNull(matcherNode, matcherArguments) {
+  return (matcherNode.name === "toBe" || matcherNode.name === "toEqual") &&
+    matcherArguments[0].value === null;
 }
 
 function usesToHaveLengthZero(matcherNode, matcherArguments) {
@@ -33,7 +41,7 @@ function usesToHaveLengthZero(matcherNode, matcherArguments) {
 }
 
 export const create = (context) => {
-  const alternativeMatchers = /(toHaveLength|toBeDefined|toBeNull)/;
+  const alternativeMatchers = /^(toHaveLength|toBeDefined|toBeNull|toBe|toEqual)$/;
   function getLengthValue(matcherArguments) {
     let lengthValue;
 
@@ -75,6 +83,13 @@ export const create = (context) => {
         lengthValue > 1;
 
       if (isValidUseOfToHaveLength) {
+        return;
+      }
+    }
+
+    // toBe() or toEqual() are only invalid with null
+    if (matcherNode.name === "toBe" || matcherNode.name === "toEqual") {
+      if (!usesToBeOrToEqualWithNull(matcherNode, matcherArguments)) {
         return;
       }
     }
