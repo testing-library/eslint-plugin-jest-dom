@@ -82,6 +82,8 @@ const valid = [
   `import {NUM_BUTTONS} from "./foo";
      expect(screen.getByText('foo')).toHaveLength(NUM_BUTTONS)`,
   `expect(screen.getAllByText("foo")).toHaveLength(getLength())`,
+  `expect(screen.getAllByText("foo")).toBe(foo)`,
+  `expect(screen.getAllByText("foo")).toEqual(foo)`,
 ];
 const invalid = [
   invalidCase(
@@ -237,6 +239,22 @@ const invalid = [
   ),
   invalidCase(
     `expect(queryByText('foo')) .not .toBeNull()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).toBe(null)`,
+    `expect(queryByText('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).not.toBe(null)`,
+    `expect(queryByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).toEqual(null)`,
+    `expect(queryByText('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).not.toEqual(null)`,
     `expect(queryByText('foo')).toBeInTheDocument()`
   ),
   invalidCase(
