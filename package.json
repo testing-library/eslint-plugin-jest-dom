@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^4.8.2",
-    "eslint": "7.15",
+    "eslint": "7.23",
     "eslint-remote-tester": "^0.3.3",
     "jest-extended": "^0.11.5",
     "kcd-scripts": "6.5.1",
