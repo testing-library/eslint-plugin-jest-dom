@@ -15,7 +15,7 @@ jobs:
         os: [ubuntu-latest]
         node: [15, 14, 12, 10]
     steps:
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2.1.5
         with:
           node-version: ${{ matrix.node }}
       - uses: actions/checkout@v1
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2.1.5
         with:
           node-version: 12
       - uses: actions/checkout@v1
