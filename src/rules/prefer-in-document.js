@@ -32,8 +32,10 @@ function isAntonymMatcher(matcherNode, matcherArguments) {
 }
 
 function usesToBeOrToEqualWithNull(matcherNode, matcherArguments) {
-  return (matcherNode.name === "toBe" || matcherNode.name === "toEqual") &&
-    matcherArguments[0].value === null;
+  return (
+    (matcherNode.name === "toBe" || matcherNode.name === "toEqual") &&
+    matcherArguments[0].value === null
+  );
 }
 
 function usesToHaveLengthZero(matcherNode, matcherArguments) {
@@ -71,7 +73,7 @@ export const create = (context) => {
     if (!queryNode || (!queryNode.name && !queryNode.property)) return;
 
     // toHaveLength() is only invalid with 0 or 1
-    if (matcherNode.name === "toHaveLength") {
+    if (matcherNode.name === "toHaveLength" && matcherArguments.length) {
       const lengthValue = getLengthValue(matcherArguments);
       // isNotToHaveLengthZero represents .not.toHaveLength(0) which is a valid use of toHaveLength
       const isNotToHaveLengthZero =
