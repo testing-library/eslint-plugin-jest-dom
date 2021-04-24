@@ -13,6 +13,7 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
       : negatedPreferred;
 
   const isBannedArg = (node) =>
+    node.arguments.length &&
     attributes.some((attr) => attr === node.arguments[0].value);
 
   //expect(el).not.toBeEnabled() => expect(el).toBeDisabled()
@@ -42,6 +43,10 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
     "CallExpression[callee.property.name=/toBe(Truthy|Falsy)?|toEqual/][callee.object.callee.name='expect']"(
       node
     ) {
+      if (!node.callee.object.arguments.length) {
+        return;
+      }
+
       const {
         arguments: [{ object, property, property: { name } = {} }],
       } = node.callee.object;
@@ -77,11 +82,11 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
     "CallExpression[callee.property.name=/toHaveProperty|toHaveAttribute/][callee.object.property.name='not'][callee.object.object.callee.name='expect']"(
       node
     ) {
-      const arg = node.arguments[0].value;
       if (!isBannedArg(node)) {
         return;
       }
 
+      const arg = node.arguments[0].value;
       const correctFunction = getCorrectFunctionFor(node, true);
 
       const incorrectFunction = node.callee.property.name;
