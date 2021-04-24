@@ -91,7 +91,10 @@ export const create = (context) => {
 
     // toBe() or toEqual() are only invalid with null
     if (matcherNode.name === "toBe" || matcherNode.name === "toEqual") {
-      if (!usesToBeOrToEqualWithNull(matcherNode, matcherArguments)) {
+      if (
+        !matcherArguments.length ||
+        !usesToBeOrToEqualWithNull(matcherNode, matcherArguments)
+      ) {
         return;
       }
     }
@@ -148,6 +151,10 @@ export const create = (context) => {
     [`CallExpression[callee.object.object.callee.name='expect'][callee.object.property.name='not'][callee.property.name=${alternativeMatchers}], CallExpression[callee.object.callee.name='expect'][callee.object.property.name='not'][callee.object.arguments.0.argument.callee.name=${alternativeMatchers}]`](
       node
     ) {
+      if (!node.callee.object.object.arguments.length) {
+        return;
+      }
+
       const arg = node.callee.object.object.arguments[0];
       const queryNode =
         arg.type === "AwaitExpression" ? arg.argument.callee : arg.callee;
