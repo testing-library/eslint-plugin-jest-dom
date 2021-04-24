@@ -4,6 +4,15 @@ export default ({ preferred, negatedPreferred, attribute }) => {
   const doubleNegativeCases = negatedPreferred.startsWith("toBe")
     ? [
         {
+          code: `expect().not.${negatedPreferred}`,
+          errors: [
+            {
+              message: `Use ${preferred} instead of not.${negatedPreferred}`,
+            },
+          ],
+          output: `expect().${preferred}`,
+        },
+        {
           code: `const el = screen.getByText("foo"); expect(el).not.${negatedPreferred}`,
           errors: [
             {
@@ -66,6 +75,7 @@ export default ({ preferred, negatedPreferred, attribute }) => {
 
   return {
     valid: [
+      `expect().not.toHaveProperty('value', 'foo')`,
       `const el = screen.getByText("foo"); expect(el).not.toHaveProperty('value', 'foo')`,
       `const el = screen.getByText("foo"); expect(el).${preferred}`,
       `const el = screen.getByText("foo"); expect(el).${negatedPreferred}`,
