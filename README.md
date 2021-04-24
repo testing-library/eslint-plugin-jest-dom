@@ -14,7 +14,7 @@
 [![MIT License][license-badge]][license]
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-14-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![PRs Welcome][prs-badge]][prs]
 [![Code of Conduct][coc-badge]][coc]
@@ -160,6 +160,9 @@ Thanks goes to these people ([emoji key][emojis]):
     <td align="center"><a href="http://www.antn.se"><img src="https://avatars0.githubusercontent.com/u/785676?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Anton Niklasson</b></sub></a><br /><a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=AntonNiklasson" title="Code">💻</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=AntonNiklasson" title="Tests">⚠️</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=AntonNiklasson" title="Documentation">📖</a></td>
     <td align="center"><a href="http://juzerzarif.com"><img src="https://avatars3.githubusercontent.com/u/22772637?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Juzer Zarif</b></sub></a><br /><a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=juzerzarif" title="Code">💻</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=juzerzarif" title="Tests">⚠️</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/issues?q=author%3Ajuzerzarif" title="Bug reports">🐛</a></td>
     <td align="center"><a href="http://everlong.org/"><img src="https://avatars.githubusercontent.com/u/454175?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Julien Wajsberg</b></sub></a><br /><a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=julienw" title="Code">💻</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=julienw" title="Tests">⚠️</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/G-Rath"><img src="https://avatars.githubusercontent.com/u/3151613?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gareth Jones</b></sub></a><br /><a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=G-Rath" title="Tests">⚠️</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=G-Rath" title="Code">💻</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/issues?q=author%3AG-Rath" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 

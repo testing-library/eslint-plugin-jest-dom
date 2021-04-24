@@ -36,6 +36,9 @@ const valid = [
       foo = somethingElse;
       expect(foo).toHaveLength(1);`,
   ]),
+  `expect().not.toBeNull()`,
+  `expect(myFunction()).toBe();`,
+  `expect(myFunction()).toHaveLength();`,
   `let foo;
   foo = "bar";
   expect(foo).toHaveLength(1);`,
