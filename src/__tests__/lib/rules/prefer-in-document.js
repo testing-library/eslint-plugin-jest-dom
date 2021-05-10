@@ -269,6 +269,22 @@ const invalid = [
     `expect(queryByText('foo')) .not .toBeInTheDocument()`
   ),
   invalidCase(
+    `expect(queryByText('foo')).toBeFalsy()`,
+    `expect(queryByText('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).not.toBeFalsy()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).toBeTruthy()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).not.toBeTruthy()`,
+    `expect(queryByText('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
     `let foo;
       foo = screen.queryByText('foo');
       expect(foo).toHaveLength(0);`,
