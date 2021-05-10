@@ -26,6 +26,7 @@ export const meta = {
 function isAntonymMatcher(matcherNode, matcherArguments) {
   return (
     matcherNode.name === "toBeNull" ||
+    matcherNode.name === "toBeFalsy" ||
     usesToBeOrToEqualWithNull(matcherNode, matcherArguments) ||
     usesToHaveLengthZero(matcherNode, matcherArguments)
   );
@@ -43,7 +44,7 @@ function usesToHaveLengthZero(matcherNode, matcherArguments) {
 }
 
 export const create = (context) => {
-  const alternativeMatchers = /^(toHaveLength|toBeDefined|toBeNull|toBe|toEqual)$/;
+  const alternativeMatchers = /^(toHaveLength|toBeDefined|toBeNull|toBe|toEqual|toBeTruthy|toBeFalsy)$/;
   function getLengthValue(matcherArguments) {
     let lengthValue;
 

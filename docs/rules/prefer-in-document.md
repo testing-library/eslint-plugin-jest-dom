@@ -21,6 +21,10 @@ expect(queryByText("foo")).toEqual(null);
 expect(queryByText("foo")).not.toEqual(null);
 expect(queryByText("foo")).toBeDefined();
 expect(queryByText("foo")).not.toBeDefined();
+expect(queryByText("foo")).toBeTruthy();
+expect(queryByText("foo")).not.toBeTruthy();
+expect(queryByText("foo")).toBeFalsy();
+expect(queryByText("foo")).not.toBeFalsy();
 
 const foo = screen.getByText("foo");
 expect(foo).toHaveLength(1);
