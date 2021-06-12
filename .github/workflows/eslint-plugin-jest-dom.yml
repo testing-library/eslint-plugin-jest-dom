@@ -2,7 +2,7 @@ name: eslint-plugin-jest-dom
 on:
   push:
     branches:
-      - "master"
+      - "main"
       - "alpha"
   pull_request:
 

@@ -57,7 +57,7 @@ Don't use this rule if you don't care if people use `.toBeEmptyDOMElement()`.
 
 <https://github.com/testing-library/jest-dom#tobeemptydomelement>
 
-<https://github.com/testing-library/jest-dom/blob/master/src/to-be-empty-dom-element.js>
+<https://github.com/testing-library/jest-dom/blob/main/src/to-be-empty-dom-element.js>
 
 ## Changelog
 
