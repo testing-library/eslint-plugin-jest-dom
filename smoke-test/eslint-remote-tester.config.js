@@ -1,6 +1,6 @@
 module.exports = {
   /** Repositories to scan */
-  repositories: require("./repositories.json"),
+  repositories: require("./repositories"),
 
   /** Extensions of files under scanning */
   extensions: ["js", "jsx", "ts", "tsx"],
