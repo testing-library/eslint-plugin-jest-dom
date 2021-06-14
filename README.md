@@ -46,7 +46,7 @@ should be installed as one of your project's `devDependencies`:
 npm install --save-dev eslint-plugin-jest-dom
 ```
 
-This library has a required `peerDependencies` listing for [`eslint`][eslint]
+This library has a required `peerDependencies` listing for [`ESLint`](https://eslint.org/).
 
 ## Usage
 
