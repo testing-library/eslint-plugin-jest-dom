@@ -14,7 +14,7 @@
 [![MIT License][license-badge]][license]
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![PRs Welcome][prs-badge]][prs]
 [![Code of Conduct][coc-badge]][coc]
@@ -46,7 +46,7 @@ should be installed as one of your project's `devDependencies`:
 npm install --save-dev eslint-plugin-jest-dom
 ```
 
-This library has a required `peerDependencies` listing for [`eslint`][eslint]
+This library has a required `peerDependencies` listing for [`ESLint`](https://eslint.org/).
 
 ## Usage
 
@@ -163,6 +163,7 @@ Thanks goes to these people ([emoji key][emojis]):
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/G-Rath"><img src="https://avatars.githubusercontent.com/u/3151613?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gareth Jones</b></sub></a><br /><a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=G-Rath" title="Tests">⚠️</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=G-Rath" title="Code">💻</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/issues?q=author%3AG-Rath" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/huyenltnguyen"><img src="https://avatars.githubusercontent.com/u/25715018?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Huyen Nguyen</b></sub></a><br /><a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=huyenltnguyen" title="Documentation">📖</a></td>
   </tr>
 </table>
 
