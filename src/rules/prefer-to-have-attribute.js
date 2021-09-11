@@ -64,15 +64,14 @@ export const create = (context) => ({
     node
   ) {
     const arg = node.parent.parent.parent.arguments;
-    const isNullOrEmpty =
-      arg.length > 0 && (arg[0].value === null || arg[0].value === "");
+    const isNull = arg.length > 0 && arg[0].value === null;
 
     const sourceCode = context.getSourceCode();
     context.report({
       node: node.parent,
       message: `Use toHaveAttribute instead of asserting on getAttribute`,
       fix: (fixer) => {
-        const lastFixer = isNullOrEmpty
+        const lastFixer = isNull
           ? fixer.replaceText(
               node.parent.parent.parent.arguments[0],
               sourceCode.getText(node.arguments[0])
@@ -86,7 +85,7 @@ export const create = (context) => ({
           fixer.removeRange([node.callee.object.range[1], node.range[1]]),
           fixer.replaceText(
             node.parent.parent.property,
-            `${isNullOrEmpty ? "not." : ""}toHaveAttribute`
+            `${isNull ? "not." : ""}toHaveAttribute`
           ),
           lastFixer,
         ];
