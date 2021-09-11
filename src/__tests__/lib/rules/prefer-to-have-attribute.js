@@ -73,6 +73,24 @@ ruleTester.run("prefer-to-have-attribute", rule, {
       output: `expect(getByText("yes")).toHaveAttribute("data-blah", expect.stringMatching(/foo/))`,
     },
     {
+      code: `expect(getByText("yes").getAttribute("data-blah")).toBe("")`,
+      errors: [
+        {
+          message: "Use toHaveAttribute instead of asserting on getAttribute",
+        },
+      ],
+      output: `expect(getByText("yes")).toHaveAttribute("data-blah", "")`,
+    },
+    {
+      code: `expect(getByText("yes").getAttribute("data-blah")).toBe('')`,
+      errors: [
+        {
+          message: "Use toHaveAttribute instead of asserting on getAttribute",
+        },
+      ],
+      output: `expect(getByText("yes")).toHaveAttribute("data-blah", '')`,
+    },
+    {
       code: `expect(getByText('foo').hasAttribute('foo')).toBe(null)`,
       errors: [
         {
@@ -172,6 +190,24 @@ ruleTester.run("prefer-to-have-attribute", rule, {
       output: 'expect(element).toHaveAttribute("foo", "bar")',
     },
     {
+      code: `expect(getByText("yes").getAttribute("data-blah")).toEqual("")`,
+      errors: [
+        {
+          message: "Use toHaveAttribute instead of asserting on getAttribute",
+        },
+      ],
+      output: `expect(getByText("yes")).toHaveAttribute("data-blah", "")`,
+    },
+    {
+      code: `expect(getByText("yes").getAttribute("data-blah")).toEqual('')`,
+      errors: [
+        {
+          message: "Use toHaveAttribute instead of asserting on getAttribute",
+        },
+      ],
+      output: `expect(getByText("yes")).toHaveAttribute("data-blah", '')`,
+    },
+    {
       code: 'expect(element.getAttribute("foo")).toStrictEqual("bar")',
       errors: [
         {
@@ -179,6 +215,24 @@ ruleTester.run("prefer-to-have-attribute", rule, {
         },
       ],
       output: 'expect(element).toHaveAttribute("foo", "bar")',
+    },
+    {
+      code: `expect(getByText("yes").getAttribute("data-blah")).toStrictEqual("")`,
+      errors: [
+        {
+          message: "Use toHaveAttribute instead of asserting on getAttribute",
+        },
+      ],
+      output: `expect(getByText("yes")).toHaveAttribute("data-blah", "")`,
+    },
+    {
+      code: `expect(getByText("yes").getAttribute("data-blah")).toStrictEqual('')`,
+      errors: [
+        {
+          message: "Use toHaveAttribute instead of asserting on getAttribute",
+        },
+      ],
+      output: `expect(getByText("yes")).toHaveAttribute("data-blah", '')`,
     },
     {
       code: 'expect(element.getAttribute("foo")).toBe(null)',
