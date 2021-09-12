@@ -65,6 +65,8 @@ jobs:
         with:
           useLockFile: false
 
+      - run: ls -asl dist
+
       - name: 🏗 Run build script
         run: npm run build
 
