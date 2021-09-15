@@ -14,7 +14,7 @@
 [![MIT License][license-badge]][license]
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![PRs Welcome][prs-badge]][prs]
 [![Code of Conduct][coc-badge]][coc]
@@ -46,7 +46,7 @@ should be installed as one of your project's `devDependencies`:
 npm install --save-dev eslint-plugin-jest-dom
 ```
 
-This library has a required `peerDependencies` listing for [`eslint`][eslint]
+This library has a required `peerDependencies` listing for [`ESLint`](https://eslint.org/).
 
 ## Usage
 
@@ -103,17 +103,17 @@ module.exports = {
 
 | Name                                                                                                                                           | 👍  | 🔧  | Description                                                           |
 | ---------------------------------------------------------------------------------------------------------------------------------------------- | --- | --- | --------------------------------------------------------------------- |
-| [prefer-checked](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-checked.md)                           | 👍  | 🔧  | prefer toBeChecked over checking attributes                           |
-| [prefer-empty](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-empty.md)                               | 👍  | 🔧  | Prefer toBeEmpty over checking innerHTML                              |
-| [prefer-enabled-disabled](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-enabled-disabled.md)         | 👍  | 🔧  | prefer toBeDisabled or toBeEnabled over checking attributes           |
-| [prefer-focus](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-focus.md)                               | 👍  | 🔧  | prefer toHaveFocus over checking document.activeElement               |
-| [prefer-in-document](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-in-document.md)                   | 👍  | 🔧  | Prefer .toBeInTheDocument() for asserting the existence of a DOM node |
-| [prefer-required](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-required.md)                         | 👍  | 🔧  | prefer toBeRequired over checking properties                          |
-| [prefer-to-have-attribute](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-to-have-attribute.md)       | 👍  | 🔧  | prefer toHaveAttribute over checking getAttribute/hasAttribute        |
-| [prefer-to-have-class](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-to-have-class.md)               | 👍  | 🔧  | prefer toHaveClass over checking element className                    |
-| [prefer-to-have-style](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-to-have-style.md)               | 👍  | 🔧  | prefer toHaveStyle over checking element style                        |
-| [prefer-to-have-text-content](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-to-have-text-content.md) | 👍  | 🔧  | Prefer toHaveTextContent over checking element.textContent            |
-| [prefer-to-have-value](https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/docs/rules/prefer-to-have-value.md)               | 👍  | 🔧  | prefer toHaveValue over checking element.value                        |
+| [prefer-checked](https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/docs/rules/prefer-checked.md)                           | 👍  | 🔧  | prefer toBeChecked over checking attributes                           |
+| [prefer-empty](https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/docs/rules/prefer-empty.md)                               | 👍  | 🔧  | Prefer toBeEmpty over checking innerHTML                              |
+| [prefer-enabled-disabled](https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/docs/rules/prefer-enabled-disabled.md)         | 👍  | 🔧  | prefer toBeDisabled or toBeEnabled over checking attributes           |
+| [prefer-focus](https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/docs/rules/prefer-focus.md)                               | 👍  | 🔧  | prefer toHaveFocus over checking document.activeElement               |
+| [prefer-in-document](https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/docs/rules/prefer-in-document.md)                   | 👍  | 🔧  | Prefer .toBeInTheDocument() for asserting the existence of a DOM node |
+| [prefer-required](https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/docs/rules/prefer-required.md)                         | 👍  | 🔧  | prefer toBeRequired over checking properties                          |
+| [prefer-to-have-attribute](https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/docs/rules/prefer-to-have-attribute.md)       | 👍  | 🔧  | prefer toHaveAttribute over checking getAttribute/hasAttribute        |
+| [prefer-to-have-class](https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/docs/rules/prefer-to-have-class.md)               | 👍  | 🔧  | prefer toHaveClass over checking element className                    |
+| [prefer-to-have-style](https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/docs/rules/prefer-to-have-style.md)               | 👍  | 🔧  | prefer toHaveStyle over checking element style                        |
+| [prefer-to-have-text-content](https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/docs/rules/prefer-to-have-text-content.md) | 👍  | 🔧  | Prefer toHaveTextContent over checking element.textContent            |
+| [prefer-to-have-value](https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/docs/rules/prefer-to-have-value.md)               | 👍  | 🔧  | prefer toHaveValue over checking element.value                        |
 
 <!-- __END AUTOGENERATED TABLE__ -->
 
@@ -163,6 +163,8 @@ Thanks goes to these people ([emoji key][emojis]):
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/G-Rath"><img src="https://avatars.githubusercontent.com/u/3151613?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gareth Jones</b></sub></a><br /><a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=G-Rath" title="Tests">⚠️</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=G-Rath" title="Code">💻</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/issues?q=author%3AG-Rath" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/huyenltnguyen"><img src="https://avatars.githubusercontent.com/u/25715018?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Huyen Nguyen</b></sub></a><br /><a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=huyenltnguyen" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/mdotwills"><img src="https://avatars.githubusercontent.com/u/5505611?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Matthew</b></sub></a><br /><a href="https://github.com/testing-library/eslint-plugin-jest-dom/issues?q=author%3Amdotwills" title="Bug reports">🐛</a> <a href="https://github.com/testing-library/eslint-plugin-jest-dom/commits?author=mdotwills" title="Code">💻</a></td>
   </tr>
 </table>
 
@@ -190,11 +192,11 @@ MIT
 [downloads-badge]: https://img.shields.io/npm/dm/eslint-plugin-jest-dom.svg?style=flat-square
 [npmtrends]: http://www.npmtrends.com/eslint-plugin-jest-dom
 [license-badge]: https://img.shields.io/npm/l/eslint-plugin-jest-dom.svg?style=flat-square
-[license]: https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/LICENSE
+[license]: https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [prs]: http://makeapullrequest.com
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
-[coc]: https://github.com/testing-library/eslint-plugin-jest-dom/blob/master/other/CODE_OF_CONDUCT.md
+[coc]: https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/other/CODE_OF_CONDUCT.md
 [emojis]: https://github.com/all-contributors/all-contributors#emoji-key
 [all-contributors]: https://github.com/all-contributors/all-contributors
 [bugs]: https://github.com/testing-library/eslint-plugin-jest-dom/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+sort%3Acreated-desc+label%3Abug

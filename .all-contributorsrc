@@ -165,6 +165,25 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "huyenltnguyen",
+      "name": "Huyen Nguyen",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25715018?v=4",
+      "profile": "https://github.com/huyenltnguyen",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "mdotwills",
+      "name": "Matthew",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5505611?v=4",
+      "profile": "https://github.com/mdotwills",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ]
 }
