@@ -71,7 +71,7 @@
     "eslint-remote-tester-results"
   ],
   "engines": {
-    "node": "^10.12.0 || >=12.0.0",
+    "node": "^12.22.0 || ^14.17.0 || >=16.0.0",
     "npm": ">=6",
     "yarn": ">=1"
   }
