@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@testing-library/dom": "^7.31.2",
+    "@testing-library/dom": "^8.11.0",
     "requireindex": "^1.2.0"
   },
   "devDependencies": {
