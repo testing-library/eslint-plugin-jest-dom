@@ -2,21 +2,23 @@ name: Smoke test
 
 on:
   schedule:
-    - cron: '0 0 * * SUN'
+    - cron: "0 0 * * SUN"
   workflow_dispatch:
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: 16
-    - run: yarn install
-    - run: yarn build
-    - run: yarn link
-    - run: yarn link eslint-plugin-jest-dom
-    - run: yarn test:smoke
-      env:
-        CI: true
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - run: |
+          npm install
+          npm run build
+          npm link
+          npm link eslint-plugin-jest-dom
+      - uses: AriPerkkio/eslint-remote-tester-run-action@v2
+        with:
+          issue-title: "Results of weekly scheduled smoke test"
+          eslint-remote-tester-config: smoke-test/eslint-remote-tester.config.js

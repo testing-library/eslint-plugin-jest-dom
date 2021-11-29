@@ -1,37 +1,15 @@
+const {
+  getRepositories,
+  getPathIgnorePattern,
+} = require("eslint-remote-tester-repositories");
+
 module.exports = {
-  /** Repositories to scan */
-  repositories: require("./repositories"),
-
-  /** Extensions of files under scanning */
+  repositories: getRepositories({ randomize: true }),
+  pathIgnorePattern: getPathIgnorePattern(),
   extensions: ["js", "jsx", "ts", "tsx"],
-
-  /** Optional pattern used to exclude paths */
-  pathIgnorePattern: `(${[
-    "node_modules",
-    "\\/\\.", // Any file or directory starting with dot, e.g. ".git"
-    "/dist/",
-    "/build/",
-
-    // Common patterns for minified JS
-    "babel\\.js",
-    "vendor\\.js",
-    "vendors\\.js",
-    "chunk\\.js",
-    "bundle\\.js",
-    "react-dom\\.development\\.js",
-    "\\.min\\.js", // Any *.min.js
-  ].join("|")})`,
-
-  /** Empty array since we are only interested in linter crashes */
-  rulesUnderTesting: [],
-
-  /** Maximum amount of tasks ran concurrently */
-  concurrentTasks: 2,
-
-  /** Optional boolean flag used to enable caching of cloned repositories. For CIs it's ideal to disable caching. Defauls to true. */
+  concurrentTasks: 3,
   cache: false,
-
-  /** ESLint configuration */
+  logLevel: "info",
   eslintrc: {
     root: true,
     env: {
@@ -45,7 +23,6 @@ module.exports = {
         jsx: true,
       },
     },
-    plugins: ["jest-dom"],
     extends: ["plugin:jest-dom/all"],
   },
 };
