@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^4.31.1",
-    "eslint": "^7.31.0",
+    "eslint": "^8.4.0",
     "eslint-remote-tester": "^2.0.1",
     "eslint-remote-tester-repositories": "^0.0.3",
     "jest-extended": "^0.11.5",
