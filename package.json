@@ -39,18 +39,18 @@
     "validate": "kcd-scripts validate"
   },
   "dependencies": {
-    "@babel/runtime": "^7.15.4",
+    "@babel/runtime": "^7.16.3",
     "@testing-library/dom": "^7.31.2",
     "requireindex": "^1.2.0"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^4.31.1",
+    "@typescript-eslint/parser": "^4.33.0",
     "eslint": "^7.31.0",
     "eslint-remote-tester": "^2.0.1",
     "eslint-remote-tester-repositories": "^0.0.3",
     "jest-extended": "^0.11.5",
     "kcd-scripts": "^11.2.2",
-    "typescript": "^4.4.3"
+    "typescript": "^4.5.3"
   },
   "peerDependencies": {
     "eslint": ">=6.8"
