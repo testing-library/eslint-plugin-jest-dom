@@ -2,13 +2,13 @@ name: validate
 on:
   push:
     branches:
-      - '+([0-9])?(.{+([0-9]),x}).x'
-      - 'main'
-      - 'next'
-      - 'next-major'
-      - 'beta'
-      - 'alpha'
-      - '!all-contributors/**'
+      - "+([0-9])?(.{+([0-9]),x}).x"
+      - "main"
+      - "next"
+      - "next-major"
+      - "beta"
+      - "alpha"
+      - "!all-contributors/**"
   pull_request: {}
 jobs:
   main:
@@ -16,6 +16,7 @@ jobs:
     if: ${{ !contains(github.head_ref, 'all-contributors') }}
     strategy:
       matrix:
+        eslint: [6.8.0, 6, 7.0.0, 7]
         node: [12, 14, 16]
     runs-on: ubuntu-latest
     steps:
@@ -35,7 +36,15 @@ jobs:
         with:
           useLockFile: false
 
-      - name: ▶️ Run validate script
+      - name: Install ESLint v${{ matrix.eslint }}
+        run: npm install --no-save --force eslint@${{ matrix.eslint }}
+
+      - name: ▶️ Run validate script (without linting)
+        if: ${{ matrix.eslint != 7 }}
+        run: npm run validate -- build,test:coverage
+
+      - name: ▶️ Run validate script (with linting)
+        if: ${{ matrix.eslint == 7 }}
         run: npm run validate
 
       - name: ⬆️ Upload coverage report
@@ -44,8 +53,7 @@ jobs:
   release:
     needs: main
     runs-on: ubuntu-latest
-    if:
-      ${{ github.repository == 'testing-library/eslint-plugin-jest-dom' &&
+    if: ${{ github.repository == 'testing-library/eslint-plugin-jest-dom' &&
       contains('refs/heads/main,refs/heads/beta,refs/heads/next,refs/heads/alpha',
       github.ref) && github.event_name == 'push' }}
     steps:
@@ -73,7 +81,7 @@ jobs:
       - name: 🚀 Release
         uses: cycjimmy/semantic-release-action@v2
         with:
-          semantic_version: 17
+          semantic_version: 18
           branches: |
             [
               '+([0-9])?(.{+([0-9]),x}).x',
