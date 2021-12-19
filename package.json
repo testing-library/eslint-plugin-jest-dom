@@ -35,7 +35,8 @@
     "lint": "kcd-scripts lint",
     "setup": "npm install && npm run validate -s",
     "test": "kcd-scripts test",
-    "test:update": "npm test -- --updateSnapshot --coverage",
+    "test:coverage": "npm test -- --coverage",
+    "test:update": "npm test:coverage -- --updateSnapshot",
     "validate": "kcd-scripts validate"
   },
   "dependencies": {
