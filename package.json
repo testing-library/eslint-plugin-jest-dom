@@ -40,7 +40,6 @@
     "validate": "kcd-scripts validate"
   },
   "dependencies": {
-    "@babel/runtime": "^7.16.3",
     "@testing-library/dom": "^7.31.2",
     "requireindex": "^1.2.0"
   },
