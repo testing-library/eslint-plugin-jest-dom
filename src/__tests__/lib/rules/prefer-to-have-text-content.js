@@ -18,6 +18,7 @@ import * as rule from "../../../rules/prefer-to-have-text-content";
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ruleTester.run("prefer-to-have-text-content", rule, {
   valid: [
+    `expect().toBe(true)`,
     `expect(string).toBe("foo")`,
     `expect(element).toHaveTextContent("foo")`,
     `expect(container.lastNode).toBe("foo")`,

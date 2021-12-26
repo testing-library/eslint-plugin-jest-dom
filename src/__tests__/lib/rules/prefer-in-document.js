@@ -27,6 +27,7 @@ function invalidCase(code, output) {
 }
 
 const valid = [
+  "expect().toBe(true)",
   ...["getByText", "getByRole"].map((q) => [
     `expect(screen.${q}('foo')).toBeInTheDocument()`,
     `expect(${q}('foo')).toBeInTheDocument()`,
