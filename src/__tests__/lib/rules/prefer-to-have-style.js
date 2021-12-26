@@ -7,6 +7,7 @@ const errors = [
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ruleTester.run("prefer-to-have-style", rule, {
   valid: [
+    `expect().toBe(true)`,
     `expect(el).toHaveStyle({foo:"bar"})`,
     `expect(el.style).toMatchSnapshot()`,
     `expect(el.style).toEqual(foo)`,

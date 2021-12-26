@@ -20,6 +20,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2020 } });
 const errors = [{ messageId: "use-to-have-value" }];
 ruleTester.run("prefer-to-have-value", rule, {
   valid: [
+    `expect().toBe(true)`,
     `expect(screen.getByRole("radio").value).toEqual("foo")`,
     `expect(screen.queryAllByRole("checkbox")[0].value).toStrictEqual("foo")`,
     `async function x() { expect((await screen.findByRole("button")).value).toBe("foo") }`,

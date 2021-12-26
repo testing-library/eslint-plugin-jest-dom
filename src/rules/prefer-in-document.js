@@ -44,7 +44,8 @@ function usesToHaveLengthZero(matcherNode, matcherArguments) {
 }
 
 export const create = (context) => {
-  const alternativeMatchers = /^(toHaveLength|toBeDefined|toBeNull|toBe|toEqual|toBeTruthy|toBeFalsy)$/;
+  const alternativeMatchers =
+    /^(toHaveLength|toBeDefined|toBeNull|toBe|toEqual|toBeTruthy|toBeFalsy)$/;
   function getLengthValue(matcherArguments) {
     let lengthValue;
 
@@ -216,6 +217,11 @@ export const create = (context) => {
       node
     ) {
       const arg = node.callee.object.arguments[0];
+
+      if (!arg) {
+        return;
+      }
+
       const queryNode =
         arg.type === "AwaitExpression" ? arg.argument.callee : arg.callee;
       const matcherNode = node.callee.property;
