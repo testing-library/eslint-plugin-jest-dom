@@ -18,6 +18,7 @@ import * as rule from "../../../rules/prefer-to-have-attribute";
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ruleTester.run("prefer-to-have-attribute", rule, {
   valid: [
+    "expect().toBe(true)",
     "expect(element.foo).toBeTruthy()",
     "expect(element.getAttributeNode()).toBeNull()",
     `expect(element.getAttribute('foo')).toBeGreaterThan(2)`,
@@ -44,8 +45,7 @@ ruleTester.run("prefer-to-have-attribute", rule, {
       output: `expect(element).toHaveAttribute('foo', expect.stringContaining('bar'));`,
     },
     {
-      code:
-        "expect(element.getAttribute('foo')).toContain(`bar=${encodeURIComponent(baz.id)}`);",
+      code: "expect(element.getAttribute('foo')).toContain(`bar=${encodeURIComponent(baz.id)}`);",
       errors: [
         {
           message: "Use toHaveAttribute instead of asserting on getAttribute",

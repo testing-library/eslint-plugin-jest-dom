@@ -5,6 +5,7 @@ const errors = [{ messageId: "use-to-have-class" }];
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ruleTester.run("prefer-to-have-class", rule, {
   valid: [
+    `expect().toBe(true)`,
     `const el = screen.getByText("foo"); expect(el).toHaveClass("bar")`,
     `const el = screen.getByText("foo"); expect(el.class).toEqual(foo)`,
     `const el = screen.getByText("foo"); expect(el).toHaveAttribute("class")`,

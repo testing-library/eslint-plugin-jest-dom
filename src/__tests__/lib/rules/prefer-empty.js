@@ -18,6 +18,7 @@ import * as rule from "../../../rules/prefer-empty";
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ruleTester.run("prefer-empty", rule, {
   valid: [
+    `expect().toBe(true)`,
     `expect(element.innerHTML).toBe('foo')`,
     `expect(element.innerHTML).toBe(foo)`,
     `expect(element.innerHTML).toBe(foo + bar)`,
