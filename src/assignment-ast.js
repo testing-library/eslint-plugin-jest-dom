@@ -74,7 +74,9 @@ export function getQueryNodeFrom(context, nodeWithValueProp) {
     };
   }
 
-  const query = queryNode.callee.name || queryNode.callee.property.name;
+  const query =
+    queryNode.callee.name ||
+    (queryNode.callee.property && queryNode.callee.property.name);
   const queryArg = queryNode.arguments[0] && queryNode.arguments[0].value;
   const isDTLQuery = queries.includes(query);
 

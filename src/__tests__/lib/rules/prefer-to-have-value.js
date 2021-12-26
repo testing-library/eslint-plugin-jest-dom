@@ -51,6 +51,10 @@ ruleTester.run("prefer-to-have-value", rule, {
 
     `const element = { value: 'foo' };
     expect(element.value).not.toBe('foo');`,
+    `
+      const res = makePath()();
+      expect(res.value).toEqual('/repositories/create');
+    `,
   ],
   invalid: [
     {
