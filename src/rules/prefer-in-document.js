@@ -71,6 +71,10 @@ export const create = (context) => {
     negatedMatcher,
     expect,
   }) {
+    if (matcherNode.parent.parent.type !== "CallExpression") {
+      return;
+    }
+
     // only report on dom nodes which we can resolve to RTL queries.
     if (!queryNode || (!queryNode.name && !queryNode.property)) return;
 
