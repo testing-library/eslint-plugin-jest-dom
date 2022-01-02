@@ -88,6 +88,15 @@ const valid = [
   `expect(screen.getAllByText("foo")).toHaveLength(getLength())`,
   `expect(screen.getAllByText("foo")).toBe(foo)`,
   `expect(screen.getAllByText("foo")).toEqual(foo)`,
+  `
+  const element =  getByText('value')
+  expect(element).toBeTruthy`,
+  `
+  const element =  getByText('value')
+  expect(element).toBe.truthy`,
+  `
+  const element =  getByText('value')
+  expect(element).toBeInTheDocument`,
 ];
 const invalid = [
   invalidCase(
