@@ -116,14 +116,18 @@ export const create = (context) => ({
       classValue.type === "CallExpression" &&
       classValue.callee.type === "MemberExpression" &&
       classValue.callee.object.name === "expect"
-    )
+    ) {
       return;
+    }
+
     context.report({
       node: matcher,
       messageId,
       fix(fixer) {
-        if (checkedProp.name === "classList" && matcher.name !== "toContain")
+        if (checkedProp.name === "classList" && matcher.name !== "toContain") {
           return;
+        }
+
         return [
           fixer.removeRange([classNameProp.range[1], checkedProp.range[1]]),
           fixer.replaceText(matcher, "toHaveClass"),
@@ -182,8 +186,9 @@ export const create = (context) => ({
       node: matcher,
       messageId,
       fix(fixer) {
-        if (className.name === "classList" && matcher.name !== "toContain")
+        if (className.name === "classList" && matcher.name !== "toContain") {
           return;
+        }
 
         return [
           fixer.removeRange([classNameProp.range[1], className.range[1]]),
@@ -215,8 +220,9 @@ export const create = (context) => ({
     if (
       (matcher.name === "toHaveAttribute" && classNameValue !== "class") ||
       (matcher.name === "toHaveProperty" && classNameValue !== "className")
-    )
+    ) {
       return;
+    }
 
     const { isDTLQuery } = getQueryNodeFrom(
       context,
@@ -255,8 +261,10 @@ export const create = (context) => ({
     if (
       (matcher.name === "toHaveAttribute" && classNameValue !== "class") ||
       (matcher.name === "toHaveProperty" && classNameValue !== "className")
-    )
+    ) {
       return;
+    }
+
     const { isDTLQuery } = getQueryNodeFrom(
       context,
       node.callee.object.object.arguments[0]
@@ -295,8 +303,9 @@ export const create = (context) => ({
     if (
       (matcher.name === "toHaveAttribute" && classNameValue !== "class") ||
       (matcher.name === "toHaveProperty" && classNameValue !== "className")
-    )
+    ) {
       return;
+    }
 
     const { isDTLQuery } = getQueryNodeFrom(
       context,
