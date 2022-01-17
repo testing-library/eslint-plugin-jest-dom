@@ -45,7 +45,7 @@
     "requireindex": "^1.2.0"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^4.33.0",
+    "@typescript-eslint/parser": "^5.9.1",
     "eslint": "^7.31.0",
     "eslint-remote-tester": "^2.0.1",
     "eslint-remote-tester-repositories": "^0.0.4",
