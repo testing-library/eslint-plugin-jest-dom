@@ -1,4 +1,4 @@
-# prefer toBeRequired() or not.toBeRequired() over toHaveProperty('required', true|false) (prefer-enabled-required)
+# prefer toBeRequired() or not.toBeRequired() over toHaveProperty('required', true|false) (prefer-required)
 
 ## Rule Details
 
