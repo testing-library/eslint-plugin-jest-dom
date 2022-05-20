@@ -164,10 +164,11 @@ export const create = (context) => {
       const startOfStyleMemberExpression = node.object.range[1];
       const endOfStyleMemberExpression =
         node.parent.parent.arguments[0].range[1];
-      context.report({
-        node: node.property,
-        message: "Use toHaveStyle instead of asserting on element style",
-        fix(fixer) {
+
+      let fix = null;
+
+      if (typeof styleValue.value !== "number") {
+        fix = (fixer) => {
           return [
             fixer.removeRange([
               startOfStyleMemberExpression,
@@ -183,7 +184,13 @@ export const create = (context) => {
                 : getReplacementStyleParam(styleName, styleValue)
             ),
           ];
-        },
+        };
+      }
+
+      context.report({
+        node: node.property,
+        message: "Use toHaveStyle instead of asserting on element style",
+        fix,
       });
     },
     //expect(el.style["foo-bar"]).not.toBe("baz")

@@ -10,6 +10,7 @@ ruleTester.run("prefer-to-have-style", rule, {
     `expect().toBe(true)`,
     `expect(el).toHaveStyle({foo:"bar"})`,
     `expect(el.style).toMatchSnapshot()`,
+    `expect(el.style).toEqual(1)`,
     `expect(el.style).toEqual(foo)`,
     `expect(el.style[1]).toEqual([])`,
     `expect(el.style[1]).toEqual({})`,
@@ -156,6 +157,10 @@ ruleTester.run("prefer-to-have-style", rule, {
       code: `expect(element.style[1]).toBe(x);`,
       errors,
       output: `expect(element).toHaveStyle({[x]: expect.anything()});`,
+    },
+    {
+      code: `expect(element.style[0]).toBe(1);`,
+      errors,
     },
   ],
 });
