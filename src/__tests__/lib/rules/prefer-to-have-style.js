@@ -14,6 +14,7 @@ ruleTester.run("prefer-to-have-style", rule, {
     `expect(el.style).toEqual(foo)`,
     `expect(el.style[1]).toEqual([])`,
     `expect(el.style[1]).toEqual({})`,
+    `expect(element.style[0]).toBe(new RegExp('reg'));`,
     `expect(el).toHaveAttribute("style")`,
     `React.useLayoutEffect(() => {
       if (foo) {
@@ -160,6 +161,10 @@ ruleTester.run("prefer-to-have-style", rule, {
     },
     {
       code: `expect(element.style[0]).toBe(1);`,
+      errors,
+    },
+    {
+      code: `expect(element.style[0]).toBe(/RegExp/);`,
       errors,
     },
   ],

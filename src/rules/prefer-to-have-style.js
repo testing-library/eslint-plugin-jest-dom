@@ -167,7 +167,10 @@ export const create = (context) => {
 
       let fix = null;
 
-      if (typeof styleValue.value !== "number") {
+      if (
+        typeof styleValue.value !== "number" &&
+        !(styleValue.value instanceof RegExp)
+      ) {
         fix = (fixer) => {
           return [
             fixer.removeRange([
@@ -249,9 +252,9 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceTextRange(
               [styleName.range[0], styleValue.range[1]],
-              `{${camelCase(
-                styleName.value
-              )}: ${context.getSourceCode().getText(styleValue)}}`
+              `{${camelCase(styleName.value)}: ${context
+                .getSourceCode()
+                .getText(styleValue)}}`
             ),
           ];
         },
@@ -262,10 +265,8 @@ export const create = (context) => {
     [`MemberExpression[property.name=style][parent.parent.property.name=not][parent.parent.parent.property.name=toHaveProperty][parent.callee.name=expect]`](
       node
     ) {
-      const [
-        styleName,
-        styleValue,
-      ] = node.parent.parent.parent.parent.arguments;
+      const [styleName, styleValue] =
+        node.parent.parent.parent.parent.arguments;
       const matcher = node.parent.parent.parent.property;
 
       context.report({
@@ -283,9 +284,9 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceTextRange(
               [styleName.range[0], styleValue.range[1]],
-              `{${camelCase(
-                styleName.value
-              )}: ${context.getSourceCode().getText(styleValue)}}`
+              `{${camelCase(styleName.value)}: ${context
+                .getSourceCode()
+                .getText(styleValue)}}`
             ),
           ];
         },
