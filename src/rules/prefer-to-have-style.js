@@ -18,6 +18,13 @@ export const meta = {
 };
 
 export const create = (context) => {
+  function getReplacementObjectProperty(styleName) {
+    if (styleName.type === "Literal") {
+      return camelCase(styleName.value);
+    }
+
+    return `[${context.getSourceCode().getText(styleName)}]`;
+  }
   function getReplacementStyleParam(styleName, styleValue) {
     return styleName.type === "Literal"
       ? `{${camelCase(styleName.value)}: ${context
@@ -169,7 +176,11 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceText(
               styleValue,
-              getReplacementStyleParam(styleName, styleValue)
+              typeof styleName.value === "number"
+                ? `{${getReplacementObjectProperty(
+                    styleValue
+                  )}: expect.anything()}`
+                : getReplacementStyleParam(styleName, styleValue)
             ),
           ];
         },
@@ -185,10 +196,10 @@ export const create = (context) => {
       const endOfStyleMemberExpression =
         node.parent.parent.arguments[0].range[1];
 
-      context.report({
-        node: node.property,
-        message: "Use toHaveStyle instead of asserting on element style",
-        fix(fixer) {
+      let fix = null;
+
+      if (typeof styleName.value !== "number") {
+        fix = (fixer) => {
           return [
             fixer.removeRange([
               node.object.range[1],
@@ -200,7 +211,13 @@ export const create = (context) => {
               getReplacementStyleParam(styleName, styleValue)
             ),
           ];
-        },
+        };
+      }
+
+      context.report({
+        node: node.property,
+        message: "Use toHaveStyle instead of asserting on element style",
+        fix,
       });
     },
     //expect(foo.style).toHaveProperty("foo", "bar")
