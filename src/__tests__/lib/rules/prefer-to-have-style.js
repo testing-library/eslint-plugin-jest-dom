@@ -11,7 +11,8 @@ ruleTester.run("prefer-to-have-style", rule, {
     `expect(el).toHaveStyle({foo:"bar"})`,
     `expect(el.style).toMatchSnapshot()`,
     `expect(el.style).toEqual(foo)`,
-    `expect(el.style[1]).toEqual(computed)`,
+    `expect(el.style[1]).toEqual([])`,
+    `expect(el.style[1]).toEqual({})`,
     `expect(el).toHaveAttribute("style")`,
     `React.useLayoutEffect(() => {
       if (foo) {
@@ -151,10 +152,10 @@ ruleTester.run("prefer-to-have-style", rule, {
       code: `expect(element.style[1]).not.toBe(\`padding\`);`,
       errors,
     },
-    // {
-    //   code: `expect(element.style[1]).toBe(x);`,
-    //   errors,
-    //   output: `expect(element).toHaveStyle({[\`padding\`]: expect.anything()});`,
-    // },
+    {
+      code: `expect(element.style[1]).toBe(x);`,
+      errors,
+      output: `expect(element).toHaveStyle({[x]: expect.anything()});`,
+    },
   ],
 });

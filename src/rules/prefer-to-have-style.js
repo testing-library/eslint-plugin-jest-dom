@@ -155,7 +155,7 @@ export const create = (context) => {
     },
 
     //expect(el.style["foo-bar"]).toBe("baz")
-    [`MemberExpression[property.name=style][parent.computed=true][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.arguments.0.type=/(Template)?Literal/][parent.parent.callee.name=expect]`](
+    [`MemberExpression[property.name=style][parent.computed=true][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.arguments.0.type=/((Template)?Literal|Identifier)/][parent.parent.callee.name=expect]`](
       node
     ) {
       const styleName = node.parent.property;
