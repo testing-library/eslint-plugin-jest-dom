@@ -18,6 +18,13 @@ export const meta = {
 };
 
 export const create = (context) => {
+  function getReplacementObjectProperty(styleName) {
+    if (styleName.type === "Literal") {
+      return camelCase(styleName.value);
+    }
+
+    return `[${context.getSourceCode().getText(styleName)}]`;
+  }
   function getReplacementStyleParam(styleName, styleValue) {
     return styleName.type === "Literal"
       ? `{${camelCase(styleName.value)}: ${context
@@ -148,7 +155,7 @@ export const create = (context) => {
     },
 
     //expect(el.style["foo-bar"]).toBe("baz")
-    [`MemberExpression[property.name=style][parent.computed=true][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.arguments.0.type=/(Template)?Literal/][parent.parent.callee.name=expect]`](
+    [`MemberExpression[property.name=style][parent.computed=true][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.arguments.0.type=/((Template)?Literal|Identifier)/][parent.parent.callee.name=expect]`](
       node
     ) {
       const styleName = node.parent.property;
@@ -157,10 +164,14 @@ export const create = (context) => {
       const startOfStyleMemberExpression = node.object.range[1];
       const endOfStyleMemberExpression =
         node.parent.parent.arguments[0].range[1];
-      context.report({
-        node: node.property,
-        message: "Use toHaveStyle instead of asserting on element style",
-        fix(fixer) {
+
+      let fix = null;
+
+      if (
+        typeof styleValue.value !== "number" &&
+        !(styleValue.value instanceof RegExp)
+      ) {
+        fix = (fixer) => {
           return [
             fixer.removeRange([
               startOfStyleMemberExpression,
@@ -169,10 +180,20 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceText(
               styleValue,
-              getReplacementStyleParam(styleName, styleValue)
+              typeof styleName.value === "number"
+                ? `{${getReplacementObjectProperty(
+                    styleValue
+                  )}: expect.anything()}`
+                : getReplacementStyleParam(styleName, styleValue)
             ),
           ];
-        },
+        };
+      }
+
+      context.report({
+        node: node.property,
+        message: "Use toHaveStyle instead of asserting on element style",
+        fix,
       });
     },
     //expect(el.style["foo-bar"]).not.toBe("baz")
@@ -185,10 +206,10 @@ export const create = (context) => {
       const endOfStyleMemberExpression =
         node.parent.parent.arguments[0].range[1];
 
-      context.report({
-        node: node.property,
-        message: "Use toHaveStyle instead of asserting on element style",
-        fix(fixer) {
+      let fix = null;
+
+      if (typeof styleName.value !== "number") {
+        fix = (fixer) => {
           return [
             fixer.removeRange([
               node.object.range[1],
@@ -200,7 +221,13 @@ export const create = (context) => {
               getReplacementStyleParam(styleName, styleValue)
             ),
           ];
-        },
+        };
+      }
+
+      context.report({
+        node: node.property,
+        message: "Use toHaveStyle instead of asserting on element style",
+        fix,
       });
     },
     //expect(foo.style).toHaveProperty("foo", "bar")
@@ -225,9 +252,9 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceTextRange(
               [styleName.range[0], styleValue.range[1]],
-              `{${camelCase(
-                styleName.value
-              )}: ${context.getSourceCode().getText(styleValue)}}`
+              `{${camelCase(styleName.value)}: ${context
+                .getSourceCode()
+                .getText(styleValue)}}`
             ),
           ];
         },
@@ -238,10 +265,8 @@ export const create = (context) => {
     [`MemberExpression[property.name=style][parent.parent.property.name=not][parent.parent.parent.property.name=toHaveProperty][parent.callee.name=expect]`](
       node
     ) {
-      const [
-        styleName,
-        styleValue,
-      ] = node.parent.parent.parent.parent.arguments;
+      const [styleName, styleValue] =
+        node.parent.parent.parent.parent.arguments;
       const matcher = node.parent.parent.parent.property;
 
       context.report({
@@ -259,9 +284,9 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceTextRange(
               [styleName.range[0], styleValue.range[1]],
-              `{${camelCase(
-                styleName.value
-              )}: ${context.getSourceCode().getText(styleValue)}}`
+              `{${camelCase(styleName.value)}: ${context
+                .getSourceCode()
+                .getText(styleValue)}}`
             ),
           ];
         },
