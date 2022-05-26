@@ -10,7 +10,11 @@ ruleTester.run("prefer-to-have-style", rule, {
     `expect().toBe(true)`,
     `expect(el).toHaveStyle({foo:"bar"})`,
     `expect(el.style).toMatchSnapshot()`,
+    `expect(el.style).toEqual(1)`,
     `expect(el.style).toEqual(foo)`,
+    `expect(el.style[1]).toEqual([])`,
+    `expect(el.style[1]).toEqual({})`,
+    `expect(element.style[0]).toBe(new RegExp('reg'));`,
     `expect(el).toHaveAttribute("style")`,
     `React.useLayoutEffect(() => {
       if (foo) {
@@ -131,6 +135,37 @@ ruleTester.run("prefer-to-have-style", rule, {
       code: `expect(imageElement.style[\`box-shadow\`]).not.toBe("inset 0px 0px 0px 400px 40px")`,
       errors,
       output: `expect(imageElement).not.toHaveStyle(\`box-shadow: inset 0px 0px 0px 400px 40px\`)`,
+    },
+    {
+      code: `expect(element.style[1]).toEqual('padding');`,
+      errors,
+      output: `expect(element).toHaveStyle({padding: expect.anything()});`,
+    },
+    {
+      code: `expect(element.style[1]).toBe(\`padding\`);`,
+      errors,
+      output: `expect(element).toHaveStyle({[\`padding\`]: expect.anything()});`,
+    },
+    {
+      code: `expect(element.style[1]).not.toEqual('padding');`,
+      errors,
+    },
+    {
+      code: `expect(element.style[1]).not.toBe(\`padding\`);`,
+      errors,
+    },
+    {
+      code: `expect(element.style[1]).toBe(x);`,
+      errors,
+      output: `expect(element).toHaveStyle({[x]: expect.anything()});`,
+    },
+    {
+      code: `expect(element.style[0]).toBe(1);`,
+      errors,
+    },
+    {
+      code: `expect(element.style[0]).toBe(/RegExp/);`,
+      errors,
     },
   ],
 });
