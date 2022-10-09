@@ -11,6 +11,7 @@
 This rule enforces checking existance of DOM nodes using `.toBeInTheDocument()`.
 The rule prefers that matcher over various existance checks such as `.toHaveLength(1)`, `.not.toBeNull()` and
 similar.
+However it's considered OK to use `.toHaveLength(value)` matcher with `*AllBy*` queries.
 
 Examples of **incorrect** code for this rule:
 
@@ -46,7 +47,7 @@ expect(screen.getByText("foo").length).toBe(1);
 expect(screen.queryByText("foo")).toBeInTheDocument();
 expect(await screen.findByText("foo")).toBeInTheDocument();
 expect(queryByText("foo")).toBeInTheDocument();
-expect(wrapper.queryAllByTestId("foo")).toBeInTheDocument();
+expect(wrapper.queryAllByTestId("foo")).toHaveLength(1);
 expect(screen.getAllByLabel("foo-bar")).toHaveLength(2);
 expect(notAQuery("foo-bar")).toHaveLength(1);
 
