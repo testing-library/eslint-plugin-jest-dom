@@ -30,7 +30,7 @@ function invalidCaseWithSuggestions(
   code,
   messageData,
   replaceQueryOutput,
-  replaceAssertionOutput
+  replaceMatcherOutput
 ) {
   return {
     code,
@@ -45,7 +45,7 @@ function invalidCaseWithSuggestions(
           },
           {
             desc: "Replace .toHaveLength(1) with .toBeInTheDocument()",
-            output: replaceAssertionOutput,
+            output: replaceMatcherOutput,
           },
         ],
       },
