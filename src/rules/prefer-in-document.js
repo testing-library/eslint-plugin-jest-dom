@@ -103,7 +103,7 @@ export const create = (context) => {
     // only report on dom nodes which we can resolve to RTL queries.
     if (!queryNode || (!queryNode.name && !queryNode.property)) return;
 
-    // *By* query with .toHaveLength(0/1) assertions are considered violations
+    // *By* query with .toHaveLength(0/1) matcher are considered violations
     //
     // | Selector type | .toHaveLength(1)            | .toHaveLength(0)                      |
     // | ============= | =========================== | ===================================== |
