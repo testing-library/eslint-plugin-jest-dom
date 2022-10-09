@@ -26,6 +26,33 @@ function invalidCase(code, output) {
   };
 }
 
+function invalidCaseWithSuggestions(
+  code,
+  messageData,
+  replaceQueryOutput,
+  replaceAssertionOutput
+) {
+  return {
+    code,
+    errors: [
+      {
+        messageId: "invalid-combination-length-1",
+        data: messageData,
+        suggestions: [
+          {
+            desc: `Replace ${messageData.query} with ${messageData.allQuery}`,
+            output: replaceQueryOutput,
+          },
+          {
+            desc: "Replace .toHaveLength(1) with .toBeInTheDocument()",
+            output: replaceAssertionOutput,
+          },
+        ],
+      },
+    ],
+  };
+}
+
 const valid = [
   "expect().toBe(true)",
   ...["getByText", "getByRole"].map((q) => [
@@ -124,92 +151,103 @@ const valid = [
     expect(foo).toHaveLength(0);`,
 ];
 const invalid = [
-  invalidCase(
+  // Report invalid combination of *By* query with .toHaveLength(1) assertion
+  // and suggest fixes by:
+  // - Replacing *By* with *AllBy* query
+  // - Replacing .toHaveLength(1) with .toBeInTheDocument() assertion
+  invalidCaseWithSuggestions(
     `expect(screen.getByText('foo')).toHaveLength(1)`,
+    {
+      query: "getByText",
+      allQuery: "getAllByText",
+    },
+    `expect(screen.getAllByText('foo')).toHaveLength(1)`,
     `expect(screen.getByText('foo')).toBeInTheDocument()`
   ),
-  invalidCase(
+  invalidCaseWithSuggestions(
     `const NUM_BUTTONS=1;
      expect(screen.getByText('foo')).toHaveLength(NUM_BUTTONS)`,
+    {
+      query: "getByText",
+      allQuery: "getAllByText",
+    },
+    `const NUM_BUTTONS=1;
+     expect(screen.getAllByText('foo')).toHaveLength(NUM_BUTTONS)`,
     `const NUM_BUTTONS=1;
      expect(screen.getByText('foo')).toBeInTheDocument()`
   ),
 
-  invalidCase(
+  invalidCaseWithSuggestions(
     `expect(getByText('foo')).toHaveLength(1)`,
+    {
+      query: "getByText",
+      allQuery: "getAllByText",
+    },
+    `expect(getAllByText('foo')).toHaveLength(1)`,
     `expect(getByText('foo')).toBeInTheDocument()`
   ),
-  invalidCase(
+  invalidCaseWithSuggestions(
     `expect(wrapper.getByText('foo')).toHaveLength(1)`,
+    {
+      query: "getByText",
+      allQuery: "getAllByText",
+    },
+    `expect(wrapper.getAllByText('foo')).toHaveLength(1)`,
     `expect(wrapper.getByText('foo')).toBeInTheDocument()`
   ),
-  invalidCase(
+  invalidCaseWithSuggestions(
     `const foo = screen.getByText('foo');
+    expect(foo).toHaveLength(1);`,
+    {
+      query: "getByText",
+      allQuery: "getAllByText",
+    },
+    `const foo = screen.getAllByText('foo');
     expect(foo).toHaveLength(1);`,
     `const foo = screen.getByText('foo');
     expect(foo).toBeInTheDocument();`
   ),
-  invalidCase(
+  invalidCaseWithSuggestions(
     `const foo = getByText('foo');
+    expect(foo).toHaveLength(1);`,
+    {
+      query: "getByText",
+      allQuery: "getAllByText",
+    },
+    `const foo = getAllByText('foo');
     expect(foo).toHaveLength(1);`,
     `const foo = getByText('foo');
     expect(foo).toBeInTheDocument();`
   ),
-  invalidCase(
+  invalidCaseWithSuggestions(
     `let foo;
     foo = getByText('foo');
     expect(foo).toHaveLength(1);`,
+    {
+      query: "getByText",
+      allQuery: "getAllByText",
+    },
+    `let foo;
+    foo = getAllByText('foo');
+    expect(foo).toHaveLength(1);`,
     `let foo;
     foo = getByText('foo');
     expect(foo).toBeInTheDocument();`
   ),
-  invalidCase(
+  invalidCaseWithSuggestions(
     `let foo;
     foo = screen.getByText('foo');
+    expect(foo).toHaveLength(1);`,
+    {
+      query: "getByText",
+      allQuery: "getAllByText",
+    },
+    `let foo;
+    foo = screen.getAllByText('foo');
     expect(foo).toHaveLength(1);`,
     `let foo;
     foo = screen.getByText('foo');
     expect(foo).toBeInTheDocument();`
-  ),
-  invalidCase(
-    `expect(screen.getByText('foo')).toHaveLength(1)`,
-    `expect(screen.getByText('foo')).toBeInTheDocument()`
-  ),
-  invalidCase(
-    `expect(getByText('foo')).toHaveLength(1)`,
-    `expect(getByText('foo')).toBeInTheDocument()`
-  ),
-  invalidCase(
-    `expect(wrapper.getByText('foo')).toHaveLength(1)`,
-    `expect(wrapper.getByText('foo')).toBeInTheDocument()`
-  ),
-  invalidCase(
-    `const foo = screen.getByText('foo');
-  expect(foo).toHaveLength(1);`,
-    `const foo = screen.getByText('foo');
-  expect(foo).toBeInTheDocument();`
-  ),
-  invalidCase(
-    `const foo = getByText('foo');
-  expect(foo).toHaveLength(1);`,
-    `const foo = getByText('foo');
-  expect(foo).toBeInTheDocument();`
-  ),
-  invalidCase(
-    `let foo;
-  foo = getByText('foo');
-  expect(foo).toHaveLength(1);`,
-    `let foo;
-  foo = getByText('foo');
-  expect(foo).toBeInTheDocument();`
-  ),
-  invalidCase(
-    `let foo;
-  foo = screen.getByText('foo');
-  expect(foo).toHaveLength(1);`,
-    `let foo;
-  foo = screen.getByText('foo');
-  expect(foo).toBeInTheDocument();`
   ),
 
   // Invalid cases that applies to queryBy* and queryAllBy*
