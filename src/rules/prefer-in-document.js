@@ -20,7 +20,9 @@ export const meta = {
   fixable: "code",
   messages: {
     "use-document": `Prefer .toBeInTheDocument() for asserting DOM node existence`,
+    "invalid-combination-length-1": `Invalid combination of {{query}} and .toHaveLength(1). Did you mean to use {{allQuery}}?`,
   },
+  hasSuggestions: true,
 };
 
 function isAntonymMatcher(matcherNode, matcherArguments) {
@@ -101,28 +103,63 @@ export const create = (context) => {
     // only report on dom nodes which we can resolve to RTL queries.
     if (!queryNode || (!queryNode.name && !queryNode.property)) return;
 
-    // toHaveLength() is only invalid with 0 or 1
+    // *By* query with .toHaveLength(0/1) assertions are considered violations
+    //
+    // | Selector type | .toHaveLength(1)            | .toHaveLength(0)                      |
+    // | ============= | =========================== | ===================================== |
+    // | *By* query    | Did you mean to use *AllBy* | Replace with .not.toBeInTheDocument() |
+    // | *AllBy* query | Correct                     | Correct
+    //
+    // @see https://github.com/testing-library/eslint-plugin-jest-dom/issues/171
+    //
     if (matcherNode.name === "toHaveLength" && matcherArguments.length) {
       const lengthValue = getLengthValue(matcherArguments);
-      // isNotToHaveLengthZero represents .not.toHaveLength(0) which is a valid use of toHaveLength
-      const isNotToHaveLengthZero =
-        usesToHaveLengthZero(matcherNode, matcherArguments) && negatedMatcher;
+      const queryName = queryNode.name || queryNode.property.name;
 
-      // .toHaveLength(1)/.toHaveLength(0) is valid when used with *AllBy* queries
-      // meaning checking for exactly one/zero match
-      // see discussion https://github.com/testing-library/eslint-plugin-jest-dom/issues/171
-      const isValidUsageWithAllByQueries =
-        /AllBy/.test(queryNode.name) && [1, 0].includes(lengthValue);
+      const isSingleQuery =
+        queries.includes(queryName) && !/AllBy/.test(queryName);
+      const hasViolation = isSingleQuery && [1, 0].includes(lengthValue);
 
-      const isValidUseOfToHaveLength =
-        isValidUsageWithAllByQueries ||
-        isNotToHaveLengthZero ||
-        !["Literal", "Identifier"].includes(matcherArguments[0].type) ||
-        lengthValue === undefined ||
-        lengthValue > 1;
-
-      if (isValidUseOfToHaveLength) {
+      if (!hasViolation) {
         return;
+      }
+
+      // If length === 1, report violation with suggestions
+      // Otherwise fallback to default report
+      if (lengthValue === 1) {
+        const allQuery = queryName.replace("By", "AllBy");
+        return context.report({
+          node: matcherNode,
+          messageId: "invalid-combination-length-1",
+          data: {
+            query: queryName,
+            allQuery,
+          },
+          loc: matcherNode.loc,
+          suggest: [
+            {
+              desc: `Replace ${queryName} with ${allQuery}`,
+              fix(fixer) {
+                return fixer.replaceText(
+                  queryNode.property || queryNode,
+                  allQuery
+                );
+              },
+            },
+            {
+              desc: "Replace .toHaveLength(1) with .toBeInTheDocument()",
+              fix(fixer) {
+                // Remove any arguments in the matcher
+                return [
+                  ...Array.from(matcherArguments).map((argument) =>
+                    fixer.remove(argument)
+                  ),
+                  fixer.replaceText(matcherNode, "toBeInTheDocument"),
+                ];
+              },
+            },
+          ],
+        });
       }
     }
 
