@@ -101,6 +101,23 @@ const valid = [
   `
   const element =  getByText('value')
   expect(element).toBeInTheDocument`,
+
+  // *AllBy queries with `.toHaveLength(1)` is valid
+  // see conclusion at https://github.com/testing-library/eslint-plugin-jest-dom/issues/171#issuecomment-895074086
+  `expect(screen.getAllByRole('foo')).toHaveLength(1)`,
+  `expect(await screen.findAllByRole('foo')).toHaveLength(1)`,
+  `expect(getAllByRole('foo')).toHaveLength(1)`,
+  `expect(wrapper.getAllByRole('foo')).toHaveLength(1)`,
+  `const foo = screen.getAllByRole('foo');
+    expect(foo).toHaveLength(1);`,
+  `const foo = getAllByRole('foo');
+    expect(foo).toHaveLength(1);`,
+  `let foo;
+    foo = getAllByRole('foo');
+    expect(foo).toHaveLength(1);`,
+  `let foo;
+    foo = screen.getAllByRole('foo');
+    expect(foo).toHaveLength(1);`,
 ];
 const invalid = [
   invalidCase(
@@ -230,51 +247,6 @@ const invalid = [
     foo = screen.getByText('foo');
     expect(foo).toBeInTheDocument();`
   ),
-  invalidCase(
-    `expect(screen.getAllByRole('foo')).toHaveLength(1)`,
-    `expect(screen.getByRole('foo')).toBeInTheDocument()`
-  ),
-  invalidCase(
-    `expect(await screen.findAllByRole('foo')).toHaveLength(1)`,
-    `expect(await screen.findByRole('foo')).toBeInTheDocument()`
-  ),
-  invalidCase(
-    `expect(getAllByRole('foo')).toHaveLength(1)`,
-    `expect(getByRole('foo')).toBeInTheDocument()`
-  ),
-  invalidCase(
-    `expect(wrapper.getAllByRole('foo')).toHaveLength(1)`,
-    `expect(wrapper.getByRole('foo')).toBeInTheDocument()`
-  ),
-  invalidCase(
-    `const foo = screen.getAllByRole('foo');
-    expect(foo).toHaveLength(1);`,
-    `const foo = screen.getByRole('foo');
-    expect(foo).toBeInTheDocument();`
-  ),
-  invalidCase(
-    `const foo = getAllByRole('foo');
-    expect(foo).toHaveLength(1);`,
-    `const foo = getByRole('foo');
-    expect(foo).toBeInTheDocument();`
-  ),
-  invalidCase(
-    `let foo;
-    foo = getAllByRole('foo');
-    expect(foo).toHaveLength(1);`,
-    `let foo;
-    foo = getByRole('foo');
-    expect(foo).toBeInTheDocument();`
-  ),
-  invalidCase(
-    `let foo;
-    foo = screen.getAllByRole('foo');
-    expect(foo).toHaveLength(1);`,
-    `let foo;
-    foo = screen.getByRole('foo');
-    expect(foo).toBeInTheDocument();`
-  ),
-
   invalidCase(
     `expect(screen.getByText('foo')).toHaveLength(1)`,
     `expect(screen.getByText('foo')).toBeInTheDocument()`
@@ -540,12 +512,6 @@ const invalid = [
     `let span;
      span = getByText('foo') as HTMLSpanElement
   expect(span).toBeInTheDocument()`
-  ),
-  invalidCase(
-    `const things = screen.getAllByText("foo");
-  expect(things).toHaveLength(1);`,
-    `const things = screen.getByText("foo");
-  expect(things).toBeInTheDocument();`
   ),
 ];
 
