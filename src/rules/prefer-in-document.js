@@ -103,11 +103,14 @@ export const create = (context) => {
       const isNotToHaveLengthZero =
         usesToHaveLengthZero(matcherNode, matcherArguments) && negatedMatcher;
 
+      // .toHaveLength(1)/.toHaveLength(0) is valid when used with *AllBy* queries
+      // meaning checking for exactly one/zero match
+      // see discussion https://github.com/testing-library/eslint-plugin-jest-dom/issues/171
+      const isValidUsageWithAllByQueries =
+        /AllBy/.test(queryNode.name) && [1, 0].includes(lengthValue);
+
       const isValidUseOfToHaveLength =
-        // .toHaveLength(1) is valid when used with *AllBy* queries
-        // meaning checking for exactly one match
-        // see discussion https://github.com/testing-library/eslint-plugin-jest-dom/issues/171
-        (lengthValue === 1 && /AllBy/.test(queryNode.name)) ||
+        isValidUsageWithAllByQueries ||
         isNotToHaveLengthZero ||
         !["Literal", "Identifier"].includes(matcherArguments[0].type) ||
         lengthValue === undefined ||

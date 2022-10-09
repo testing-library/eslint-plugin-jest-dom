@@ -98,7 +98,7 @@ const valid = [
   const element =  getByText('value')
   expect(element).toBeInTheDocument`,
 
-  // *AllBy queries with `.toHaveLength(1)` is valid
+  // *AllBy* queries with `.toHaveLength(1)` is valid
   // see conclusion at https://github.com/testing-library/eslint-plugin-jest-dom/issues/171#issuecomment-895074086
   `expect(screen.getAllByRole('foo')).toHaveLength(1)`,
   `expect(await screen.findAllByRole('foo')).toHaveLength(1)`,
@@ -114,6 +114,14 @@ const valid = [
   `let foo;
     foo = screen.getAllByRole('foo');
     expect(foo).toHaveLength(1);`,
+
+  // *AllBy* queries with `.toHaveLength(0)` is valid
+  // see conclusion at https://github.com/testing-library/eslint-plugin-jest-dom/issues/171#issuecomment-895074086
+  `expect(screen.queryAllByTestId("foo")).toHaveLength(0)`,
+  `expect(queryAllByText('foo')).toHaveLength(0)`,
+  `let foo;
+    foo = screen.queryAllByText('foo');
+    expect(foo).toHaveLength(0);`,
 ];
 const invalid = [
   invalidCase(
@@ -127,10 +135,6 @@ const invalid = [
      expect(screen.getByText('foo')).toBeInTheDocument()`
   ),
 
-  invalidCase(
-    `expect(screen.queryAllByTestId("foo")).toHaveLength(0)`,
-    `expect(screen.queryByTestId("foo")).not.toBeInTheDocument()`
-  ),
   invalidCase(
     `expect(getByText('foo')).toHaveLength(1)`,
     `expect(getByText('foo')).toBeInTheDocument()`
@@ -290,10 +294,6 @@ const invalid = [
   ),
 
   invalidCase(
-    `expect(queryAllByText('foo')).toHaveLength(0)`,
-    `expect(queryByText('foo')).not.toBeInTheDocument()`
-  ),
-  invalidCase(
     `expect(queryAllByText('foo')).toBeNull()`,
     `expect(queryByText('foo')).not.toBeInTheDocument()`
   ),
@@ -312,14 +312,6 @@ const invalid = [
   invalidCase(
     `expect(queryAllByText('foo')) .not .toBeDefined()`,
     `expect(queryByText('foo')) .not .toBeInTheDocument()`
-  ),
-  invalidCase(
-    `let foo;
-      foo = screen.queryAllByText('foo');
-      expect(foo).toHaveLength(0);`,
-    `let foo;
-      foo = screen.queryByText('foo');
-      expect(foo).not.toBeInTheDocument();`
   ),
   invalidCase(
     `let foo;
