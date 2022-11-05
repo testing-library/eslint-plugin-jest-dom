@@ -1,4 +1,10 @@
-# prefer toBeDisabled() or toBeEnabled() over toHaveProperty('disabled', true|false) (prefer-enabled-disabled)
+# Prefer toBeDisabled or toBeEnabled over checking attributes (`jest-dom/prefer-enabled-disabled`)
+
+💼 This rule is enabled in the ✅ `recommended` config.
+
+🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+
+<!-- end auto-generated rule header -->
 
 ## Rule Details
 
