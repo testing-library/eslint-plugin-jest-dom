@@ -40,7 +40,12 @@ function usesToBeOrToEqualWithNull(matcherNode, matcherArguments) {
 }
 
 function usesToHaveLengthZero(matcherNode, matcherArguments) {
-  return matcherNode.name === "toHaveLength" && matcherArguments[0].value === 0;
+  // matcherArguments.length === 0: toHaveLength() will cause jest matcher error
+  // matcherArguments[0].value:     toHaveLength(0, ...) means zero length
+  return (
+    matcherNode.name === "toHaveLength" &&
+    (matcherArguments.length === 0 || matcherArguments[0].value === 0)
+  );
 }
 
 export const create = (context) => {

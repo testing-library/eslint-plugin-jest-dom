@@ -51,6 +51,10 @@ const valid = [
   expect(foo).not.toHaveLength(0)`,
   `let foo;
   expect(foo).toHaveLength(1);`,
+  `let foo;
+  expect(foo).toHaveLength()`,
+  `let foo;
+  expect(foo).toHaveLength(1, 2, 3)`,
   `expect(screen.notAQuery('foo-bar')).toHaveLength(1)`,
   `expect(screen.getAllByText('foo-bar')).toHaveLength(2)`,
   `import foo from "./foo";
@@ -99,6 +103,22 @@ const valid = [
   expect(element).toBeInTheDocument`,
 ];
 const invalid = [
+  invalidCase(
+    `expect(screen.getByText('foo')).toHaveLength()`,
+    `expect(screen.getByText('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(screen.getAllByText('foo')).toHaveLength()`,
+    `expect(screen.getByText('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(screen.getByRole('foo')).toHaveLength()`,
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength()`,
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument()`
+  ),
   invalidCase(
     `expect(screen.getByText('foo')).toHaveLength(1)`,
     `expect(screen.getByText('foo')).toBeInTheDocument()`
