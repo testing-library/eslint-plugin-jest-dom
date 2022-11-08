@@ -125,7 +125,7 @@ export const create = (context) => {
             const sourceCode = context.getSourceCode();
             const token = sourceCode.getTokenAfter(argument);
             if (token.value === "," && token.type === "Punctuator") {
-              // Remove commas if toHaveLength had more than one argument
+              // Remove commas if toHaveLength had more than one argument or a trailing comma
               operations.push(fixer.replaceText(token, ""));
             }
             operations.push(fixer.remove(argument));
