@@ -1,4 +1,10 @@
-# Prefer toHaveTextContent over checking element.textContent (prefer-to-have-text-content)
+# Prefer toHaveTextContent over checking element.textContent (`jest-dom/prefer-to-have-text-content`)
+
+💼 This rule is enabled in the ✅ `recommended` config.
+
+🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+
+<!-- end auto-generated rule header -->
 
 Please describe the origin of the rule here.
 

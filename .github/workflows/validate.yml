@@ -47,6 +47,10 @@ jobs:
         if: ${{ matrix.eslint == 8 }}
         run: npm run validate
 
+      - name: ▶️ Ensure docs are up-to-date
+        if: ${{ matrix.eslint == 8 && matrix.node == 16 }}
+        run: npm run lint:generate-readme-table
+
       - name: ⬆️ Upload coverage report
         uses: codecov/codecov-action@v3
 
