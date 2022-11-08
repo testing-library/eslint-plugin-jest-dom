@@ -122,6 +122,12 @@ export const create = (context) => {
 
           // Remove any arguments in the matcher
           for (const argument of Array.from(matcherArguments)) {
+            const sourceCode = context.getSourceCode();
+            const token = sourceCode.getTokenAfter(argument);
+            if (token.value === "," && token.type === "Punctuator") {
+              // Remove commas if toHaveLength had more than one argument
+              operations.push(fixer.replaceText(token, ""));
+            }
             operations.push(fixer.remove(argument));
           }
 

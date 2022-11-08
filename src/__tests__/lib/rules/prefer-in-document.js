@@ -120,6 +120,66 @@ const invalid = [
     `expect(screen.getByRole('foo')).not.toBeInTheDocument()`
   ),
   invalidCase(
+    `expect(screen.getByRole('foo')).toHaveLength(0,2,3)`,
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength(0,2,3,)`,
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(screen.getByRole('foo')).toHaveLength(1,2,3)`,
+    `expect(screen.getByRole('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength(1,2,3,)`,
+    `expect(screen.getByRole('foo')).toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength(0//comment
+)`,
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument(//comment
+)`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength(1,//comment
+)`,
+    `expect(screen.getByRole('foo')).toBeInTheDocument(//comment
+)`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength(0,2,3//comment
+)`,
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument(//comment
+)`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength(1,2,3,//comment
+)`,
+    `expect(screen.getByRole('foo')).toBeInTheDocument(//comment
+)`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength(0,2,//comment
+3,4)`,
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument(//comment
+)`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength(1,2,//comment
+3,4,)`,
+    `expect(screen.getByRole('foo')).toBeInTheDocument(//comment
+)`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength(0,2/*comment*/,3)`,
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument(/*comment*/)`
+  ),
+  invalidCase(
+    `expect(screen.getAllByRole('foo')).toHaveLength(1,2,/*comment*/3,)`,
+    `expect(screen.getByRole('foo')).toBeInTheDocument(/*comment*/)`
+  ),
+  invalidCase(
     `expect(screen.getByText('foo')).toHaveLength(1)`,
     `expect(screen.getByText('foo')).toBeInTheDocument()`
   ),
