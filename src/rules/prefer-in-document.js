@@ -42,7 +42,12 @@ function usesToBeOrToEqualWithNull(matcherNode, matcherArguments) {
 }
 
 function usesToHaveLengthZero(matcherNode, matcherArguments) {
-  return matcherNode.name === "toHaveLength" && matcherArguments[0].value === 0;
+  // matcherArguments.length === 0: toHaveLength() will cause jest matcher error
+  // matcherArguments[0].value:     toHaveLength(0, ...) means zero length
+  return (
+    matcherNode.name === "toHaveLength" &&
+    (matcherArguments.length === 0 || matcherArguments[0].value === 0)
+  );
 }
 
 /**
@@ -107,7 +112,7 @@ export const create = (context) => {
     //
     // @see https://github.com/testing-library/eslint-plugin-jest-dom/issues/171
     //
-    if (matcherNode.name === "toHaveLength" && matcherArguments.length) {
+    if (matcherNode.name === "toHaveLength" && matcherArguments.length === 1) {
       const lengthValue = getLengthValue(matcherArguments);
       const queryName = queryNode.name || queryNode.property.name;
 
@@ -180,6 +185,12 @@ export const create = (context) => {
 
           // Remove any arguments in the matcher
           for (const argument of Array.from(matcherArguments)) {
+            const sourceCode = context.getSourceCode();
+            const token = sourceCode.getTokenAfter(argument);
+            if (token.value === "," && token.type === "Punctuator") {
+              // Remove commas if toHaveLength had more than one argument or a trailing comma
+              operations.push(fixer.replaceText(token, ""));
+            }
             operations.push(fixer.remove(argument));
           }
 
