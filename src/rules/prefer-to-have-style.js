@@ -18,25 +18,6 @@ export const meta = {
 };
 
 export const create = (context) => {
-  function getReplacementObjectProperty(styleName) {
-    if (styleName.type === "Literal") {
-      return camelCase(styleName.value);
-    }
-
-    return `[${context.getSourceCode().getText(styleName)}]`;
-  }
-  function getReplacementStyleParam(styleName, styleValue) {
-    return styleName.type === "Literal"
-      ? `{${camelCase(styleName.value)}: ${context
-          .getSourceCode()
-          .getText(styleValue)}}`
-      : `${context.getSourceCode().getText(styleName).slice(0, -1)}: ${
-          styleValue.type === "TemplateLiteral"
-            ? context.getSourceCode().getText(styleValue).substring(1)
-            : `${styleValue.value}\``
-        }`;
-  }
-
   return {
     //expect(el.style.foo).toBe("bar");
     [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.arguments.0.type=/(Template)?Literal/][parent.parent.callee.name=expect]`](
@@ -158,76 +139,18 @@ export const create = (context) => {
     [`MemberExpression[property.name=style][parent.computed=true][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.arguments.0.type=/((Template)?Literal|Identifier)/][parent.parent.callee.name=expect]`](
       node
     ) {
-      const styleName = node.parent.property;
-      const [styleValue] = node.parent.parent.parent.parent.arguments;
-      const matcher = node.parent.parent.parent.property;
-      const startOfStyleMemberExpression = node.object.range[1];
-      const endOfStyleMemberExpression =
-        node.parent.parent.arguments[0].range[1];
-
-      let fix = null;
-
-      if (
-        typeof styleValue.value !== "number" &&
-        !(styleValue.value instanceof RegExp)
-      ) {
-        fix = (fixer) => {
-          return [
-            fixer.removeRange([
-              startOfStyleMemberExpression,
-              endOfStyleMemberExpression,
-            ]),
-            fixer.replaceText(matcher, "toHaveStyle"),
-            fixer.replaceText(
-              styleValue,
-              typeof styleName.value === "number"
-                ? `{${getReplacementObjectProperty(
-                    styleValue
-                  )}: expect.anything()}`
-                : getReplacementStyleParam(styleName, styleValue)
-            ),
-          ];
-        };
-      }
-
       context.report({
         node: node.property,
         message: "Use toHaveStyle instead of asserting on element style",
-        fix,
       });
     },
     //expect(el.style["foo-bar"]).not.toBe("baz")
     [`MemberExpression[property.name=style][parent.computed=true][parent.parent.parent.property.name=not][parent.parent.parent.parent.parent.callee.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.parent.arguments.0.type=/(Template)?Literal/][parent.parent.callee.name=expect]`](
       node
     ) {
-      const styleName = node.parent.property;
-      const [styleValue] = node.parent.parent.parent.parent.parent.arguments;
-      const matcher = node.parent.parent.parent.parent.property;
-      const endOfStyleMemberExpression =
-        node.parent.parent.arguments[0].range[1];
-
-      let fix = null;
-
-      if (typeof styleName.value !== "number") {
-        fix = (fixer) => {
-          return [
-            fixer.removeRange([
-              node.object.range[1],
-              endOfStyleMemberExpression,
-            ]),
-            fixer.replaceText(matcher, "toHaveStyle"),
-            fixer.replaceText(
-              styleValue,
-              getReplacementStyleParam(styleName, styleValue)
-            ),
-          ];
-        };
-      }
-
       context.report({
         node: node.property,
         message: "Use toHaveStyle instead of asserting on element style",
-        fix,
       });
     },
     //expect(foo.style).toHaveProperty("foo", "bar")

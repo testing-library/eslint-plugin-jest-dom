@@ -74,17 +74,14 @@ ruleTester.run("prefer-to-have-style", rule, {
     {
       code: `expect(screen.getByTestId("foo").style["scroll-snap-type"]).toBe("x mandatory")`,
       errors,
-      output: `expect(screen.getByTestId("foo")).toHaveStyle({scrollSnapType: "x mandatory"})`,
     },
     {
       code: 'expect(el.style["scroll-snap-type"]).toBe(`${x} mandatory`)',
       errors,
-      output: "expect(el).toHaveStyle({scrollSnapType: `${x} mandatory`})",
     },
     {
       code: `expect(el.style["scroll-snap-type"]).not.toBe("x mandatory")`,
       errors,
-      output: `expect(el).not.toHaveStyle({scrollSnapType: "x mandatory"})`,
     },
     {
       code: `expect(el.style).toContain("background-color")`,
@@ -114,37 +111,30 @@ ruleTester.run("prefer-to-have-style", rule, {
     {
       code: `expect(imageElement.style[\`box-shadow\`]).toBe(\`inset 0px 0px 0px 400px \${c}\`)`,
       errors,
-      output: `expect(imageElement).toHaveStyle(\`box-shadow: inset 0px 0px 0px 400px \${c}\`)`,
     },
     {
       code: `expect(imageElement.style[\`box-shadow\`  ]).toBe(  \`inset 0px 0px 0px 400px \${c}\`)`,
       errors,
-      output: `expect(imageElement).toHaveStyle(  \`box-shadow: inset 0px 0px 0px 400px \${c}\`)`,
     },
     {
       code: `expect(imageElement.style[\`box-\${shadow}\`]).toBe("inset 0px 0px 0px 400px 40px")`,
       errors,
-      output: `expect(imageElement).toHaveStyle(\`box-\${shadow}: inset 0px 0px 0px 400px 40px\`)`,
     },
     {
       code: `expect(imageElement.style[\`box-shadow\`]).not.toBe(\`inset 0px 0px 0px 400px \${c}\`)`,
       errors,
-      output: `expect(imageElement).not.toHaveStyle(\`box-shadow: inset 0px 0px 0px 400px \${c}\`)`,
     },
     {
       code: `expect(imageElement.style[\`box-shadow\`]).not.toBe("inset 0px 0px 0px 400px 40px")`,
       errors,
-      output: `expect(imageElement).not.toHaveStyle(\`box-shadow: inset 0px 0px 0px 400px 40px\`)`,
     },
     {
       code: `expect(element.style[1]).toEqual('padding');`,
       errors,
-      output: `expect(element).toHaveStyle({padding: expect.anything()});`,
     },
     {
       code: `expect(element.style[1]).toBe(\`padding\`);`,
       errors,
-      output: `expect(element).toHaveStyle({[\`padding\`]: expect.anything()});`,
     },
     {
       code: `expect(element.style[1]).not.toEqual('padding');`,
@@ -157,7 +147,6 @@ ruleTester.run("prefer-to-have-style", rule, {
     {
       code: `expect(element.style[1]).toBe(x);`,
       errors,
-      output: `expect(element).toHaveStyle({[x]: expect.anything()});`,
     },
     {
       code: `expect(element.style[0]).toBe(1);`,
