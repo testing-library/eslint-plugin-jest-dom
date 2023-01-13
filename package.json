@@ -30,9 +30,10 @@
   ],
   "scripts": {
     "build": "kcd-scripts build",
-    "pregenerate-readme-table": "yarn build",
-    "generate-readme-table": "node build/generate-readme-table.js",
+    "pregenerate-readme-table": "npm run build",
+    "generate-readme-table": "eslint-doc-generator --ignore-config all",
     "lint": "kcd-scripts lint",
+    "lint:generate-readme-table": "npm run generate-readme-table -- --check",
     "setup": "npm install && npm run validate -s",
     "test": "kcd-scripts test",
     "test:coverage": "npm test -- --coverage",
@@ -47,6 +48,7 @@
   "devDependencies": {
     "@typescript-eslint/parser": "^5.9.1",
     "eslint": "^8.7.0",
+    "eslint-doc-generator": "^1.0.0",
     "eslint-remote-tester": "^3.0.0",
     "eslint-remote-tester-repositories": "^0.0.7",
     "kcd-scripts": "^12.0.0",

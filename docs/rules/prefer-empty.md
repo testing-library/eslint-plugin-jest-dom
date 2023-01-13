@@ -1,4 +1,10 @@
-# Prefer toBeEmptyDOMElement over checking innerHTML / firstChild (prefer-empty)
+# Prefer toBeEmpty over checking innerHTML (`jest-dom/prefer-empty`)
+
+💼 This rule is enabled in the ✅ `recommended` config.
+
+🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+
+<!-- end auto-generated rule header -->
 
 This rule ensures people will use toBeEmptyDOMElement() rather than checking dom
 nodes/properties. It is primarily aimed at consistently using jest-dom for
