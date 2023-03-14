@@ -50,7 +50,7 @@
     "eslint": "^8.7.0",
     "eslint-doc-generator": "^1.0.0",
     "eslint-remote-tester": "^3.0.0",
-    "eslint-remote-tester-repositories": "^0.0.7",
+    "eslint-remote-tester-repositories": "^1.0.1",
     "kcd-scripts": "^12.0.0",
     "typescript": "^4.5.3"
   },
