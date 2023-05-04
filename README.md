@@ -196,7 +196,7 @@ MIT
 [coc]: https://github.com/testing-library/eslint-plugin-jest-dom/blob/main/other/CODE_OF_CONDUCT.md
 [emojis]: https://github.com/all-contributors/all-contributors#emoji-key
 [all-contributors]: https://github.com/all-contributors/all-contributors
-[all-contributors-badge]: https://img.shields.io/github/all-contributors/testing-library/eslint-plugin-jest-dom
+[all-contributors-badge]: https://img.shields.io/github/all-contributors/testing-library/eslint-plugin-jest-dom?style=flat-square
 [bugs]: https://github.com/testing-library/eslint-plugin-jest-dom/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+sort%3Acreated-desc+label%3Abug
 [requests]: https://github.com/testing-library/eslint-plugin-jest-dom/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc+label%3Aenhancement
 [good-first-issue]: https://github.com/testing-library/eslint-plugin-jest-dom/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc+label%3Aenhancement+label%3A%22good+first+issue%22
