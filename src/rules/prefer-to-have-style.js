@@ -169,7 +169,8 @@ export const create = (context) => {
 
       if (
         typeof styleValue.value !== "number" &&
-        !(styleValue.value instanceof RegExp)
+        !(styleValue.value instanceof RegExp) &&
+        styleName.type !== "Identifier"
       ) {
         fix = (fixer) => {
           return [
@@ -208,7 +209,10 @@ export const create = (context) => {
 
       let fix = null;
 
-      if (typeof styleName.value !== "number") {
+      if (
+        typeof styleName.value !== "number" &&
+        styleName.type !== "Identifier"
+      ) {
         fix = (fixer) => {
           return [
             fixer.removeRange([
