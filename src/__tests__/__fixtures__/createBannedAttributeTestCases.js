@@ -60,7 +60,7 @@ export default ({ preferred, negatedPreferred, attribute }) => {
               message: `Use ${preferred} instead of checking .${attribute} directly`,
             },
           ],
-          output: `expect(getByText('foo')).${[preferred]}`,
+          output: `expect(getByText('foo')).${preferred}`,
         },
         {
           code: `expect(getByText('foo').${attribute}).toBeFalsy()`,
@@ -69,7 +69,7 @@ export default ({ preferred, negatedPreferred, attribute }) => {
               message: `Use ${negatedPreferred} instead of checking .${attribute} directly`,
             },
           ],
-          output: `expect(getByText('foo')).${[negatedPreferred]}`,
+          output: `expect(getByText('foo')).${negatedPreferred}`,
         },
         {
           code: `const el = getByText('foo'); expect(el.${attribute}).toBe(true)`,
@@ -78,7 +78,7 @@ export default ({ preferred, negatedPreferred, attribute }) => {
               message: `Use ${preferred} instead of checking .${attribute} directly`,
             },
           ],
-          output: `const el = getByText('foo'); expect(el).${[preferred]}`,
+          output: `const el = getByText('foo'); expect(el).${preferred}`,
         },
         {
           code: `const el = getByRole('button'); expect(el.${attribute}).toBe(true)`,
@@ -87,7 +87,7 @@ export default ({ preferred, negatedPreferred, attribute }) => {
               message: `Use ${preferred} instead of checking .${attribute} directly`,
             },
           ],
-          output: `const el = getByRole('button'); expect(el).${[preferred]}`,
+          output: `const el = getByRole('button'); expect(el).${preferred}`,
         },
       ];
 
