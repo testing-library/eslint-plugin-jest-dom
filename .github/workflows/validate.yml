@@ -48,8 +48,8 @@ jobs:
       - name: Install ESLint v${{ matrix.eslint }}
         run: npm install --no-save --force eslint@${{ matrix.eslint }}
 
-      - name: Install @testing-library/dom v${{ matrix.testing-library }}
-        run: npm install --no-save --force @testing-library/dom@${{ matrix.testing-library }}
+      - name: Install @testing-library/dom v${{ matrix.testing-library-dom }}
+        run: npm install --no-save --force @testing-library/dom@${{ matrix.testing-library-dom }}
 
       - name: ▶️ Run validate script (without linting)
         if: ${{ matrix.eslint != 8 }}
