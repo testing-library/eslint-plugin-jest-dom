@@ -167,5 +167,15 @@ ruleTester.run("prefer-to-have-style", rule, {
       code: `expect(element.style[0]).toBe(/RegExp/);`,
       errors,
     },
+    {
+      code: `expect(imageElement.style[computed]).toBe(\`inset 0px 0px 0px 400px \${c}\`)`,
+      errors,
+      output: null,
+    },
+    {
+      code: `expect(imageElement.style[computed]).not.toBe(\`inset 0px 0px 0px 400px \${c}\`)`,
+      errors,
+      output: null,
+    },
   ],
 });
