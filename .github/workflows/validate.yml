@@ -51,6 +51,10 @@ jobs:
       - name: Install @testing-library/dom v${{ matrix.testing-library-dom }}
         run: npm install --no-save --force @testing-library/dom@${{ matrix.testing-library-dom }}
 
+      - name: Install TypeScript v4
+        if: ${{ startsWith(matrix.node, 12) }}
+        run: npm install --no-save --force typescript@4
+
       - name: ▶️ Run validate script (without linting)
         if: ${{ matrix.eslint != 8 }}
         run: npm run validate -- build,test:coverage
