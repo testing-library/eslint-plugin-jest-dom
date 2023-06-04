@@ -39,6 +39,15 @@ export default ({ preferred, negatedPreferred, attribute }) => {
           ],
           output: `const el = screen.getByText("foo"); expect(el).${negatedPreferred}`,
         },
+        {
+          code: `const el = screen.getByRole("button"); expect(el).not.${preferred}`,
+          errors: [
+            {
+              message: `Use ${negatedPreferred} instead of not.${preferred}`,
+            },
+          ],
+          output: `const el = screen.getByRole("button"); expect(el).${negatedPreferred}`,
+        },
       ]
     : [];
   const directChecks = /-/.test(attribute)
@@ -63,13 +72,22 @@ export default ({ preferred, negatedPreferred, attribute }) => {
           output: `expect(getByText('foo')).${[negatedPreferred]}`,
         },
         {
-          code: `expect(getByText('foo').${attribute}).toBe(true)`,
+          code: `const el = getByText('foo'); expect(el.${attribute}).toBe(true)`,
           errors: [
             {
               message: `Use ${preferred} instead of checking .${attribute} directly`,
             },
           ],
-          output: `expect(getByText('foo')).${[preferred]}`,
+          output: `const el = getByText('foo'); expect(el).${[preferred]}`,
+        },
+        {
+          code: `const el = getByRole('button'); expect(el.${attribute}).toBe(true)`,
+          errors: [
+            {
+              message: `Use ${preferred} instead of checking .${attribute} directly`,
+            },
+          ],
+          output: `const el = getByRole('button'); expect(el).${[preferred]}`,
         },
       ];
 
@@ -197,6 +215,14 @@ export default ({ preferred, negatedPreferred, attribute }) => {
       },
       {
         code: `const el = screen.getByText("foo"); expect(el).toHaveProperty('${attribute}', foo)`,
+        errors: [
+          {
+            message: `Use ${preferred} instead of toHaveProperty('${attribute}', foo)`,
+          },
+        ],
+      },
+      {
+        code: `const el = getByRole("button", { name: 'My Button' }); expect(el).toHaveProperty('${attribute}', foo)`,
         errors: [
           {
             message: `Use ${preferred} instead of toHaveProperty('${attribute}', foo)`,

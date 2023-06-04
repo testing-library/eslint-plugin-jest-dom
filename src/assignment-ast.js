@@ -5,17 +5,20 @@ import { queries } from "./queries";
  * await someAsyncFunc() => someAsyncFunc()
  * someElement as HTMLDivElement => someElement
  *
+ * @param {Object} context - Context for a rule
  * @param {Object} expression - An expression node
  * @returns {Object} - A node
  */
-export function getInnerNodeFrom(expression) {
+export function getInnerNodeFrom(context, expression) {
   switch (expression.type) {
+    case "Identifier":
+      return getAssignmentForIdentifier(context, expression.name);
     case "TSAsExpression":
-      return getInnerNodeFrom(expression.expression);
+      return getInnerNodeFrom(context, expression.expression);
     case "AwaitExpression":
-      return getInnerNodeFrom(expression.argument);
+      return getInnerNodeFrom(context, expression.argument);
     case "MemberExpression":
-      return getInnerNodeFrom(expression.object);
+      return getInnerNodeFrom(context, expression.object);
     default:
       return expression;
   }
@@ -37,7 +40,7 @@ export function getAssignmentForIdentifier(context, identifierName) {
   let assignmentNode;
   if (init) {
     // let foo = bar;
-    assignmentNode = getInnerNodeFrom(init);
+    assignmentNode = getInnerNodeFrom(context, init);
   } else {
     // let foo;
     // foo = bar;
@@ -47,7 +50,7 @@ export function getAssignmentForIdentifier(context, identifierName) {
     if (!assignmentRef) {
       return;
     }
-    assignmentNode = getInnerNodeFrom(assignmentRef.writeExpr);
+    assignmentNode = getInnerNodeFrom(context, assignmentRef.writeExpr);
   }
   return assignmentNode;
 }
@@ -61,10 +64,7 @@ export function getAssignmentForIdentifier(context, identifierName) {
  * @returns {Object} - Object with query, queryArg & isDTLQuery
  */
 export function getQueryNodeFrom(context, nodeWithValueProp) {
-  const queryNode =
-    nodeWithValueProp.type === "Identifier"
-      ? getAssignmentForIdentifier(context, nodeWithValueProp.name)
-      : getInnerNodeFrom(nodeWithValueProp);
+  const queryNode = getInnerNodeFrom(context, nodeWithValueProp);
 
   if (!queryNode || !queryNode.callee) {
     return {
