@@ -9,7 +9,12 @@ on:
       - "beta"
       - "alpha"
       - "!all-contributors/**"
-  pull_request: {}
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   main:
     # ignore all-contributors PRs
@@ -19,11 +24,14 @@ jobs:
       matrix:
         eslint: [6.8.0, 6, 7.0.0, 7, 8.0.0, 8]
         node: [12.22.0, 12, 14.17.0, 14, 16.0.0, 16]
+        testing-library-dom: [8, 9]
+        exclude:
+          - node: 12.22.0
+            testing-library-dom: 9
+          - node: 12
+            testing-library-dom: 9
     runs-on: ubuntu-latest
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
-
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
@@ -39,6 +47,9 @@ jobs:
 
       - name: Install ESLint v${{ matrix.eslint }}
         run: npm install --no-save --force eslint@${{ matrix.eslint }}
+
+      - name: Install @testing-library/dom v${{ matrix.testing-library-dom }}
+        run: npm install --no-save --force @testing-library/dom@${{ matrix.testing-library-dom }}
 
       - name: ▶️ Run validate script (without linting)
         if: ${{ matrix.eslint != 8 }}
@@ -62,9 +73,6 @@ jobs:
       contains('refs/heads/main,refs/heads/beta,refs/heads/next,refs/heads/alpha',
       github.ref) && github.event_name == 'push' }}
     steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.11.0
-
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
