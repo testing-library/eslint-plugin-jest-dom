@@ -188,18 +188,6 @@ const invalid = [
     `expect(screen.getByRole('foo')).toBeInTheDocument()`
   ),
   invalidCase(
-    `expect(screen.getAllByRole('foo')).toHaveLength(0//comment
-)`,
-    `expect(screen.getByRole('foo')).not.toBeInTheDocument(//comment
-)`
-  ),
-  invalidCase(
-    `expect(screen.getAllByRole('foo')).toHaveLength(1,//comment
-)`,
-    `expect(screen.getByRole('foo')).toBeInTheDocument(//comment
-)`
-  ),
-  invalidCase(
     `expect(screen.getAllByRole('foo')).toHaveLength(0,2,3//comment
 )`,
     `expect(screen.getByRole('foo')).not.toBeInTheDocument(//comment

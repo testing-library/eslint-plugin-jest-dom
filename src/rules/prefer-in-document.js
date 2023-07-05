@@ -113,7 +113,7 @@ export const create = (context) => {
     //
     // @see https://github.com/testing-library/eslint-plugin-jest-dom/issues/171
     //
-    if (matcherNode.name === "toHaveLength" && matcherArguments.length) {
+    if (matcherNode.name === "toHaveLength" && matcherArguments.length === 1) {
       const lengthValue = getLengthValue(matcherArguments);
       const queryName = queryNode.name || queryNode.property.name;
 
@@ -124,7 +124,6 @@ export const create = (context) => {
       if (!hasViolation) {
         return;
       }
-
       // If length === 1, report violation with suggestions
       // Otherwise fallback to default report
       if (lengthValue === 1) {
