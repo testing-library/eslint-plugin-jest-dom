@@ -20,8 +20,8 @@ export const meta = {
   fixable: "code",
   messages: {
     "use-document": `Prefer .toBeInTheDocument() for asserting DOM node existence`,
-    "invalid-combination-length-1": `Invalid combination of {{query}} and .toHaveLength(1). Did you mean to use {{allQuery}}?`,
-    "replace-query-with-all": `Replace {{query}} with {{allQuery}}`,
+    "invalid-combination-length-1": `Invalid combination of {{ query }} and .toHaveLength(1). Did you mean to use {{ allQuery }}?`,
+    "replace-query-with-all": `Replace {{ query }} with {{ allQuery }}`,
   },
   hasSuggestions: true,
 };
@@ -59,7 +59,7 @@ function usesToHaveLengthZero(matcherNode, matcherArguments) {
  */
 function getDTLQueryIdentifierNode(callExpressionNode) {
   if (!callExpressionNode || callExpressionNode.type !== "CallExpression") {
-    return;
+    return null;
   }
 
   if (callExpressionNode.callee.type === "Identifier") {
@@ -272,7 +272,7 @@ export const create = (context) => {
       const expect = node.object.object;
       check({
         negatedMatcher: true,
-        queryNode: (queryNode && queryNode.callee) || queryNode,
+        queryNode: queryNode.callee,
         matcherNode,
         matcherArguments,
         expect,

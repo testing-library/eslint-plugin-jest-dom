@@ -146,6 +146,16 @@ const valid = [
     foo = screen.getAllByRole('foo');
     expect(foo).toHaveLength(1);`,
 
+  `expect(screen.getAllByRole('foo')).toHaveLength(1,//comment
+  )`,
+  `const foo = screen.getAllByRole('foo');
+    expect(foo).toHaveLength(1,//comment
+    );`,
+  `let foo;
+    foo = screen.getAllByRole('foo');
+    expect(foo).toHaveLength(1,//comment
+    );`,
+
   // *AllBy* queries with `.toHaveLength(0)` is valid
   // see conclusion at https://github.com/testing-library/eslint-plugin-jest-dom/issues/171#issuecomment-895074086
   `expect(screen.queryAllByTestId("foo")).toHaveLength(0)`,
@@ -153,6 +163,13 @@ const valid = [
   `let foo;
     foo = screen.queryAllByText('foo');
     expect(foo).toHaveLength(0);`,
+
+  `expect(screen.getAllByRole('foo')).toHaveLength(0//comment
+    )`,
+  `let foo;
+    foo = screen.getAllByRole('foo');
+    expect(foo).toHaveLength(0//comment
+    );`,
 ];
 const invalid = [
   invalidCase(
