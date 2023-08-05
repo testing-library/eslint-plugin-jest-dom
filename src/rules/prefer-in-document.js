@@ -20,7 +20,10 @@ export const meta = {
   fixable: "code",
   messages: {
     "use-document": `Prefer .toBeInTheDocument() for asserting DOM node existence`,
+    "invalid-combination-length-1": `Invalid combination of {{ query }} and .toHaveLength(1). Did you mean to use {{ allQuery }}?`,
+    "replace-query-with-all": `Replace {{ query }} with {{ allQuery }}`,
   },
+  hasSuggestions: true,
 };
 
 function isAntonymMatcher(matcherNode, matcherArguments) {
@@ -46,6 +49,24 @@ function usesToHaveLengthZero(matcherNode, matcherArguments) {
     matcherNode.name === "toHaveLength" &&
     (matcherArguments.length === 0 || matcherArguments[0].value === 0)
   );
+}
+
+/**
+ * Extract the DTL query identifier from a call expression
+ *
+ * <query>() -> <query>
+ * screen.<query>() -> <query>
+ */
+function getDTLQueryIdentifierNode(callExpressionNode) {
+  if (!callExpressionNode || callExpressionNode.type !== "CallExpression") {
+    return null;
+  }
+
+  if (callExpressionNode.callee.type === "Identifier") {
+    return callExpressionNode.callee;
+  }
+
+  return callExpressionNode.callee.property;
 }
 
 export const create = (context) => {
@@ -83,20 +104,63 @@ export const create = (context) => {
     // only report on dom nodes which we can resolve to RTL queries.
     if (!queryNode || (!queryNode.name && !queryNode.property)) return;
 
-    // toHaveLength() is only invalid with 0 or 1
-    if (matcherNode.name === "toHaveLength" && matcherArguments.length) {
+    // *By* query with .toHaveLength(0/1) matcher are considered violations
+    //
+    // | Selector type | .toHaveLength(1)            | .toHaveLength(0)                      |
+    // | ============= | =========================== | ===================================== |
+    // | *By* query    | Did you mean to use *AllBy* | Replace with .not.toBeInTheDocument() |
+    // | *AllBy* query | Correct                     | Correct
+    //
+    // @see https://github.com/testing-library/eslint-plugin-jest-dom/issues/171
+    //
+    if (matcherNode.name === "toHaveLength" && matcherArguments.length === 1) {
       const lengthValue = getLengthValue(matcherArguments);
-      // isNotToHaveLengthZero represents .not.toHaveLength(0) which is a valid use of toHaveLength
-      const isNotToHaveLengthZero =
-        usesToHaveLengthZero(matcherNode, matcherArguments) && negatedMatcher;
-      const isValidUseOfToHaveLength =
-        isNotToHaveLengthZero ||
-        !["Literal", "Identifier"].includes(matcherArguments[0].type) ||
-        lengthValue === undefined ||
-        lengthValue > 1;
+      const queryName = queryNode.name || queryNode.property.name;
 
-      if (isValidUseOfToHaveLength) {
+      const isSingleQuery =
+        queries.includes(queryName) && !/AllBy/.test(queryName);
+      const hasViolation = isSingleQuery && [1, 0].includes(lengthValue);
+
+      if (!hasViolation) {
         return;
+      }
+      // If length === 1, report violation with suggestions
+      // Otherwise fallback to default report
+      if (lengthValue === 1) {
+        const allQuery = queryName.replace("By", "AllBy");
+        return context.report({
+          node: matcherNode,
+          messageId: "invalid-combination-length-1",
+          data: {
+            query: queryName,
+            allQuery,
+          },
+          loc: matcherNode.loc,
+          suggest: [
+            {
+              messageId: "replace-query-with-all",
+              data: { query: queryName, allQuery },
+              fix(fixer) {
+                return fixer.replaceText(
+                  queryNode.property || queryNode,
+                  allQuery
+                );
+              },
+            },
+            {
+              desc: "Replace .toHaveLength(1) with .toBeInTheDocument()",
+              fix(fixer) {
+                // Remove any arguments in the matcher
+                return [
+                  ...Array.from(matcherArguments).map((argument) =>
+                    fixer.remove(argument)
+                  ),
+                  fixer.replaceText(matcherNode, "toBeInTheDocument"),
+                ];
+              },
+            },
+          ],
+        });
       }
     }
 
@@ -195,6 +259,12 @@ export const create = (context) => {
         context,
         node.object.object.arguments[0].name
       );
+
+      // Not an RTL query
+      if (!queryNode || queryNode.type !== "CallExpression") {
+        return;
+      }
+
       const matcherNode = node.property;
 
       const matcherArguments = node.parent.arguments;
@@ -202,7 +272,7 @@ export const create = (context) => {
       const expect = node.object.object;
       check({
         negatedMatcher: true,
-        queryNode: (queryNode && queryNode.callee) || queryNode,
+        queryNode: queryNode.callee,
         matcherNode,
         matcherArguments,
         expect,
@@ -212,16 +282,25 @@ export const create = (context) => {
     [`MemberExpression[object.callee.name=expect][property.name=${alternativeMatchers}][object.arguments.0.type=Identifier]`](
       node
     ) {
-      const queryNode = getAssignmentForIdentifier(
+      // Value expression being assigned to the left-hand value
+      const rightValueNode = getAssignmentForIdentifier(
         context,
         node.object.arguments[0].name
       );
+
+      // Not a DTL query
+      if (!rightValueNode || rightValueNode.type !== "CallExpression") {
+        return;
+      }
+
+      const queryIdentifierNode = getDTLQueryIdentifierNode(rightValueNode);
+
       const matcherNode = node.property;
 
       const matcherArguments = node.parent.arguments;
       check({
         negatedMatcher: false,
-        queryNode: (queryNode && queryNode.callee) || queryNode,
+        queryNode: queryIdentifierNode,
         matcherNode,
         matcherArguments,
       });
@@ -237,14 +316,17 @@ export const create = (context) => {
         return;
       }
 
-      const queryNode =
-        arg.type === "AwaitExpression" ? arg.argument.callee : arg.callee;
+      const queryIdentifierNode =
+        arg.type === "AwaitExpression"
+          ? getDTLQueryIdentifierNode(arg.argument)
+          : getDTLQueryIdentifierNode(arg);
+
       const matcherNode = node.callee.property;
       const matcherArguments = node.arguments;
 
       check({
         negatedMatcher: false,
-        queryNode,
+        queryNode: queryIdentifierNode,
         matcherNode,
         matcherArguments,
       });

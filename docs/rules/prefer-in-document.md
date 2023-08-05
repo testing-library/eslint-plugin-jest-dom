@@ -2,7 +2,7 @@
 
 💼 This rule is enabled in the ✅ `recommended` config.
 
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+🔧💡 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix) and manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
 
 <!-- end auto-generated rule header -->
 
@@ -11,6 +11,7 @@
 This rule enforces checking existance of DOM nodes using `.toBeInTheDocument()`.
 The rule prefers that matcher over various existance checks such as `.toHaveLength(1)`, `.not.toBeNull()` and
 similar.
+However it's considered OK to use `.toHaveLength(value)` matcher with `*AllBy*` queries.
 
 Examples of **incorrect** code for this rule:
 
@@ -46,7 +47,7 @@ expect(screen.getByText("foo").length).toBe(1);
 expect(screen.queryByText("foo")).toBeInTheDocument();
 expect(await screen.findByText("foo")).toBeInTheDocument();
 expect(queryByText("foo")).toBeInTheDocument();
-expect(wrapper.queryAllByTestId("foo")).toBeInTheDocument();
+expect(wrapper.queryAllByTestId("foo")).toHaveLength(1);
 expect(screen.getAllByLabel("foo-bar")).toHaveLength(2);
 expect(notAQuery("foo-bar")).toHaveLength(1);
 
