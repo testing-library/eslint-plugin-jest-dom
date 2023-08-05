@@ -96,21 +96,22 @@ module.exports = {
 
 💼 Configurations enabled in.\
 ✅ Set in the `recommended` configuration.\
-🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).
+🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).\
+💡 Manually fixable by [editor suggestions](https://eslint.org/docs/developer-guide/working-with-rules#providing-suggestions).
 
-| Name                                                                     | Description                                                           | 💼 | 🔧 |
-| :----------------------------------------------------------------------- | :-------------------------------------------------------------------- | :- | :- |
-| [prefer-checked](docs/rules/prefer-checked.md)                           | prefer toBeChecked over checking attributes                           | ✅  | 🔧 |
-| [prefer-empty](docs/rules/prefer-empty.md)                               | Prefer toBeEmpty over checking innerHTML                              | ✅  | 🔧 |
-| [prefer-enabled-disabled](docs/rules/prefer-enabled-disabled.md)         | prefer toBeDisabled or toBeEnabled over checking attributes           | ✅  | 🔧 |
-| [prefer-focus](docs/rules/prefer-focus.md)                               | prefer toHaveFocus over checking document.activeElement               | ✅  | 🔧 |
-| [prefer-in-document](docs/rules/prefer-in-document.md)                   | Prefer .toBeInTheDocument() for asserting the existence of a DOM node | ✅  | 🔧 |
-| [prefer-required](docs/rules/prefer-required.md)                         | prefer toBeRequired over checking properties                          | ✅  | 🔧 |
-| [prefer-to-have-attribute](docs/rules/prefer-to-have-attribute.md)       | prefer toHaveAttribute over checking  getAttribute/hasAttribute       | ✅  | 🔧 |
-| [prefer-to-have-class](docs/rules/prefer-to-have-class.md)               | prefer toHaveClass over checking element className                    | ✅  | 🔧 |
-| [prefer-to-have-style](docs/rules/prefer-to-have-style.md)               | prefer toHaveStyle over checking element style                        | ✅  | 🔧 |
-| [prefer-to-have-text-content](docs/rules/prefer-to-have-text-content.md) | Prefer toHaveTextContent over checking element.textContent            | ✅  | 🔧 |
-| [prefer-to-have-value](docs/rules/prefer-to-have-value.md)               | prefer toHaveValue over checking element.value                        | ✅  | 🔧 |
+| Name                                                                     | Description                                                           | 💼 | 🔧 | 💡 |
+| :----------------------------------------------------------------------- | :-------------------------------------------------------------------- | :- | :- | :- |
+| [prefer-checked](docs/rules/prefer-checked.md)                           | prefer toBeChecked over checking attributes                           | ✅  | 🔧 |    |
+| [prefer-empty](docs/rules/prefer-empty.md)                               | Prefer toBeEmpty over checking innerHTML                              | ✅  | 🔧 |    |
+| [prefer-enabled-disabled](docs/rules/prefer-enabled-disabled.md)         | prefer toBeDisabled or toBeEnabled over checking attributes           | ✅  | 🔧 |    |
+| [prefer-focus](docs/rules/prefer-focus.md)                               | prefer toHaveFocus over checking document.activeElement               | ✅  | 🔧 |    |
+| [prefer-in-document](docs/rules/prefer-in-document.md)                   | Prefer .toBeInTheDocument() for asserting the existence of a DOM node | ✅  | 🔧 | 💡 |
+| [prefer-required](docs/rules/prefer-required.md)                         | prefer toBeRequired over checking properties                          | ✅  | 🔧 |    |
+| [prefer-to-have-attribute](docs/rules/prefer-to-have-attribute.md)       | prefer toHaveAttribute over checking  getAttribute/hasAttribute       | ✅  | 🔧 |    |
+| [prefer-to-have-class](docs/rules/prefer-to-have-class.md)               | prefer toHaveClass over checking element className                    | ✅  | 🔧 |    |
+| [prefer-to-have-style](docs/rules/prefer-to-have-style.md)               | prefer toHaveStyle over checking element style                        | ✅  | 🔧 |    |
+| [prefer-to-have-text-content](docs/rules/prefer-to-have-text-content.md) | Prefer toHaveTextContent over checking element.textContent            | ✅  | 🔧 |    |
+| [prefer-to-have-value](docs/rules/prefer-to-have-value.md)               | prefer toHaveValue over checking element.value                        | ✅  | 🔧 |    |
 
 <!-- end auto-generated rules list -->
 
