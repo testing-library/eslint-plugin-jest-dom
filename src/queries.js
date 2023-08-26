@@ -1,3 +1,33 @@
-import { queries as allQueries } from "@testing-library/dom";
+let theQueries = [
+  "findAllBy",
+  "findBy",
+  "getAllBy",
+  "getBy",
+  "queryAllBy",
+  "queryBy",
+].flatMap((prefix) =>
+  [
+    "AltText",
+    "DisplayValue",
+    "LabelText",
+    "PlaceholderText",
+    "Role",
+    "TestId",
+    "Text",
+    "Title",
+  ].map((element) => `${prefix}${element}`)
+);
 
-export const queries = Object.keys(allQueries);
+(() => {
+  try {
+    const { queries: allQueries } = require("@testing-library/dom");
+
+    theQueries = Object.keys(allQueries);
+  } catch (error) {
+    if (error.code !== "MODULE_NOT_FOUND") {
+      throw error;
+    }
+  }
+})();
+
+export const queries = theQueries;
