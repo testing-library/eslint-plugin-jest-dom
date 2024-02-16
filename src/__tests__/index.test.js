@@ -1,4 +1,9 @@
-import { configs, rules } from "../";
+import plugin, { configs, rules } from "../";
+
+it("includes the configs and rules on the plugin", () => {
+  expect(plugin).toHaveProperty("configs", configs);
+  expect(plugin).toHaveProperty("rules", rules);
+});
 
 it("should have all the rules", () => {
   expect(Object.keys(rules)).toHaveLength(11);
