@@ -17,8 +17,8 @@ import {
 // Plugin Definition
 //------------------------------------------------------------------------------
 
-// import all rules in src/rules
-const rules = requireIndex(`${__dirname}/rules`);
+// import all rules in src/rules and re-export them for .eslintrc configs
+export const rules = requireIndex(`${__dirname}/rules`);
 
 const recommendedRules = Object.entries(rules).reduce(
   (memo, [name, rule]) => ({
@@ -64,3 +64,8 @@ plugin.configs["flat/all"] = {
 };
 
 export default plugin;
+
+// explicitly export config to allow using this plugin in CJS-based
+// eslint.config.js files without needing to deal with the .default
+// and also retain backwards compatibility with `.eslintrc` configs
+export const configs = plugin.configs;

@@ -1,10 +1,10 @@
-import plugin from "../";
+import { configs, rules } from "../";
 
 it("should have all the rules", () => {
-  expect(Object.keys(plugin.rules)).toHaveLength(11);
+  expect(Object.keys(rules)).toHaveLength(11);
 });
 
-it.each(Object.entries(plugin.rules))(
+it.each(Object.entries(rules))(
   "%s should export required fields",
   (name, rule) => {
     expect(rule).toHaveProperty("create", expect.any(Function));
@@ -15,7 +15,7 @@ it.each(Object.entries(plugin.rules))(
 );
 
 it("has the expected recommended config", () => {
-  expect(plugin.configs.recommended).toMatchInlineSnapshot(`
+  expect(configs.recommended).toMatchInlineSnapshot(`
     Object {
       plugins: Array [
         jest-dom,
@@ -45,7 +45,7 @@ it("has the expected recommended flat config", () => {
     },
   });
 
-  expect(plugin.configs["flat/recommended"]).toMatchInlineSnapshot(
+  expect(configs["flat/recommended"]).toMatchInlineSnapshot(
     { plugins: { "jest-dom": expectJestDomPlugin } },
     `
     Object {
