@@ -1,7 +1,7 @@
 import plugin from "../";
 
 it("should have all the rules", () => {
-  expect(Object.keys(plugin.rules).length).toBeGreaterThan(0);
+  expect(Object.keys(plugin.rules)).toHaveLength(11);
 });
 
 it.each(Object.entries(plugin.rules))(
