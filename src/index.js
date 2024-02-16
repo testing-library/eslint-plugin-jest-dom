@@ -20,14 +20,6 @@ import {
 // import all rules in src/rules and re-export them for .eslintrc configs
 export const rules = requireIndex(`${__dirname}/rules`);
 
-const recommendedRules = Object.entries(rules).reduce(
-  (memo, [name, rule]) => ({
-    ...memo,
-    ...(rule.meta.docs.recommended ? { [`jest-dom/${name}`]: "error" } : {}),
-  }),
-  {}
-);
-
 const allRules = Object.entries(rules).reduce(
   (memo, [name]) => ({
     ...memo,
@@ -35,6 +27,8 @@ const allRules = Object.entries(rules).reduce(
   }),
   {}
 );
+
+const recommendedRules = allRules;
 
 const plugin = {
   meta: {
