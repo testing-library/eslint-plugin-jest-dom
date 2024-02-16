@@ -31,7 +31,7 @@
   "scripts": {
     "build": "kcd-scripts build",
     "pregenerate-readme-table": "npm run build",
-    "generate-readme-table": "eslint-doc-generator --ignore-config all",
+    "generate-readme-table": "eslint-doc-generator",
     "lint": "kcd-scripts lint",
     "lint:generate-readme-table": "npm run generate-readme-table -- --check",
     "setup": "npm install && npm run validate -s",
