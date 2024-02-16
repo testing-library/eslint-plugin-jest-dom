@@ -40,7 +40,7 @@ it("has the expected recommended config", () => {
 it("has the expected recommended flat config", () => {
   const expectJestDomPlugin = expect.objectContaining({
     meta: {
-      name: "eslint-plugin-example",
+      name: "eslint-plugin-jest-dom",
       version: expect.any(String),
     },
   });
@@ -52,7 +52,7 @@ it("has the expected recommended flat config", () => {
       plugins: Object {
         jest-dom: ObjectContaining {
           meta: Object {
-            name: eslint-plugin-example,
+            name: eslint-plugin-jest-dom,
             version: Any<String>,
           },
         },

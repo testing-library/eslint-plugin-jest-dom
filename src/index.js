@@ -8,6 +8,10 @@
 //------------------------------------------------------------------------------
 
 import requireIndex from "requireindex";
+import {
+  name as packageName,
+  version as packageVersion,
+} from "../package.json";
 
 //------------------------------------------------------------------------------
 // Plugin Definition
@@ -34,8 +38,8 @@ const allRules = Object.entries(rules).reduce(
 
 const plugin = {
   meta: {
-    name: "eslint-plugin-example",
-    version: "1.0.0",
+    name: packageName,
+    version: packageVersion,
   },
   configs: {
     recommended: {
