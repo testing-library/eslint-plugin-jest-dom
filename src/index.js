@@ -8,39 +8,58 @@
 //------------------------------------------------------------------------------
 
 import requireIndex from "requireindex";
+import {
+  name as packageName,
+  version as packageVersion,
+} from "../package.json";
 
 //------------------------------------------------------------------------------
 // Plugin Definition
 //------------------------------------------------------------------------------
 
-// import all rules in src/rules
+// import all rules in src/rules and re-export them for .eslintrc configs
 export const rules = requireIndex(`${__dirname}/rules`);
 
-export const generateRecommendedConfig = (allRules) =>
-  Object.entries(allRules).reduce(
-    (memo, [name, rule]) => ({
-      ...memo,
-      ...(rule.meta.docs.recommended ? { [`jest-dom/${name}`]: "error" } : {}),
-    }),
-    {}
-  );
+const allRules = Object.entries(rules).reduce(
+  (memo, [name]) => ({
+    ...memo,
+    ...{ [`jest-dom/${name}`]: "error" },
+  }),
+  {}
+);
 
-export const generateAllRulesConfig = (allRules) =>
-  Object.entries(allRules).reduce(
-    (memo, [name]) => ({
-      ...memo,
-      ...{ [`jest-dom/${name}`]: "error" },
-    }),
-    {}
-  );
+const recommendedRules = allRules;
 
-export const configs = {
-  recommended: {
-    plugins: ["jest-dom"],
-    rules: generateRecommendedConfig(rules),
+const plugin = {
+  meta: {
+    name: packageName,
+    version: packageVersion,
   },
-  all: {
-    plugins: ["jest-dom"],
-    rules: generateAllRulesConfig(rules),
+  configs: {
+    recommended: {
+      plugins: ["jest-dom"],
+      rules: recommendedRules,
+    },
+    all: {
+      plugins: ["jest-dom"],
+      rules: allRules,
+    },
   },
+  rules,
 };
+
+plugin.configs["flat/recommended"] = {
+  plugins: { "jest-dom": plugin },
+  rules: recommendedRules,
+};
+plugin.configs["flat/all"] = {
+  plugins: { "jest-dom": plugin },
+  rules: allRules,
+};
+
+export default plugin;
+
+// explicitly export config to allow using this plugin in CJS-based
+// eslint.config.js files without needing to deal with the .default
+// and also retain backwards compatibility with `.eslintrc` configs
+export const configs = plugin.configs;

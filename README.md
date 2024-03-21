@@ -47,6 +47,17 @@ This library has a required `peerDependencies` listing for [`ESLint`](https://es
 
 ## Usage
 
+> [!NOTE]
+>
+> `eslint.config.js` is supported, though most of the plugin documentation still
+> currently uses `.eslintrc` syntax; compatible versions of configs are available
+> prefixed with `flat/` and may be subject to small breaking changes while ESLint
+> v9 is being finalized.
+>
+> Refer to the
+> [ESLint documentation on the new configuration file format](https://eslint.org/docs/latest/use/configure/configuration-files-new)
+> for more.
+
 Add `jest-dom` to the plugins section of your `.eslintrc.js` configuration file.
 You can omit the `eslint-plugin-` prefix:
 
@@ -78,8 +89,7 @@ This plugin exports a recommended configuration that enforces good `jest-dom`
 practices _(you can find more info about enabled rules in
 [Supported Rules section](#supported-rules))_.
 
-To enable this configuration use the `extends` property in your `.eslintrc.js`
-config file:
+To enable this configuration with `.eslintrc`, use the `extends` property:
 
 ```javascript
 module.exports = {
@@ -88,6 +98,20 @@ module.exports = {
     // your configuration
   },
 };
+```
+
+To enable this configuration with `eslint.config.js`, use
+`jestDom.configs['flat/recommended']`:
+
+```javascript
+module.exports = [
+  {
+    files: [
+      /* glob matching your test files */
+    ],
+    ...require("eslint-plugin-jest-dom").configs["flat/recommended"],
+  },
+];
 ```
 
 ## Supported Rules
