@@ -256,7 +256,7 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceTextRange(
               [styleName.range[0], styleValue.range[1]],
-              `{${camelCase(styleName.value)}: ${context
+              `{${getReplacementObjectProperty(styleName)}: ${context
                 .getSourceCode()
                 .getText(styleValue)}}`
             ),
@@ -288,7 +288,7 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceTextRange(
               [styleName.range[0], styleValue.range[1]],
-              `{${camelCase(styleName.value)}: ${context
+              `{${getReplacementObjectProperty(styleName)}: ${context
                 .getSourceCode()
                 .getText(styleValue)}}`
             ),

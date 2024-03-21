@@ -177,5 +177,33 @@ ruleTester.run("prefer-to-have-style", rule, {
       errors,
       output: null,
     },
+    {
+      code: `
+        expect(myStencil({color: '--my-var'}).style).toHaveProperty(
+          myStencil.vars.color,
+          'var(--my-var)'
+        );
+      `,
+      errors,
+      output: `
+        expect(myStencil({color: '--my-var'})).toHaveStyle(
+          {[myStencil.vars.color]: 'var(--my-var)'}
+        );
+      `,
+    },
+    {
+      code: `
+        expect(myStencil({color: '--my-var'}).style).not.toHaveProperty(
+          myStencil.vars.color,
+          'var(--my-var)'
+        );
+      `,
+      errors,
+      output: `
+        expect(myStencil({color: '--my-var'})).not.toHaveStyle(
+          {[myStencil.vars.color]: 'var(--my-var)'}
+        );
+      `,
+    },
   ],
 });
