@@ -1,3 +1,4 @@
+/* istanbul ignore next */
 export function getSourceCode(context) {
   if ('sourceCode' in context) {
     return context.sourceCode;
@@ -6,6 +7,7 @@ export function getSourceCode(context) {
   return context.getSourceCode();
 }
 
+/* istanbul ignore next */
 export function getScope(context, node) {
   const sourceCode = getSourceCode(context);
 
