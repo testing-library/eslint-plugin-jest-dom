@@ -79,6 +79,7 @@ export const create = (context) => {
     if (matcherArguments[0].type === "Identifier") {
       const assignment = getAssignmentForIdentifier(
         context,
+        matcherArguments[0],
         matcherArguments[0].name
       );
       if (!assignment) {
@@ -258,6 +259,7 @@ export const create = (context) => {
     ) {
       const queryNode = getAssignmentForIdentifier(
         context,
+        node,
         node.object.object.arguments[0].name
       );
 
@@ -286,6 +288,7 @@ export const create = (context) => {
       // Value expression being assigned to the left-hand value
       const rightValueNode = getAssignmentForIdentifier(
         context,
+        node,
         node.object.arguments[0].name
       );
 
