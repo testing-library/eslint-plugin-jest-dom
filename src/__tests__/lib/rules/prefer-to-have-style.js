@@ -1,4 +1,4 @@
-import { RuleTester } from "eslint";
+import { FlatCompatRuleTester as RuleTester } from '../../rule-tester';
 import * as rule from "../../../rules/prefer-to-have-style";
 
 const errors = [
