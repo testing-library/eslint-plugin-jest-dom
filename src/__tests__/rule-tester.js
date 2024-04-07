@@ -1,6 +1,14 @@
+/* eslint-disable jest/no-export */
+
 import { RuleTester } from 'eslint';
 import semver from 'semver';
 import { version as eslintVersion } from 'eslint/package.json';
+
+// we need to have a test as kcd-scripts doesn't let us
+// exclude this file from being run via jest as a test
+it('is true', () => {
+  expect(true).toBe(true);
+});
 
 export const usingFlatConfig = semver.major(eslintVersion) >= 9;
 
