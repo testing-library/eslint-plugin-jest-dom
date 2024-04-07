@@ -55,6 +55,9 @@ jobs:
         with:
           useLockFile: false
 
+      - if: ${{ matrix.eslint == 9 }}
+        run: npm i -g npm@latest
+
       - name: Install ESLint v${{ matrix.eslint }}
         run: npm install --no-save --force eslint@${{ matrix.eslint }}
 
