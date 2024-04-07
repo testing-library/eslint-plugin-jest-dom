@@ -2,6 +2,7 @@
  * @fileoverview Prefer toBeEmpty over checking innerHTML
  * @author Ben Monro
  */
+import { getSourceCode } from '../context';
 
 export const meta = {
   docs: {
@@ -16,7 +17,7 @@ export const meta = {
 export const create = (context) => {
   function isNonEmptyStringOrTemplateLiteral(node) {
     return !['""', "''", "``", "null"].includes(
-      context.getSourceCode().getText(node)
+      getSourceCode(context).getText(node)
     );
   }
 

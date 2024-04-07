@@ -2,6 +2,7 @@
  * @fileoverview prefer toHaveAttribute over checking  getAttribute/hasAttribute
  * @author Ben Monro
  */
+import { getSourceCode } from '../context';
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -42,7 +43,7 @@ export const create = (context) => ({
   [`CallExpression[callee.property.name='getAttribute'][parent.callee.name='expect'][parent.parent.property.name=/toContain$|toMatch$/]`](
     node
   ) {
-    const sourceCode = context.getSourceCode();
+    const sourceCode = getSourceCode(context);
     context.report({
       node: node.parent,
       message: `Use toHaveAttribute instead of asserting on getAttribute`,
@@ -66,7 +67,7 @@ export const create = (context) => ({
     const arg = node.parent.parent.parent.arguments;
     const isNull = arg.length > 0 && arg[0].value === null;
 
-    const sourceCode = context.getSourceCode();
+    const sourceCode = getSourceCode(context);
     context.report({
       node: node.parent,
       message: `Use toHaveAttribute instead of asserting on getAttribute`,
@@ -127,7 +128,7 @@ export const create = (context) => ({
           ),
           fixer.replaceText(
             node.parent.parent.parent.arguments[0],
-            context.getSourceCode().getText(node.arguments[0])
+            getSourceCode(context).getText(node.arguments[0])
           ),
         ],
       });

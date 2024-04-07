@@ -2,6 +2,7 @@
  * @fileoverview prefer toHaveStyle over checking element style
  * @author Ben Monro
  */
+import { getSourceCode } from '../context';
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -23,16 +24,16 @@ export const create = (context) => {
       return camelCase(styleName.value);
     }
 
-    return `[${context.getSourceCode().getText(styleName)}]`;
+    return `[${getSourceCode(context).getText(styleName)}]`;
   }
   function getReplacementStyleParam(styleName, styleValue) {
     return styleName.type === "Literal"
       ? `{${camelCase(styleName.value)}: ${context
           .getSourceCode()
           .getText(styleValue)}}`
-      : `${context.getSourceCode().getText(styleName).slice(0, -1)}: ${
+      : `${getSourceCode(context).getText(styleName).slice(0, -1)}: ${
           styleValue.type === "TemplateLiteral"
-            ? context.getSourceCode().getText(styleValue).substring(1)
+            ? getSourceCode(context).getText(styleValue).substring(1)
             : `${styleValue.value}\``
         }`;
   }
@@ -104,7 +105,7 @@ export const create = (context) => {
               styleName,
               styleName.type === "Literal"
                 ? `{${camelCase(styleName.value)}: expect.anything()}`
-                : context.getSourceCode().getText(styleName)
+                : getSourceCode(context).getText(styleName)
             ),
           ];
         },
@@ -128,7 +129,7 @@ export const create = (context) => {
               styleName,
               styleName.type === "Literal"
                 ? `{${camelCase(styleName.value)}: expect.anything()}`
-                : context.getSourceCode().getText(styleName)
+                : getSourceCode(context).getText(styleName)
             ),
           ];
         },

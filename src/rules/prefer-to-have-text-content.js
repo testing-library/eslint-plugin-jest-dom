@@ -2,6 +2,7 @@
  * @fileoverview prefer toHaveAttribute over checking  getAttribute/hasAttribute
  * @author Ben Monro
  */
+import { getSourceCode } from '../context';
 
 export const meta = {
   docs: {
@@ -19,7 +20,7 @@ export const create = (context) => ({
   ) {
     const expectedArg = node.parent.parent.parent.arguments[0];
 
-    const expectedArgSource = context.getSourceCode().getText(expectedArg);
+    const expectedArgSource = getSourceCode(context).getText(expectedArg);
     context.report({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
@@ -80,7 +81,7 @@ export const create = (context) => ({
     node
   ) {
     const expectedArg = node.parent.parent.parent.parent.arguments[0];
-    const expectedArgSource = context.getSourceCode().getText(expectedArg);
+    const expectedArgSource = getSourceCode(context).getText(expectedArg);
     context.report({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,

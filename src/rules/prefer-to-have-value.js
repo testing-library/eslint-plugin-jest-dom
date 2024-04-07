@@ -4,6 +4,7 @@
  */
 
 import { getQueryNodeFrom } from "../assignment-ast";
+import { getSourceCode } from '../context';
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -53,7 +54,7 @@ export const create = (context) => {
           node,
           fix(fixer) {
             return [
-              fixer.remove(context.getSourceCode().getTokenBefore(valueProp)),
+              fixer.remove(getSourceCode(context).getTokenBefore(valueProp)),
               fixer.remove(valueProp),
               fixer.replaceText(matcher, "toHaveValue"),
             ];
@@ -79,7 +80,7 @@ export const create = (context) => {
           fix(fixer) {
             return [
               fixer.removeRange([
-                context.getSourceCode().getTokenBefore(valueProp).range[0],
+                getSourceCode(context).getTokenBefore(valueProp).range[0],
                 valueProp.range[1],
               ]),
               fixer.replaceText(matcher, "toHaveValue"),

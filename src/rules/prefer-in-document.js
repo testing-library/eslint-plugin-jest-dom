@@ -7,6 +7,7 @@
 
 import { queries } from "../queries";
 import { getAssignmentForIdentifier } from "../assignment-ast";
+import { getSourceCode } from '../context';
 
 export const meta = {
   type: "suggestion",
@@ -186,7 +187,7 @@ export const create = (context) => {
 
           // Remove any arguments in the matcher
           for (const argument of Array.from(matcherArguments)) {
-            const sourceCode = context.getSourceCode();
+            const sourceCode = getSourceCode(context);
             const token = sourceCode.getTokenAfter(argument);
             if (token.value === "," && token.type === "Punctuator") {
               // Remove commas if toHaveLength had more than one argument or a trailing comma
