@@ -4,6 +4,7 @@
  */
 
 import { getQueryNodeFrom } from "../assignment-ast";
+import { getSourceCode } from '../context';
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -48,11 +49,11 @@ export const create = (context) => ({
           matcherArg
             ? fixer.replaceText(
                 matcherArg,
-                context.getSourceCode().getText(classValue)
+                getSourceCode(context).getText(classValue)
               )
             : fixer.insertTextBefore(
-                context.getSourceCode().getTokenAfter(matcher, { skip: 1 }),
-                context.getSourceCode().getText(classValue)
+                getSourceCode(context).getTokenAfter(matcher, { skip: 1 }),
+                getSourceCode(context).getText(classValue)
               ),
         ];
       },
@@ -82,7 +83,7 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveClass"),
           fixer.replaceText(
             classValue,
-            context.getSourceCode().getText(classValue)
+            getSourceCode(context).getText(classValue)
           ),
         ];
       },
@@ -133,7 +134,7 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveClass"),
           fixer.replaceText(
             classValue,
-            `${context.getSourceCode().getText(classValue)}${
+            `${getSourceCode(context).getText(classValue)}${
               matcher.name === "toContain" ? "" : ", { exact: true }"
             }`
           ),
@@ -164,7 +165,7 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveClass"),
           fixer.replaceText(
             node.arguments[0],
-            `${context.getSourceCode().getText(classValue)}`
+            `${getSourceCode(context).getText(classValue)}`
           ),
         ];
       },
@@ -195,7 +196,7 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveClass"),
           fixer.replaceText(
             classValue,
-            `${context.getSourceCode().getText(classValue)}${
+            `${getSourceCode(context).getText(classValue)}${
               matcher.name === "toContain" ? "" : ", { exact: true }"
             }`
           ),
@@ -237,7 +238,7 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveClass"),
           fixer.replaceText(
             classArg,
-            context.getSourceCode().getText(classValueArg)
+            getSourceCode(context).getText(classValueArg)
           ),
           fixer.replaceText(classValueArg, `{ exact: true }`),
         ];
@@ -278,7 +279,7 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveClass"),
           fixer.replaceText(
             classArg,
-            context.getSourceCode().getText(classValueArg)
+            getSourceCode(context).getText(classValueArg)
           ),
           fixer.replaceText(classValueArg, `{ exact: true }`),
         ];
@@ -321,7 +322,7 @@ export const create = (context) => ({
           fixer.replaceText(matcher, "toHaveClass"),
           fixer.replaceText(
             classArg,
-            context.getSourceCode().getText(classValueArg)
+            getSourceCode(context).getText(classValueArg)
           ),
           fixer.removeRange([classArg.range[1], classValue.range[1]]),
         ];

@@ -1,4 +1,4 @@
-import { RuleTester } from "eslint";
+import { FlatCompatRuleTester as RuleTester } from '../../rule-tester';
 import * as rule from "../../../rules/prefer-to-have-class";
 
 const errors = [{ messageId: "use-to-have-class" }];

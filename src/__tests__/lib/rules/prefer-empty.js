@@ -8,8 +8,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import { RuleTester } from "eslint";
-import * as rule from "../../../rules/prefer-empty";
+import { FlatCompatRuleTester as RuleTester } from '../../rule-tester';
+import * as rule from '../../../rules/prefer-empty';
 
 //------------------------------------------------------------------------------
 // Tests

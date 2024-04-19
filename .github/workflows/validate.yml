@@ -22,10 +22,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        eslint: [6, 7, 8]
+        eslint: [6, 7, 8, 9]
         node: [12.x, 14.x, 16.x, 18.x, 20.x, 21.x]
         testing-library-dom: [8, 9, 10]
         exclude:
+          - eslint: 9
+            node: 12.x
+          - eslint: 9
+            node: 14.x
+          - eslint: 9
+            node: 16.x
           - testing-library-dom: 9
             node: 12.x
           - testing-library-dom: 10
@@ -48,6 +54,10 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           useLockFile: false
+
+        # see https://github.com/npm/cli/issues/7349
+      - if: ${{ matrix.eslint == 9 }}
+        run: npm un @typescript-eslint/parser
 
       - name: Install ESLint v${{ matrix.eslint }}
         run: npm install --no-save --force eslint@${{ matrix.eslint }}

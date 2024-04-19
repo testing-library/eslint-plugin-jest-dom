@@ -1,4 +1,5 @@
 import { queries } from "./queries";
+import { getScope } from './context';
 
 /**
  * Gets the inner relevant node (CallExpression, Identity, et al.) given a generic expression node
@@ -6,19 +7,20 @@ import { queries } from "./queries";
  * someElement as HTMLDivElement => someElement
  *
  * @param {Object} context - Context for a rule
+ * @param {Object} node - Node for a rule
  * @param {Object} expression - An expression node
  * @returns {Object} - A node
  */
-export function getInnerNodeFrom(context, expression) {
+export function getInnerNodeFrom(context, node, expression) {
   switch (expression.type) {
     case "Identifier":
-      return getAssignmentForIdentifier(context, expression.name);
+      return getAssignmentForIdentifier(context, node, expression.name);
     case "TSAsExpression":
-      return getInnerNodeFrom(context, expression.expression);
+      return getInnerNodeFrom(context, node, expression.expression);
     case "AwaitExpression":
-      return getInnerNodeFrom(context, expression.argument);
+      return getInnerNodeFrom(context, node, expression.argument);
     case "MemberExpression":
-      return getInnerNodeFrom(context, expression.object);
+      return getInnerNodeFrom(context, node, expression.object);
     default:
       return expression;
   }
@@ -28,11 +30,12 @@ export function getInnerNodeFrom(context, expression) {
  * Get the node corresponding to the latest assignment to a variable named `identifierName`
  *
  * @param {Object} context - Context for a rule
+ * @param {Object} node - Node for a rule
  * @param {String} identifierName - Name of an identifier
  * @returns {Object} - A node, possibly undefined
  */
-export function getAssignmentForIdentifier(context, identifierName) {
-  const variable = context.getScope().set.get(identifierName);
+export function getAssignmentForIdentifier(context, node, identifierName) {
+  const variable = getScope(context, node).set.get(identifierName);
 
   if (!variable) return;
   const init = variable.defs[0].node.init;
@@ -40,7 +43,7 @@ export function getAssignmentForIdentifier(context, identifierName) {
   let assignmentNode;
   if (init) {
     // let foo = bar;
-    assignmentNode = getInnerNodeFrom(context, init);
+    assignmentNode = getInnerNodeFrom(context, node, init);
   } else {
     // let foo;
     // foo = bar;
@@ -50,7 +53,7 @@ export function getAssignmentForIdentifier(context, identifierName) {
     if (!assignmentRef) {
       return;
     }
-    assignmentNode = getInnerNodeFrom(context, assignmentRef.writeExpr);
+    assignmentNode = getInnerNodeFrom(context, node, assignmentRef.writeExpr);
   }
   return assignmentNode;
 }
@@ -64,7 +67,7 @@ export function getAssignmentForIdentifier(context, identifierName) {
  * @returns {Object} - Object with query, queryArg & isDTLQuery
  */
 export function getQueryNodeFrom(context, nodeWithValueProp) {
-  const queryNode = getInnerNodeFrom(context, nodeWithValueProp);
+  const queryNode = getInnerNodeFrom(context, nodeWithValueProp, nodeWithValueProp);
 
   if (!queryNode || !queryNode.callee) {
     return {
