@@ -56,7 +56,7 @@ jobs:
           useLockFile: false
 
       - if: ${{ matrix.eslint == 9 }}
-        run: npm i -g npm@latest
+        run: npm un @typescript-eslint/parser
 
       - name: Install ESLint v${{ matrix.eslint }}
         run: npm install --no-save --force eslint@${{ matrix.eslint }}
