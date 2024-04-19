@@ -55,6 +55,7 @@ jobs:
         with:
           useLockFile: false
 
+        # see https://github.com/npm/cli/issues/7349
       - if: ${{ matrix.eslint == 9 }}
         run: npm un @typescript-eslint/parser
 
