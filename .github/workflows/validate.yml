@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        eslint: [6.8.0, 6, 7.0.0, 7, 8.0.0, 8]
+        eslint: [6, 7, 8]
         node: [12.x, 14.x, 16.x, 18.x, 20.x, 21.x]
         testing-library-dom: [8, 9]
         exclude:
