@@ -54,7 +54,7 @@ jobs:
         run: npm install --no-save --force @testing-library/dom@${{ matrix.testing-library-dom }}
 
       - name: Install TypeScript v4
-        if: ${{ startsWith(matrix.node, 12) }}
+        if: ${{ matrix.node == '12.x' }}
         run: npm install --no-save --force typescript@4
 
       - name: ▶️ Run validate script (without linting)
@@ -66,7 +66,7 @@ jobs:
         run: npm run validate
 
       - name: ▶️ Ensure docs are up-to-date
-        if: ${{ matrix.eslint == 8 && matrix.node == 16 }}
+        if: ${{ matrix.eslint == 8 && matrix.node != '12.x' }}
         run: npm run lint:generate-readme-table
 
       - name: ⬆️ Upload coverage report
