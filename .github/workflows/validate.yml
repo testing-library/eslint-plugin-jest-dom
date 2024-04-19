@@ -26,12 +26,14 @@ jobs:
         node: [12.x, 14.x, 16.x, 18.x, 20.x, 21.x]
         testing-library-dom: [8, 9, 10]
         exclude:
-          - node: 12.x
-            testing-library-dom: 9
-          - node: 14.x
-            testing-library-dom: 10
-          - node: 16.x
-            testing-library-dom: 10
+          - testing-library-dom: 9
+            node: 12.x
+          - testing-library-dom: 10
+            node: 12.x
+          - testing-library-dom: 10
+            node: 14.x
+          - testing-library-dom: 10
+            node: 16.x
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
