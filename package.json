@@ -2,7 +2,6 @@
   "name": "eslint-plugin-jest-dom",
   "version": "0.0.0-semantically-released",
   "description": "ESLint plugin to follow best practices and anticipate common mistakes when writing tests with jest-dom",
-  "main": "dist/index.js",
   "keywords": [
     "eslint",
     "eslintplugin",
@@ -15,16 +14,17 @@
     "DTL",
     "tests"
   ],
-  "author": "Ben Monro",
-  "license": "MIT",
+  "homepage": "https://github.com/testing-library/eslint-plugin-jest-dom#readme",
+  "bugs": {
+    "url": "https://github.com/testing-library/eslint-plugin-jest-dom/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/testing-library/eslint-plugin-jest-dom"
   },
-  "bugs": {
-    "url": "https://github.com/testing-library/eslint-plugin-jest-dom/issues"
-  },
-  "homepage": "https://github.com/testing-library/eslint-plugin-jest-dom#readme",
+  "license": "MIT",
+  "author": "Ben Monro",
+  "main": "dist/index.js",
   "files": [
     "dist"
   ],
@@ -40,6 +40,20 @@
     "test:update": "npm test:coverage -- --updateSnapshot",
     "validate": "kcd-scripts validate"
   },
+  "eslintConfig": {
+    "extends": "./node_modules/kcd-scripts/eslint.js",
+    "rules": {
+      "consistent-return": "off",
+      "max-lines-per-function": "off",
+      "testing-library/no-dom-import": "off"
+    }
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "coverage",
+    "dist",
+    "eslint-remote-tester-results"
+  ],
   "dependencies": {
     "@babel/runtime": "^7.16.3",
     "requireindex": "^1.2.0"
@@ -64,20 +78,6 @@
       "optional": true
     }
   },
-  "eslintConfig": {
-    "extends": "./node_modules/kcd-scripts/eslint.js",
-    "rules": {
-      "consistent-return": "off",
-      "max-lines-per-function": "off",
-      "testing-library/no-dom-import": "off"
-    }
-  },
-  "eslintIgnore": [
-    "node_modules",
-    "coverage",
-    "dist",
-    "eslint-remote-tester-results"
-  ],
   "engines": {
     "node": "^12.22.0 || ^14.17.0 || >=16.0.0",
     "npm": ">=6",
