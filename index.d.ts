@@ -1,19 +1,15 @@
 import { type Linter, type Rule } from "eslint";
 
+type JestDomPluginConfigName = 'all' | 'recommended';
+
 declare const plugin: {
   meta: {
     name: string;
     version: string;
   };
-  configs: {
-    all: Linter.LegacyConfig;
-    recommended: Linter.LegacyConfig;
-    "flat/all": Linter.FlatConfig;
-    "flat/recommended": Linter.FlatConfig;
-  };
-  rules: {
-    [key: string]: Rule.RuleModule;
-  };
+  configs: Record<JestDomPluginConfigName, Linter.LegacyConfig> &
+    Record<`flat/${JestDomPluginConfigName}`, Linter.FlatConfig>;
+  rules: Record<string, Rule.RuleModule>;
 };
 
 export = plugin;
