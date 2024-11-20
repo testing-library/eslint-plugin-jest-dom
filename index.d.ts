@@ -1,19 +1,15 @@
-import { type Linter, type Rule } from "eslint";
+import type { Linter, Rule } from "eslint";
+
+type SupportedConfigs = 'all' | 'recommended';
 
 declare const plugin: {
   meta: {
     name: string;
     version: string;
   };
-  configs: {
-    all: Linter.LegacyConfig;
-    recommended: Linter.LegacyConfig;
-    "flat/all": Linter.FlatConfig;
-    "flat/recommended": Linter.FlatConfig;
-  };
-  rules: {
-    [key: string]: Rule.RuleModule;
-  };
+  configs: Record<SupportedConfigs, Linter.LegacyConfig> &
+    Record<`flat/${SupportedConfigs}`, Linter.FlatConfig>;
+  rules: Record<string, Rule.RuleModule>;
 };
 
 export = plugin;
