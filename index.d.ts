@@ -1,4 +1,4 @@
-import type { Linter, Rule } from "eslint";
+import { type Linter, type Rule } from "eslint";
 
 type JestDomPluginConfigName = 'all' | 'recommended';
 
