@@ -97,7 +97,7 @@
     "@testing-library/dom": "^8.20.0",
     "@typescript-eslint/parser": "^5.9.1",
     "eslint": "^8.7.0",
-    "eslint-doc-generator": "^1.0.0",
+    "eslint-doc-generator": "^2.1.1",
     "eslint-remote-tester": "^3.0.0",
     "eslint-remote-tester-repositories": "^1.0.1",
     "kcd-scripts": "^12.0.0",
