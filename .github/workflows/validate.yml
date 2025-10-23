@@ -95,6 +95,11 @@ jobs:
         uses: codecov/codecov-action@v3
 
   release:
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for trusted publishing and npm provenance
     needs: main
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'testing-library/eslint-plugin-jest-dom' &&
@@ -107,7 +112,12 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 22
+
+        # todo: this can be removed once we are using a version of Node that
+        #  ships with npm v11.5.1 or higher, which is needed for using oidc
+      - name: install latest npm
+        run: npm i -g npm
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
@@ -122,7 +132,7 @@ jobs:
       - name: 🚀 Release
         uses: cycjimmy/semantic-release-action@v4
         with:
-          semantic_version: 18
+          semantic_version: 25
           branches: |
             [
               '+([0-9])?(.{+([0-9]),x}).x',
@@ -134,4 +144,3 @@ jobs:
             ]
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
