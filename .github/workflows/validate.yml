@@ -84,7 +84,7 @@ jobs:
         run: npm run validate -- build,test:coverage
 
       - name: ▶️ Run validate script (with linting)
-        if: ${{ matrix.eslint == 8 }}
+        if: ${{ matrix.eslint == 8 && matrix.node != '12.x' }}
         run: npm run validate
 
       - name: ▶️ Ensure docs are up-to-date
