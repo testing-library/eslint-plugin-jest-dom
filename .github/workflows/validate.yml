@@ -22,8 +22,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        eslint: [6, 7, 8, 9]
-        node: [12.x, 14.x, 16.x, 18.x, 20.x, 21.x]
+        eslint: [6, 7, 8, 9, 10]
+        node: [12.x, 14.x, 16.x, 18.x, 20.x, 21.x, 22.x, 24.x]
         testing-library-dom: [8, 9, 10]
         exclude:
           - eslint: 9
@@ -32,6 +32,16 @@ jobs:
             node: 14.x
           - eslint: 9
             node: 16.x
+          - eslint: 10
+            node: 12.x
+          - eslint: 10
+            node: 14.x
+          - eslint: 10
+            node: 16.x
+          - eslint: 10
+            node: 18.x
+          - eslint: 10
+            node: 21.x
           - testing-library-dom: 9
             node: 12.x
           - testing-library-dom: 10
@@ -56,7 +66,7 @@ jobs:
           useLockFile: false
 
         # see https://github.com/npm/cli/issues/7349
-      - if: ${{ matrix.eslint == 9 }}
+      - if: ${{ matrix.eslint >= 9 }}
         run: npm un @typescript-eslint/parser
 
       - name: Install ESLint v${{ matrix.eslint }}
@@ -74,7 +84,7 @@ jobs:
         run: npm run validate -- build,test:coverage
 
       - name: ▶️ Run validate script (with linting)
-        if: ${{ matrix.eslint == 8 }}
+        if: ${{ matrix.eslint == 8 && matrix.node != '12.x' }}
         run: npm run validate
 
       - name: ▶️ Ensure docs are up-to-date
