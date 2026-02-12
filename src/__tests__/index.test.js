@@ -6,7 +6,7 @@ it("includes the configs and rules on the plugin", () => {
 });
 
 it("should have all the rules", () => {
-  expect(Object.keys(rules)).toHaveLength(11);
+  expect(Object.keys(rules)).toHaveLength(14);
 });
 
 it.each(Object.entries(rules))(
@@ -31,6 +31,9 @@ it("has the expected recommended config", () => {
         jest-dom/prefer-enabled-disabled: error,
         jest-dom/prefer-focus: error,
         jest-dom/prefer-in-document: error,
+        jest-dom/prefer-partially-checked: error,
+        jest-dom/prefer-partially-pressed: error,
+        jest-dom/prefer-pressed: error,
         jest-dom/prefer-required: error,
         jest-dom/prefer-to-have-attribute: error,
         jest-dom/prefer-to-have-class: error,
@@ -68,6 +71,9 @@ it("has the expected recommended flat config", () => {
         jest-dom/prefer-enabled-disabled: error,
         jest-dom/prefer-focus: error,
         jest-dom/prefer-in-document: error,
+        jest-dom/prefer-partially-checked: error,
+        jest-dom/prefer-partially-pressed: error,
+        jest-dom/prefer-pressed: error,
         jest-dom/prefer-required: error,
         jest-dom/prefer-to-have-attribute: error,
         jest-dom/prefer-to-have-class: error,
