@@ -6,7 +6,7 @@ it("includes the configs and rules on the plugin", () => {
 });
 
 it("should have all the rules", () => {
-  expect(Object.keys(rules)).toHaveLength(11);
+  expect(Object.keys(rules)).toHaveLength(14);
 });
 
 it.each(Object.entries(rules))(

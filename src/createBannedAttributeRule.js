@@ -1,6 +1,20 @@
 import { getQueryNodeFrom } from "./assignment-ast";
 
-export default ({ preferred, negatedPreferred, attributes }) => (context) => {
+export default ({
+  preferred,
+  negatedPreferred,
+  attributes,
+  excludeValues = [],
+}) => (context) => {
+  const isExcludedValue = (node) =>
+    excludeValues.length > 0 &&
+    node.arguments.length >= 2 &&
+    node.arguments[1].type === "Literal" &&
+    typeof node.arguments[1].value === "string" &&
+    excludeValues.some(
+      (v) => v.toLowerCase() === node.arguments[1].value.toLowerCase()
+    );
+
   const getCorrectFunctionFor = (node, negated = false) =>
     (node.arguments.length === 1 ||
       node.arguments[1].value === true ||
@@ -86,6 +100,10 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
         return;
       }
 
+      if (isExcludedValue(node)) {
+        return;
+      }
+
       const arg = node.arguments[0].value;
       const correctFunction = getCorrectFunctionFor(node, true);
 
@@ -106,6 +124,11 @@ export default ({ preferred, negatedPreferred, attributes }) => (context) => {
       if (!isBannedArg(node)) {
         return;
       }
+
+      if (isExcludedValue(node)) {
+        return;
+      }
+
       const { isDTLQuery } = getQueryNodeFrom(
         context,
         node.callee.object.arguments[0]

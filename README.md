@@ -130,6 +130,9 @@ module.exports = [
 | [prefer-enabled-disabled](docs/rules/prefer-enabled-disabled.md)         | prefer toBeDisabled or toBeEnabled over checking attributes           | ✅  | 🔧 |    |
 | [prefer-focus](docs/rules/prefer-focus.md)                               | prefer toHaveFocus over checking document.activeElement               | ✅  | 🔧 |    |
 | [prefer-in-document](docs/rules/prefer-in-document.md)                   | Prefer .toBeInTheDocument() for asserting the existence of a DOM node | ✅  | 🔧 | 💡 |
+| [prefer-partially-checked](docs/rules/prefer-partially-checked.md)       | prefer toBePartiallyChecked over checking aria-checked for mixed state |    | 🔧 |    |
+| [prefer-partially-pressed](docs/rules/prefer-partially-pressed.md)       | prefer toBePartiallyPressed over checking aria-pressed for mixed state |    | 🔧 |    |
+| [prefer-pressed](docs/rules/prefer-pressed.md)                           | prefer toBePressed over checking attributes                           |    | 🔧 |    |
 | [prefer-required](docs/rules/prefer-required.md)                         | prefer toBeRequired over checking properties                          | ✅  | 🔧 |    |
 | [prefer-to-have-attribute](docs/rules/prefer-to-have-attribute.md)       | prefer toHaveAttribute over checking  getAttribute/hasAttribute       | ✅  | 🔧 |    |
 | [prefer-to-have-class](docs/rules/prefer-to-have-class.md)               | prefer toHaveClass over checking element className                    | ✅  | 🔧 |    |
