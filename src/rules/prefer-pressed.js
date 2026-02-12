@@ -8,7 +8,7 @@ export const meta = {
   docs: {
     description: "prefer toBePressed over checking attributes",
     category: "Best Practices",
-    recommended: true,
+    recommended: false,
     url: "prefer-pressed",
   },
   fixable: "code",

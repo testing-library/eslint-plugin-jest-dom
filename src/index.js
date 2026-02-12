@@ -28,7 +28,15 @@ const allRules = Object.entries(rules).reduce(
   {}
 );
 
-const recommendedRules = allRules;
+const newRules = [
+  "jest-dom/prefer-pressed",
+  "jest-dom/prefer-partially-pressed",
+  "jest-dom/prefer-partially-checked",
+];
+
+const recommendedRules = Object.fromEntries(
+  Object.entries(allRules).filter(([name]) => !newRules.includes(name))
+);
 
 const plugin = {
   meta: {

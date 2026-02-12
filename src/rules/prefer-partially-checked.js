@@ -9,7 +9,7 @@ export const meta = {
     description:
       "prefer toBePartiallyChecked over checking aria-checked attribute for mixed state",
     category: "Best Practices",
-    recommended: true,
+    recommended: false,
     url: "prefer-partially-checked",
   },
   fixable: "code",

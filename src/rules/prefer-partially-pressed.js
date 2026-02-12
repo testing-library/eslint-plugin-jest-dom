@@ -9,7 +9,7 @@ export const meta = {
     description:
       "prefer toBePartiallyPressed over checking aria-pressed attribute for mixed state",
     category: "Best Practices",
-    recommended: true,
+    recommended: false,
     url: "prefer-partially-pressed",
   },
   fixable: "code",
