@@ -19,4 +19,5 @@ export const create = createBannedAttributeRule({
   preferred: "toBeChecked",
   negatedPreferred: "not.toBeChecked",
   attributes: ["checked", "aria-checked"],
+  excludeValues: ["mixed"],
 });
