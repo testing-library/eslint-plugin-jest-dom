@@ -50,3 +50,29 @@ bannedAttributes.forEach(
     });
   }
 );
+
+// Test that excludeValues ("mixed") are not flagged by prefer-checked
+const excludeValuesCases = [
+  {
+    ruleName: "prefer-checked",
+    attribute: "aria-checked",
+  },
+];
+
+excludeValuesCases.forEach(({ ruleName, attribute }) => {
+  const rule = require(`../../../rules/${ruleName}`);
+  const ruleTester = new RuleTester({
+    parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+  });
+  ruleTester.run(`${ruleName} (excludeValues: mixed)`, rule, {
+    valid: [
+      `const el = screen.getByText("foo"); expect(el).toHaveAttribute("${attribute}", "mixed")`,
+      `const el = screen.getByText("foo"); expect(el).toHaveProperty("${attribute}", "mixed")`,
+      `const el = screen.getByText("foo"); expect(el).not.toHaveAttribute("${attribute}", "mixed")`,
+      `const el = screen.getByText("foo"); expect(el).not.toHaveProperty("${attribute}", "mixed")`,
+      `expect(getByText("foo")).toHaveAttribute("${attribute}", "mixed")`,
+      `expect(getByText("foo")).not.toHaveAttribute("${attribute}", "mixed")`,
+    ],
+    invalid: [],
+  });
+});
