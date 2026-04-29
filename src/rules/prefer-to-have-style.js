@@ -28,9 +28,9 @@ export const create = (context) => {
   }
   function getReplacementStyleParam(styleName, styleValue) {
     return styleName.type === "Literal"
-      ? `{${camelCase(styleName.value)}: ${context
-          .getSourceCode()
-          .getText(styleValue)}}`
+      ? `{${camelCase(styleName.value)}: ${getSourceCode(context).getText(
+          styleValue
+        )}}`
       : `${getSourceCode(context).getText(styleName).slice(0, -1)}: ${
           styleValue.type === "TemplateLiteral"
             ? getSourceCode(context).getText(styleValue).substring(1)
@@ -40,7 +40,7 @@ export const create = (context) => {
 
   return {
     //expect(el.style.foo).toBe("bar");
-    [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.arguments.0.type=/(Template)?Literal/][parent.parent.callee.name=expect]`](
+    [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.arguments.0.type=/((Template)?Literal|Identifier)/][parent.parent.callee.name=expect]`](
       node
     ) {
       const styleName = node.parent.property;
@@ -55,16 +55,16 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceText(
               styleValue,
-              `{${styleName.name}:${context
-                .getSourceCode()
-                .getText(styleValue)}}`
+              `{${styleName.name}:${getSourceCode(context).getText(
+                styleValue
+              )}}`
             ),
           ];
         },
       });
     },
     //expect(el.style.foo).not.toBe("bar");
-    [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=not][parent.parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.parent.arguments.0.type=/(Template)?Literal$/][parent.parent.callee.name=expect]`](
+    [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=not][parent.parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.parent.arguments.0.type=/((Template)?Literal|Identifier)$/][parent.parent.callee.name=expect]`](
       node
     ) {
       const styleName = node.parent.property;
@@ -79,9 +79,9 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceText(
               styleValue,
-              `{${styleName.name}:${context
-                .getSourceCode()
-                .getText(styleValue)}}`
+              `{${styleName.name}:${getSourceCode(context).getText(
+                styleValue
+              )}}`
             ),
           ];
         },
@@ -257,9 +257,9 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceTextRange(
               [styleName.range[0], styleValue.range[1]],
-              `{${getReplacementObjectProperty(styleName)}: ${context
-                .getSourceCode()
-                .getText(styleValue)}}`
+              `{${getReplacementObjectProperty(styleName)}: ${getSourceCode(
+                context
+              ).getText(styleValue)}}`
             ),
           ];
         },
@@ -289,9 +289,9 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceTextRange(
               [styleName.range[0], styleValue.range[1]],
-              `{${getReplacementObjectProperty(styleName)}: ${context
-                .getSourceCode()
-                .getText(styleValue)}}`
+              `{${getReplacementObjectProperty(styleName)}: ${getSourceCode(
+                context
+              ).getText(styleValue)}}`
             ),
           ];
         },

@@ -47,9 +47,19 @@ ruleTester.run("prefer-to-have-style", rule, {
       output: `expect(el).toHaveStyle({foo:"bar"})`,
     },
     {
+      code: `expect(el.style.color).toBe(red)`,
+      errors,
+      output: `expect(el).toHaveStyle({color:red})`,
+    },
+    {
       code: `expect(el.style.foo).not.toBe("bar")`,
       errors,
       output: `expect(el).not.toHaveStyle({foo:"bar"})`,
+    },
+    {
+      code: `expect(el.style.color).not.toBe(red)`,
+      errors,
+      output: `expect(el).not.toHaveStyle({color:red})`,
     },
     {
       code: "expect(el.style.backgroundImage).toBe(`url(${foo})`)",
