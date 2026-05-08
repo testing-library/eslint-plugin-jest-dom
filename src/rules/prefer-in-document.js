@@ -7,7 +7,7 @@
 
 import { queries } from "../queries";
 import { getAssignmentForIdentifier } from "../assignment-ast";
-import { getSourceCode } from '../context';
+import { getSourceCode } from "../context";
 
 export const meta = {
   type: "suggestion",

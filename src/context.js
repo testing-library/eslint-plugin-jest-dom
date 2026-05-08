@@ -1,6 +1,6 @@
 /* istanbul ignore next */
 export function getSourceCode(context) {
-  if ('sourceCode' in context) {
+  if ("sourceCode" in context) {
     return context.sourceCode;
   }
 

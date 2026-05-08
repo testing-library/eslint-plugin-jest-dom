@@ -1,5 +1,5 @@
 import { queries } from "./queries";
-import { getScope } from './context';
+import { getScope } from "./context";
 
 /**
  * Gets the inner relevant node (CallExpression, Identity, et al.) given a generic expression node
@@ -67,7 +67,11 @@ export function getAssignmentForIdentifier(context, node, identifierName) {
  * @returns {Object} - Object with query, queryArg & isDTLQuery
  */
 export function getQueryNodeFrom(context, nodeWithValueProp) {
-  const queryNode = getInnerNodeFrom(context, nodeWithValueProp, nodeWithValueProp);
+  const queryNode = getInnerNodeFrom(
+    context,
+    nodeWithValueProp,
+    nodeWithValueProp
+  );
 
   if (!queryNode || !queryNode.callee) {
     return {

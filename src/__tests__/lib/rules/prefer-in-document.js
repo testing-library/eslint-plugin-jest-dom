@@ -7,7 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import { FlatCompatRuleTester as RuleTester } from '../../rule-tester';
+import { FlatCompatRuleTester as RuleTester } from "../../rule-tester";
 import * as rule from "../../../rules/prefer-in-document";
 
 //------------------------------------------------------------------------------

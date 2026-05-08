@@ -2,7 +2,7 @@
  * @fileoverview prefer toHaveAttribute over checking  getAttribute/hasAttribute
  * @author Ben Monro
  */
-import { getSourceCode } from '../context';
+import { getSourceCode } from "../context";
 
 //------------------------------------------------------------------------------
 // Rule Definition

@@ -4,7 +4,7 @@
  */
 
 import { getQueryNodeFrom } from "../assignment-ast";
-import { getSourceCode } from '../context';
+import { getSourceCode } from "../context";
 
 //------------------------------------------------------------------------------
 // Rule Definition

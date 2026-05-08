@@ -1,3 +1,5 @@
-{"rules":{
-    "no-template-curly-in-string":"off"
-}}
+{
+  "rules": {
+    "no-template-curly-in-string": "off"
+  }
+}
