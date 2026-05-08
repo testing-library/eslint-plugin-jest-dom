@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         eslint: [6, 7, 8, 9, 10]
-        node: [12.x, 14.x, 16.x, 18.x, 20.x, 21.x, 22.x, 24.x]
+        node: [12.x, 14.x, 16.x, 18.x, 20.x, 22.x, 24.x]
         testing-library-dom: [8, 9, 10]
         exclude:
           - eslint: 9
@@ -40,8 +40,6 @@ jobs:
             node: 16.x
           - eslint: 10
             node: 18.x
-          - eslint: 10
-            node: 21.x
           - testing-library-dom: 9
             node: 12.x
           - testing-library-dom: 10
