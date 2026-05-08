@@ -3,7 +3,7 @@
  * @author Ben Monro
  */
 
-import { RuleTester } from "eslint";
+import { FlatCompatRuleTester as RuleTester } from "../../rule-tester";
 import createBannedAttributeTestCases from "../../__fixtures__/createBannedAttributeTestCases";
 
 const bannedAttributes = [
