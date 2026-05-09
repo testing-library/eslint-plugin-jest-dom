@@ -214,8 +214,7 @@ export const create = (context) => ({
     const matcher = node.callee.property;
     const [classArg, classValueArg] = node.arguments;
 
-    const classNameValue = context
-      .getSourceCode()
+    const classNameValue = getSourceCode(context)
       .getText(classArg)
       .slice(1, -1);
     if (
@@ -255,8 +254,7 @@ export const create = (context) => ({
     //[callee.object.property.name=/toHaveAttribute|toHaveProperty/][arguments.0.value=class][arguments.1.type=/Literal$/]
     const matcher = node.callee.property;
     const [classArg, classValueArg] = node.arguments;
-    const classNameValue = context
-      .getSourceCode()
+    const classNameValue = getSourceCode(context)
       .getText(classArg)
       .slice(1, -1);
     if (
@@ -297,8 +295,7 @@ export const create = (context) => ({
     const [classArg, classValue] = node.arguments;
     const classValueArg = classValue.arguments[0];
 
-    const classNameValue = context
-      .getSourceCode()
+    const classNameValue = getSourceCode(context)
       .getText(classArg)
       .slice(1, -1);
     if (
