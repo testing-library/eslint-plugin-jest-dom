@@ -40,7 +40,7 @@ export const create = (context) => ({
                     expectedArg.value
                       .toString()
                       .replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&")
-                  )
+                  ).toString()
               : `new RegExp(${expectedArgSource})`
           ),
         ];
@@ -100,7 +100,7 @@ export const create = (context) => ({
                   expectedArg.value
                     .toString()
                     .replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&")
-                )
+                ).toString()
             : `new RegExp(${expectedArgSource})`
         ),
       ],
