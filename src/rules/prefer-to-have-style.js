@@ -28,9 +28,9 @@ export const create = (context) => {
   }
   function getReplacementStyleParam(styleName, styleValue) {
     return styleName.type === "Literal"
-      ? `{${camelCase(styleName.value)}: ${context
-          .getSourceCode()
-          .getText(styleValue)}}`
+      ? `{${camelCase(styleName.value)}: ${getSourceCode(context).getText(
+          styleValue
+        )}}`
       : `${getSourceCode(context).getText(styleName).slice(0, -1)}: ${
           styleValue.type === "TemplateLiteral"
             ? getSourceCode(context).getText(styleValue).substring(1)
@@ -55,9 +55,9 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceText(
               styleValue,
-              `{${styleName.name}:${context
-                .getSourceCode()
-                .getText(styleValue)}}`
+              `{${styleName.name}:${getSourceCode(context).getText(
+                styleValue
+              )}}`
             ),
           ];
         },
@@ -79,9 +79,9 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceText(
               styleValue,
-              `{${styleName.name}:${context
-                .getSourceCode()
-                .getText(styleValue)}}`
+              `{${styleName.name}:${getSourceCode(context).getText(
+                styleValue
+              )}}`
             ),
           ];
         },
@@ -257,9 +257,9 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceTextRange(
               [styleName.range[0], styleValue.range[1]],
-              `{${getReplacementObjectProperty(styleName)}: ${context
-                .getSourceCode()
-                .getText(styleValue)}}`
+              `{${getReplacementObjectProperty(styleName)}: ${getSourceCode(
+                context
+              ).getText(styleValue)}}`
             ),
           ];
         },
@@ -289,9 +289,9 @@ export const create = (context) => {
             fixer.replaceText(matcher, "toHaveStyle"),
             fixer.replaceTextRange(
               [styleName.range[0], styleValue.range[1]],
-              `{${getReplacementObjectProperty(styleName)}: ${context
-                .getSourceCode()
-                .getText(styleValue)}}`
+              `{${getReplacementObjectProperty(styleName)}: ${getSourceCode(
+                context
+              ).getText(styleValue)}}`
             ),
           ];
         },
