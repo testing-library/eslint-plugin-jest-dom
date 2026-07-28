@@ -2,7 +2,7 @@
  * @fileoverview prefer toHaveStyle over checking element style
  * @author Ben Monro
  */
-import { getSourceCode } from '../context';
+import { getSourceCode } from "../context";
 
 //------------------------------------------------------------------------------
 // Rule Definition

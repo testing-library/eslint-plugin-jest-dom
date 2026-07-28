@@ -1,12 +1,12 @@
 /* eslint-disable jest/no-export */
 
-import { RuleTester } from 'eslint';
-import semver from 'semver';
-import { version as eslintVersion } from 'eslint/package.json';
+import { RuleTester } from "eslint";
+import semver from "semver";
+import { version as eslintVersion } from "eslint/package.json";
 
 // we need to have a test as kcd-scripts doesn't let us
 // exclude this file from being run via jest as a test
-it('is true', () => {
+it("is true", () => {
   expect(true).toBe(true);
 });
 
@@ -17,19 +17,15 @@ export class FlatCompatRuleTester extends RuleTester {
     super(FlatCompatRuleTester._flatCompat(testerConfig));
   }
 
-  run(
-    ruleName,
-    rule,
-    tests,
-  ) {
+  run(ruleName, rule, tests) {
     super.run(ruleName, rule, {
-      valid: tests.valid.map(t => FlatCompatRuleTester._flatCompat(t)),
-      invalid: tests.invalid.map(t => FlatCompatRuleTester._flatCompat(t)),
+      valid: tests.valid.map((t) => FlatCompatRuleTester._flatCompat(t)),
+      invalid: tests.invalid.map((t) => FlatCompatRuleTester._flatCompat(t)),
     });
   }
 
   static _flatCompat(config) {
-    if (!config || !usingFlatConfig || typeof config === 'string') {
+    if (!config || !usingFlatConfig || typeof config === "string") {
       return config;
     }
 
@@ -38,16 +34,16 @@ export class FlatCompatRuleTester extends RuleTester {
     };
 
     for (const [key, value] of Object.entries(config)) {
-      if (key === 'parser') {
+      if (key === "parser") {
         obj.languageOptions.parser = require(value);
 
         continue;
       }
 
-      if (key === 'parserOptions') {
+      if (key === "parserOptions") {
         for (const [option, val] of Object.entries(value)) {
-          if (option === 'ecmaVersion' || option === 'sourceType') {
-            obj.languageOptions[option] = val
+          if (option === "ecmaVersion" || option === "sourceType") {
+            obj.languageOptions[option] = val;
 
             continue;
           }

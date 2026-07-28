@@ -2,7 +2,7 @@
  * @fileoverview Prefer toBeEmpty over checking innerHTML
  * @author Ben Monro
  */
-import { getSourceCode } from '../context';
+import { getSourceCode } from "../context";
 
 export const meta = {
   docs: {

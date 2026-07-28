@@ -3,7 +3,7 @@
  * @author Ben Monro
  */
 
-import { FlatCompatRuleTester as RuleTester } from '../../rule-tester';
+import { FlatCompatRuleTester as RuleTester } from "../../rule-tester";
 import * as rule from "../../../rules/prefer-focus";
 
 const ruleTester = new RuleTester();
