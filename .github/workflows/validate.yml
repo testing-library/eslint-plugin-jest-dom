@@ -76,31 +76,8 @@ jobs:
       fail-fast: false
       matrix:
         eslint: [6, 7, 8, 9, 10]
-        node: [12.x, 14.x, 16.x, 18.x, 20.x, 22.x, 24.x, 26.x]
+        node: [20.19.0, 20, 22.13.0, 22, 24.0.0, 24, 26]
         testing-library-dom: [8, 9, 10]
-        exclude:
-          - eslint: 9
-            node: 12.x
-          - eslint: 9
-            node: 14.x
-          - eslint: 9
-            node: 16.x
-          - eslint: 10
-            node: 12.x
-          - eslint: 10
-            node: 14.x
-          - eslint: 10
-            node: 16.x
-          - eslint: 10
-            node: 18.x
-          - testing-library-dom: 9
-            node: 12.x
-          - testing-library-dom: 10
-            node: 12.x
-          - testing-library-dom: 10
-            node: 14.x
-          - testing-library-dom: 10
-            node: 16.x
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
@@ -126,15 +103,8 @@ jobs:
       - name: Install @testing-library/dom v${{ matrix.testing-library-dom }}
         run: npm install --force @testing-library/dom@${{ matrix.testing-library-dom }}
 
-        # these versions of Node use npm v6, which does not install peer dependencies
-      - if: ${{ matrix.node == '12.x' || matrix.node == '14.x' }}
-        run: npm install --force typescript@4
-
       - if: ${{ matrix.eslint >= 9 }}
         run: npm install --force @typescript-eslint/parser
-
-      - if: ${{ matrix.node == '12.x' || matrix.node == '14.x' }}
-        run: npm install --force @typescript-eslint/parser@5
 
       - name: ▶️ Run build
         run: npm run build
