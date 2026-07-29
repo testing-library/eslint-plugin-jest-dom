@@ -1,4 +1,6 @@
-# Prefer toHaveStyle over checking element style (`jest-dom/prefer-to-have-style`)
+# jest-dom/prefer-to-have-style
+
+📝 Prefer toHaveStyle over checking element style.
 
 💼 This rule is enabled in the ✅ `recommended` config.
 

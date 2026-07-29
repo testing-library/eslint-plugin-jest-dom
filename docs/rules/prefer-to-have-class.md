@@ -1,4 +1,6 @@
-# Prefer toHaveClass over checking element className (`jest-dom/prefer-to-have-class`)
+# jest-dom/prefer-to-have-class
+
+📝 Prefer toHaveClass over checking element className.
 
 💼 This rule is enabled in the ✅ `recommended` config.
 

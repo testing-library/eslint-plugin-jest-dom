@@ -1,4 +1,6 @@
-# Prefer toBeRequired over checking properties (`jest-dom/prefer-required`)
+# jest-dom/prefer-required
+
+📝 Prefer toBeRequired over checking properties.
 
 💼 This rule is enabled in the ✅ `recommended` config.
 
