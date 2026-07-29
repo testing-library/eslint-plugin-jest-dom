@@ -93,7 +93,7 @@
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.1",
-    "@typescript-eslint/parser": "^5.9.1",
+    "@typescript-eslint/parser": "^8.65.0",
     "eslint": "^8.7.0",
     "eslint-doc-generator": "^3.0.0",
     "eslint-remote-tester": "^3.0.0",
