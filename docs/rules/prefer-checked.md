@@ -1,4 +1,6 @@
-# Prefer toBeChecked over checking attributes (`jest-dom/prefer-checked`)
+# jest-dom/prefer-checked
+
+📝 Prefer toBeChecked over checking attributes.
 
 💼 This rule is enabled in the ✅ `recommended` config.
 

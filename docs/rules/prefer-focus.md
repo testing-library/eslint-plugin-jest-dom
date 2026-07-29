@@ -1,4 +1,6 @@
-# Prefer toHaveFocus over checking document.activeElement (`jest-dom/prefer-focus`)
+# jest-dom/prefer-focus
+
+📝 Prefer toHaveFocus over checking document.activeElement.
 
 💼 This rule is enabled in the ✅ `recommended` config.
 

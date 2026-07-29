@@ -1,4 +1,6 @@
-# Prefer toBeEmpty over checking innerHTML (`jest-dom/prefer-empty`)
+# jest-dom/prefer-empty
+
+📝 Prefer toBeEmpty over checking innerHTML.
 
 💼 This rule is enabled in the ✅ `recommended` config.
 

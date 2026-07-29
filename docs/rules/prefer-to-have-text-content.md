@@ -1,4 +1,6 @@
-# Prefer toHaveTextContent over checking element.textContent (`jest-dom/prefer-to-have-text-content`)
+# jest-dom/prefer-to-have-text-content
+
+📝 Prefer toHaveTextContent over checking element.textContent.
 
 💼 This rule is enabled in the ✅ `recommended` config.
 
