@@ -32,10 +32,8 @@
   ],
   "scripts": {
     "build": "kcd-scripts build",
-    "pregenerate-readme-table": "npm run build",
-    "generate-readme-table": "eslint-doc-generator",
+    "regenerate-docs": "npm run build && eslint-doc-generator",
     "lint": "kcd-scripts lint",
-    "lint:generate-readme-table": "npm run generate-readme-table -- --check",
     "setup": "npm install && npm run validate -s",
     "test": "kcd-scripts test",
     "test:coverage": "npm test -- --coverage",
