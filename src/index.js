@@ -28,7 +28,15 @@ const allRules = Object.entries(rules).reduce(
   {}
 );
 
-const recommendedRules = allRules;
+const recommendedRules = Object.entries(rules)
+  .filter(([_, rule]) => rule.meta.docs.recommended)
+  .reduce(
+    (memo, [name]) => ({
+      ...memo,
+      ...{ [`jest-dom/${name}`]: "error" },
+    }),
+    {}
+  );
 
 const plugin = {
   meta: {
