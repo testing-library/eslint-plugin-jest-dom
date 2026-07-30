@@ -88,7 +88,7 @@
     "eslint-remote-tester-results"
   ],
   "dependencies": {
-    "@babel/runtime": "^7.16.3",
+    "@babel/runtime": "^8.0.0",
     "requireindex": "^1.2.0"
   },
   "devDependencies": {
