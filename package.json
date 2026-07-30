@@ -94,7 +94,7 @@
   "devDependencies": {
     "@testing-library/dom": "^10.4.1",
     "@typescript-eslint/parser": "^5.9.1",
-    "eslint": "^8.7.0",
+    "eslint": "^10.8.0",
     "eslint-doc-generator": "^3.0.0",
     "eslint-remote-tester": "^3.0.0",
     "eslint-remote-tester-repositories": "^1.0.1",
