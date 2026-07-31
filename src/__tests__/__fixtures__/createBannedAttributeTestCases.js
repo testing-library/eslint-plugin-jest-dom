@@ -158,6 +158,7 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attribute }) => {
               message: `Use ${mixedPreferred} instead of toHaveProperty('${attribute}', 'mixed')`,
             },
           ],
+          output: `const el = getByRole("button", { name: 'My Button' }); expect(el).${mixedPreferred}`,
         },
       ]
     : [];
