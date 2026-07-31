@@ -14,8 +14,8 @@ This rule aims to prevent false positives and improve readability and should
 only be used with the `@testing-library/jest-dom` package. See below for
 examples of those potential issues and why this rule is recommended. The rule is
 autofixable and will replace any instances of `.toHaveProperty()` or
-`.toHaveAttribute()` with `.toBeChecked()` or `not.toBeChecked()` as
-appropriate.
+`.toHaveAttribute()` with `.toBeChecked()`, `.toBePartiallyChecked()`, and
+`not.toBeChecked()` as appropriate.
 
 ### False positives
 
@@ -60,6 +60,8 @@ expect(element).toHaveProperty("checked", something);
 expect(element).toHaveAttribute("checked");
 expect(element).not.toHaveProperty("checked");
 
+expect(element).not.toHaveProperty("aria-checked", "mixed");
+
 expect(element).not.not.toBeChecked();
 ```
 
@@ -73,6 +75,8 @@ expect(element).toBeChecked();
 expect(element).toHaveProperty("value", "foo");
 
 expect(element).toHaveAttribute("aria-label");
+
+expect(element).not.toBePartiallyChecked();
 ```
 
 ## When Not To Use It
