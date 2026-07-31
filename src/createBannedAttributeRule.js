@@ -21,30 +21,26 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
       const value = findSecondStringLiteralArgumentValue(node);
       const isMixed = mixedPreferred && (value || "").toLowerCase() === "mixed";
 
-      if (negated) {
-        if (isMixed) {
-          return `not.${mixedPreferred}`;
-        }
+      if (isMixed) {
+        return negated ? `not.${mixedPreferred}` : mixedPreferred;
+      }
 
+      // use the negated preference if we're _not_ using a truthy value,
+      // or we have been told we're negated // todo: this might be a bug?
+      if (
+        negated ||
+        !(
+          node.arguments.length === 1 ||
+          node.arguments[1].value === true ||
+          node.arguments[1].type !== "Literal" ||
+          (value || "").toLowerCase() === "true" ||
+          node.arguments[1].value === ""
+        )
+      ) {
         return negatedPreferred;
       }
 
-      if (isMixed) {
-        return mixedPreferred;
-      }
-
-      const isTruthy =
-        node.arguments.length === 1 ||
-        node.arguments[1].value === true ||
-        node.arguments[1].type !== "Literal" ||
-        (value || "").toLowerCase() === "true" ||
-        node.arguments[1].value === "";
-
-      if (isTruthy) {
-        return preferred;
-      }
-
-      return negatedPreferred;
+      return preferred;
     };
 
     const isBannedArg = (node) =>
