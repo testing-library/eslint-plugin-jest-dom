@@ -63,6 +63,32 @@ export const create = (context) => {
       }
     },
 
+    // expect(element['aria-valuenow']).toBe('foo') / toEqual / toStrictEqual
+    // expect(<query>['aria-valuenow']).toBe('foo') / toEqual / toStrictEqual
+    // expect((await <query>)['aria-valuenow']).toBe('foo') / toEqual / toStrictEqual
+    [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.arguments.0.property.value='aria-valuenow'][callee.object.callee.name=expect]`](
+      node
+    ) {
+      const valueProp = node.callee.object.arguments[0].property;
+      const matcher = node.callee.property;
+      const queryNode = node.callee.object.arguments[0].object;
+
+      if (isValidQueryNode(queryNode)) {
+        context.report({
+          messageId,
+          node,
+          fix(fixer) {
+            return [
+              fixer.remove(getSourceCode(context).getTokenBefore(valueProp)),
+              fixer.remove(getSourceCode(context).getTokenAfter(valueProp)),
+              fixer.remove(valueProp),
+              fixer.replaceText(matcher, "toHaveValue"),
+            ];
+          },
+        });
+      }
+    },
+
     // expect(element.value).not.toBe('foo') / toEqual / toStrictEqual
     // expect(<query>.value).not.toBe('foo') / toEqual / toStrictEqual
     // expect((await <query>).value).not.toBe('foo') / toEqual / toStrictEqual
@@ -90,8 +116,35 @@ export const create = (context) => {
       }
     },
 
+    // expect(element['aria-valuenow']).not.toBe('foo') / toEqual / toStrictEqual
+    // expect(<query>['aria-valuenow']).not.toBe('foo') / toEqual / toStrictEqual
+    // expect((await <query>)['aria-valuenow']).not.toBe('foo') / toEqual / toStrictEqual
+    [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.object.callee.name=expect][callee.object.property.name=not][callee.object.object.arguments.0.property.value='aria-valuenow']`](
+      node
+    ) {
+      const queryNode = node.callee.object.object.arguments[0].object;
+      const valueProp = node.callee.object.object.arguments[0].property;
+      const matcher = node.callee.property;
+
+      if (isValidQueryNode(queryNode)) {
+        context.report({
+          messageId,
+          node,
+          fix(fixer) {
+            return [
+              fixer.remove(getSourceCode(context).getTokenBefore(valueProp)),
+              fixer.remove(getSourceCode(context).getTokenAfter(valueProp)),
+              fixer.remove(valueProp),
+              fixer.replaceText(matcher, "toHaveValue"),
+            ];
+          },
+        });
+      }
+    },
+
     //expect(element).toHaveAttribute('value', 'foo')  / Property
-    [`CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=value][arguments.1][callee.object.callee.name=expect], CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=value][arguments.1][callee.object.object.callee.name=expect][callee.object.property.name=not]`](
+    //expect(element).toHaveAttribute('aria-valuenow', 'foo')  / Property
+    [`CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=/^(value|aria-valuenow)$/][arguments.1][callee.object.callee.name=expect], CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=/(value|aria-valuenow)$/][arguments.1][callee.object.object.callee.name=expect][callee.object.property.name=not]`](
       node
     ) {
       const matcher = node.callee.property;

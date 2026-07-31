@@ -29,8 +29,13 @@ ruleTester.run("prefer-to-have-value", rule, {
     `expect(element.value).toBeGreaterThan(2);`,
     `expect(element.value).toBeLessThan(2);`,
 
+    `expect(element).toHaveAttribute('my-value', 'foo')`,
+
     `const element = document.getElementById('asdfasf');
     expect(element.value).toEqual('foo');`,
+
+    `const element = document.getElementById('asdfasf');
+    expect(element['aria-valuenow']).toEqual('foo');`,
 
     `let element;
     element = someOtherFunction();
@@ -50,6 +55,10 @@ ruleTester.run("prefer-to-have-value", rule, {
     element = someOtherFunction();
     expect(element.value).not.toStrictEqual('foo');`,
 
+    `let element;
+    element = someOtherFunction();
+    expect(element['aria-valuenow']).not.toStrictEqual('foo');`,
+
     `const element = { value: 'foo' };
     expect(element.value).not.toBe('foo');`,
     `
@@ -64,7 +73,17 @@ ruleTester.run("prefer-to-have-value", rule, {
       output: `expect(element).toHaveValue('foo')`,
     },
     {
+      code: `expect(element).toHaveAttribute('aria-valuenow', 'foo')`,
+      errors,
+      output: `expect(element).toHaveValue('foo')`,
+    },
+    {
       code: `expect(element).toHaveProperty("value", "foo")`,
+      errors,
+      output: `expect(element).toHaveValue("foo")`,
+    },
+    {
+      code: `expect(element).toHaveProperty("aria-valuenow", "foo")`,
       errors,
       output: `expect(element).toHaveValue("foo")`,
     },
@@ -74,7 +93,17 @@ ruleTester.run("prefer-to-have-value", rule, {
       output: `expect(element).not.toHaveValue('foo')`,
     },
     {
+      code: `expect(element).not.toHaveAttribute('aria-valuenow', 'foo')`,
+      errors,
+      output: `expect(element).not.toHaveValue('foo')`,
+    },
+    {
       code: `expect(element).not.toHaveProperty("value", "foo")`,
+      errors,
+      output: `expect(element).not.toHaveValue("foo")`,
+    },
+    {
+      code: `expect(element).not.toHaveProperty("aria-valuenow", "foo")`,
       errors,
       output: `expect(element).not.toHaveValue("foo")`,
     },
@@ -83,6 +112,16 @@ ruleTester.run("prefer-to-have-value", rule, {
       code: `expect(screen.getByRole("textbox").value).toEqual("foo")`,
       errors,
       output: `expect(screen.getByRole("textbox")).toHaveValue("foo")`,
+    },
+    {
+      code: `expect(screen.getByRole("textbox")['aria-valuenow']).toEqual("foo")`,
+      errors,
+      output: `expect(screen.getByRole("textbox")).toHaveValue("foo")`,
+    },
+    {
+      code: `expect(screen.getByRole("textbox")[ 'aria-valuenow'] /* comment */).toEqual("foo")`,
+      errors,
+      output: `expect(screen.getByRole("textbox")  /* comment */).toHaveValue("foo")`,
     },
     {
       code: `expect(screen.queryByRole("dropdown").value).toEqual("foo")`,
@@ -105,12 +144,27 @@ ruleTester.run("prefer-to-have-value", rule, {
       output: `expect(screen.getByRole("textbox")).not.toHaveValue("foo")`,
     },
     {
+      code: `expect(screen.getByRole("textbox")['aria-valuenow']).not.toEqual("foo")`,
+      errors,
+      output: `expect(screen.getByRole("textbox")).not.toHaveValue("foo")`,
+    },
+    {
+      code: `expect(screen.getByRole("textbox")[ 'aria-valuenow' ]).not.toEqual("foo")`,
+      errors,
+      output: `expect(screen.getByRole("textbox")  ).not.toHaveValue("foo")`,
+    },
+    {
       code: `expect(screen.queryByRole("dropdown").value).not.toEqual("foo")`,
       errors,
       output: `expect(screen.queryByRole("dropdown")).not.toHaveValue("foo")`,
     },
     {
       code: `async function x() { expect((await screen.getByRole("textbox")).value).not.toEqual("foo") }`,
+      errors,
+      output: `async function x() { expect((await screen.getByRole("textbox"))).not.toHaveValue("foo") }`,
+    },
+    {
+      code: `async function x() { expect((await screen.getByRole("textbox"))['aria-valuenow']).not.toEqual("foo") }`,
       errors,
       output: `async function x() { expect((await screen.getByRole("textbox"))).not.toHaveValue("foo") }`,
     },

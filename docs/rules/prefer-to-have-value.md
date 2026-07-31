@@ -21,7 +21,9 @@ Examples of **incorrect** code for this rule:
 ```js
 expect(element).toHaveAttribute("value", "foo");
 expect(element).toHaveProperty("value", "foo");
+expect(element).toHaveProperty("aria-valuenow", "foo");
 expect(element.value).toBe("foo");
+expect(element["aria-valuenow"]).toBe("foo");
 expect(element.value).not.toEqual("foo");
 expect(element.value).not.toStrictEqual("foo");
 ```
