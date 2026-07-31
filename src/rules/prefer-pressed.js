@@ -17,6 +17,6 @@ export const meta = {
 export const create = createBannedAttributeRule({
   preferred: "toBePressed",
   negatedPreferred: "not.toBePressed",
+  mixedPreferred: "toBePartiallyPressed",
   attributes: ["aria-pressed"],
-  excludeValues: ["mixed"],
 });

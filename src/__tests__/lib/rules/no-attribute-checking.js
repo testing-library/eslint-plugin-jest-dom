@@ -22,24 +22,23 @@ const bannedAttributes = [
   {
     preferred: "toBeChecked()",
     negatedPreferred: "not.toBeChecked()",
+    mixedPreferred: "toBePartiallyChecked()",
     attributes: ["checked", "aria-checked"],
     ruleName: "prefer-checked",
   },
   {
     preferred: "toBePressed()",
     negatedPreferred: "not.toBePressed()",
+    mixedPreferred: "toBePartiallyPressed()",
     attributes: ["aria-pressed"],
     ruleName: "prefer-pressed",
   },
 ];
 
 bannedAttributes.forEach(
-  ({ preferred, negatedPreferred, attributes, ruleName }) => {
+  ({ preferred, negatedPreferred, mixedPreferred, attributes, ruleName }) => {
     const rule = require(`../../../rules/${ruleName}`);
 
-    // const preferred = 'toBeDisabled()';
-    // const negatedPreferred = 'toBeEnabled()';
-    // const attributes = ['disabled'];
     const ruleTester = new RuleTester({
       parserOptions: { ecmaVersion: 2015, sourceType: "module" },
     });
@@ -50,39 +49,10 @@ bannedAttributes.forEach(
         createBannedAttributeTestCases({
           preferred,
           negatedPreferred,
+          mixedPreferred,
           attribute,
         })
       );
     });
   }
 );
-
-// Test that excludeValues ("mixed") are not flagged by prefer-checked
-const excludeValuesCases = [
-  {
-    ruleName: "prefer-checked",
-    attribute: "aria-checked",
-  },
-  {
-    ruleName: "prefer-pressed",
-    attribute: "aria-pressed",
-  },
-];
-
-excludeValuesCases.forEach(({ ruleName, attribute }) => {
-  const rule = require(`../../../rules/${ruleName}`);
-  const ruleTester = new RuleTester({
-    parserOptions: { ecmaVersion: 2015, sourceType: "module" },
-  });
-  ruleTester.run(`${ruleName} (excludeValues: mixed)`, rule, {
-    valid: [
-      `const el = screen.getByText("foo"); expect(el).toHaveAttribute("${attribute}", "mixed")`,
-      `const el = screen.getByText("foo"); expect(el).toHaveProperty("${attribute}", "mixed")`,
-      `const el = screen.getByText("foo"); expect(el).not.toHaveAttribute("${attribute}", "mixed")`,
-      `const el = screen.getByText("foo"); expect(el).not.toHaveProperty("${attribute}", "mixed")`,
-      `expect(getByText("foo")).toHaveAttribute("${attribute}", "mixed")`,
-      `expect(getByText("foo")).not.toHaveAttribute("${attribute}", "mixed")`,
-    ],
-    invalid: [],
-  });
-});

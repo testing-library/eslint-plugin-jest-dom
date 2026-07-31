@@ -1,6 +1,7 @@
 /* eslint-disable max-lines-per-function */
 
-export default ({ preferred, negatedPreferred, attribute }) => {
+export default ({ preferred, negatedPreferred, mixedPreferred, attribute }) => {
+  // covers toBeDisabled / toBeEnabled
   const doubleNegativeCases = negatedPreferred.startsWith("toBe")
     ? [
         {
@@ -50,6 +51,8 @@ export default ({ preferred, negatedPreferred, attribute }) => {
         },
       ]
     : [];
+
+  // covers not aria-* type attributes
   const directChecks = /-/.test(attribute)
     ? []
     : [
@@ -91,6 +94,84 @@ export default ({ preferred, negatedPreferred, attribute }) => {
         },
       ];
 
+  // covers partial matchers for aria-<attribute>=mixed
+  const mixedChecks = mixedPreferred
+    ? [
+        {
+          code: `const el = screen.getByText("foo"); expect(el).toHaveProperty('${attribute}', 'mixed')`,
+          errors: [
+            {
+              message: `Use ${mixedPreferred} instead of toHaveProperty('${attribute}', 'mixed')`,
+            },
+          ],
+          output: `const el = screen.getByText("foo"); expect(el).${mixedPreferred}`,
+        },
+        {
+          code: `const el = screen.getByText("foo"); expect(el).toHaveAttribute('${attribute}', 'mixed')`,
+          errors: [
+            {
+              message: `Use ${mixedPreferred} instead of toHaveAttribute('${attribute}', 'mixed')`,
+            },
+          ],
+          output: `const el = screen.getByText("foo"); expect(el).${mixedPreferred}`,
+        },
+        {
+          code: `const el = screen.getByText("foo"); expect(el).not.toHaveAttribute('${attribute}', 'mixed')`,
+          errors: [
+            {
+              message: `Use not.${mixedPreferred} instead of not.toHaveAttribute('${attribute}', 'mixed')`,
+            },
+          ],
+          output: `const el = screen.getByText("foo"); expect(el).not.${mixedPreferred}`,
+        },
+        {
+          code: `const el = screen.getByText("foo"); expect(el).not.toHaveAttribute('${attribute}', 'Mixed')`,
+          errors: [
+            {
+              message: `Use not.${mixedPreferred} instead of not.toHaveAttribute('${attribute}', 'Mixed')`,
+            },
+          ],
+          output: `const el = screen.getByText("foo"); expect(el).not.${mixedPreferred}`,
+        },
+        {
+          code: `const el = screen.getByText("foo"); expect(el).not.toHaveProperty('${attribute}', 'mixed')`,
+          errors: [
+            {
+              message: `Use not.${mixedPreferred} instead of not.toHaveProperty('${attribute}', 'mixed')`,
+            },
+          ],
+          output: `const el = screen.getByText("foo"); expect(el).not.${mixedPreferred}`,
+        },
+        {
+          code: `expect(getByText("foo")).toHaveAttribute("${attribute}", "mixed")`,
+          errors: [
+            {
+              message: `Use ${mixedPreferred} instead of toHaveAttribute("${attribute}", "mixed")`,
+            },
+          ],
+          output: `expect(getByText("foo")).${mixedPreferred}`,
+        },
+        {
+          code: `expect(getByText("foo")).not.toHaveProperty("${attribute}", "mixed")`,
+          errors: [
+            {
+              message: `Use not.${mixedPreferred} instead of not.toHaveProperty("${attribute}", "mixed")`,
+            },
+          ],
+          output: `expect(getByText("foo")).not.${mixedPreferred}`,
+        },
+        {
+          code: `const el = getByRole("button", { name: 'My Button' }); expect(el).toHaveProperty('${attribute}', 'mixed')`,
+          errors: [
+            {
+              message: `Use ${mixedPreferred} instead of toHaveProperty('${attribute}', 'mixed')`,
+            },
+          ],
+          output: `const el = getByRole("button", { name: 'My Button' }); expect(el).${mixedPreferred}`,
+        },
+      ]
+    : [];
+
   return {
     valid: [
       `expect().not.toHaveProperty('value', 'foo')`,
@@ -101,10 +182,20 @@ export default ({ preferred, negatedPreferred, attribute }) => {
       `const el = foo.bar(); expect(el).toHaveProperty("${attribute}", true)`,
       `expect(getFoo().${attribute}).toBe("bar")`,
       `expect(getFoo().${attribute}).not.toBe("bar")`,
+      ...(mixedPreferred
+        ? [
+            `expect(getFoo().${attribute}).toBe("mixed")`,
+            `expect(getFoo().${attribute}).not.toBe("mixed")`,
+            `const el = screen.getByText("foo"); expect(el).${mixedPreferred}`,
+            `const el = screen.getByText("foo"); expect(el).not.${mixedPreferred}`,
+            `const el = foo.bar(); expect(el).toHaveProperty("${attribute}", 'mixed')`,
+          ]
+        : []),
     ],
     invalid: [
       ...doubleNegativeCases,
       ...directChecks,
+      ...mixedChecks,
       {
         code: `const el = screen.getByText("foo"); expect(el).toHaveProperty('${attribute}', true)`,
         errors: [

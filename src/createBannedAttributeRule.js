@@ -1,31 +1,47 @@
 import { getQueryNodeFrom } from "./assignment-ast";
 
-export default ({
-    preferred,
-    negatedPreferred,
-    attributes,
-    excludeValues = [],
-  }) =>
+export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
   (context) => {
-    const isExcludedValue = (node) =>
-      excludeValues.length > 0 &&
-      node.arguments.length >= 2 &&
-      node.arguments[1].type === "Literal" &&
-      typeof node.arguments[1].value === "string" &&
-      excludeValues.some(
-        (v) => v.toLowerCase() === node.arguments[1].value.toLowerCase()
-      );
+    /**
+     * Returns the value of the second argument of the given node, if it's a string literal
+     * or otherwise null
+     *
+     * @param node
+     *
+     * @return {string | null}
+     */
+    const findSecondStringLiteralArgumentValue = (node) =>
+      (node.arguments.length >= 2 &&
+        node.arguments[1].type === "Literal" &&
+        typeof node.arguments[1].value === "string" &&
+        node.arguments[1].value) ||
+      null;
 
-    const getCorrectFunctionFor = (node, negated = false) =>
-      (node.arguments.length === 1 ||
-        node.arguments[1].value === true ||
-        node.arguments[1].type !== "Literal" ||
-        (typeof node.arguments[1].value === "string" &&
-          node.arguments[1].value.toLowerCase() === "true") ||
-        node.arguments[1].value === "") &&
-      !negated
-        ? preferred
-        : negatedPreferred;
+    const getCorrectFunctionFor = (node, negated = false) => {
+      const value = findSecondStringLiteralArgumentValue(node);
+      const isMixed = mixedPreferred && (value || "").toLowerCase() === "mixed";
+
+      if (isMixed) {
+        return negated ? `not.${mixedPreferred}` : mixedPreferred;
+      }
+
+      // use the negated preference if we're _not_ using a truthy value,
+      // or we have been told we're negated // todo: this might be a bug?
+      if (
+        negated ||
+        !(
+          node.arguments.length === 1 ||
+          node.arguments[1].value === true ||
+          node.arguments[1].type !== "Literal" ||
+          (value || "").toLowerCase() === "true" ||
+          node.arguments[1].value === ""
+        )
+      ) {
+        return negatedPreferred;
+      }
+
+      return preferred;
+    };
 
     const isBannedArg = (node) =>
       node.arguments.length &&
@@ -102,10 +118,6 @@ export default ({
           return;
         }
 
-        if (isExcludedValue(node)) {
-          return;
-        }
-
         const correctFunction = getCorrectFunctionFor(node, true);
 
         const incorrectFunction = node.callee.property.name;
@@ -128,10 +140,6 @@ export default ({
         node
       ) {
         if (!isBannedArg(node)) {
-          return;
-        }
-
-        if (isExcludedValue(node)) {
           return;
         }
 

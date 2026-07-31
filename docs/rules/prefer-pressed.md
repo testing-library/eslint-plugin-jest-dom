@@ -11,10 +11,8 @@
 This rule aims to prevent false positives and improve readability and should
 only be used with the `@testing-library/jest-dom` package. The rule is
 autofixable and will replace any instances of `.toHaveProperty()` or
-`.toHaveAttribute()` with `.toBePressed()` or `not.toBePressed()` as
-appropriate.
-
-Note: This rule does not flag checks for `aria-pressed="mixed"`.
+`.toHaveAttribute()` with `.toBePressed()`, `.toBePartiallyPressed()`, and
+`not.toBePressed()` as appropriate.
 
 Examples of **incorrect** code for this rule:
 
@@ -25,6 +23,8 @@ expect(element).toHaveProperty("aria-pressed", something);
 
 expect(element).toHaveAttribute("aria-pressed");
 expect(element).not.toHaveProperty("aria-pressed");
+
+expect(element).toHaveAttribute("aria-pressed", "mixed");
 
 expect(element).not.not.toBePressed();
 ```
@@ -38,7 +38,7 @@ expect(element).not.toBePressed();
 
 expect(element).toHaveAttribute("aria-label");
 
-expect(element).toHaveAttribute("aria-pressed", "mixed");
+expect(element).toBePartiallyPressed();
 ```
 
 ## When Not To Use It
