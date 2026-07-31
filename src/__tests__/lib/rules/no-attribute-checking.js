@@ -34,12 +34,9 @@ const bannedAttributes = [
 ];
 
 bannedAttributes.forEach(
-  ({ preferred, negatedPreferred, attributes, ruleName }) => {
+  ({ preferred, negatedPreferred, mixedPreferred, attributes, ruleName }) => {
     const rule = require(`../../../rules/${ruleName}`);
 
-    // const preferred = 'toBeDisabled()';
-    // const negatedPreferred = 'toBeEnabled()';
-    // const attributes = ['disabled'];
     const ruleTester = new RuleTester({
       parserOptions: { ecmaVersion: 2015, sourceType: "module" },
     });
@@ -50,6 +47,7 @@ bannedAttributes.forEach(
         createBannedAttributeTestCases({
           preferred,
           negatedPreferred,
+          mixedPreferred,
           attribute,
         })
       );
