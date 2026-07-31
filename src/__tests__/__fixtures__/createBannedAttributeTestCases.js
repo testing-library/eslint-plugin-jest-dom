@@ -208,7 +208,7 @@ export default ({ preferred, negatedPreferred, attribute }) => {
         code: `expect(getByText("foo")).not.toHaveProperty("${attribute}")`,
         errors: [
           {
-            message: `Use ${negatedPreferred} instead of not.toHaveProperty('${attribute}')`,
+            message: `Use ${negatedPreferred} instead of not.toHaveProperty("${attribute}")`,
           },
         ],
         output: `expect(getByText("foo")).${negatedPreferred}`,
@@ -220,6 +220,15 @@ export default ({ preferred, negatedPreferred, attribute }) => {
             message: `Use ${preferred} instead of toHaveProperty('${attribute}', foo)`,
           },
         ],
+      },
+      {
+        code: `const el = screen.getByText("foo"); expect(el).not.toHaveProperty('${attribute}', foo)`,
+        errors: [
+          {
+            message: `Use ${negatedPreferred} instead of not.toHaveProperty('${attribute}', foo)`,
+          },
+        ],
+        output: `const el = screen.getByText("foo"); expect(el).${negatedPreferred}`,
       },
       {
         code: `const el = getByRole("button", { name: 'My Button' }); expect(el).toHaveProperty('${attribute}', foo)`,

@@ -106,12 +106,16 @@ export default ({
           return;
         }
 
-        const arg = node.arguments[0].value;
         const correctFunction = getCorrectFunctionFor(node, true);
 
         const incorrectFunction = node.callee.property.name;
+
+        const message = `Use ${correctFunction}() instead of not.${incorrectFunction}(${node.arguments
+          .map(({ raw, name }) => raw || name)
+          .join(", ")})`;
+
         context.report({
-          message: `Use ${correctFunction}() instead of not.${incorrectFunction}('${arg}')`,
+          message,
           node,
           fix: (fixer) =>
             fixer.replaceTextRange(
