@@ -1,12 +1,6 @@
 import { getQueryNodeFrom } from "./assignment-ast";
 
-export default ({
-    preferred,
-    negatedPreferred,
-    mixedPreferred,
-    attributes,
-    excludeValues = [],
-  }) =>
+export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
   (context) => {
     /**
      * Returns the value of the second argument of the given node, if it's a string literal
@@ -22,20 +16,6 @@ export default ({
         typeof node.arguments[1].value === "string" &&
         node.arguments[1].value) ||
       null;
-
-    const isExcludedValue = (node) => {
-      if (!excludeValues.length) {
-        return false;
-      }
-
-      const value = findSecondStringLiteralArgumentValue(node);
-
-      if (!value) {
-        return false;
-      }
-
-      return excludeValues.some((v) => v.toLowerCase() === value.toLowerCase());
-    };
 
     const getCorrectFunctionFor = (node, negated = false) => {
       const value = findSecondStringLiteralArgumentValue(node);
@@ -141,10 +121,6 @@ export default ({
           return;
         }
 
-        if (isExcludedValue(node)) {
-          return;
-        }
-
         const correctFunction = getCorrectFunctionFor(node, true);
 
         const incorrectFunction = node.callee.property.name;
@@ -167,10 +143,6 @@ export default ({
         node
       ) {
         if (!isBannedArg(node)) {
-          return;
-        }
-
-        if (isExcludedValue(node)) {
           return;
         }
 
