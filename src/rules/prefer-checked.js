@@ -18,6 +18,6 @@ export const meta = {
 export const create = createBannedAttributeRule({
   preferred: "toBeChecked",
   negatedPreferred: "not.toBeChecked",
+  mixedPreferred: "toBePartiallyChecked",
   attributes: ["checked", "aria-checked"],
-  excludeValues: ["mixed"],
 });

@@ -22,6 +22,7 @@ const bannedAttributes = [
   {
     preferred: "toBeChecked()",
     negatedPreferred: "not.toBeChecked()",
+    mixedPreferred: "toBePartiallyChecked()",
     attributes: ["checked", "aria-checked"],
     ruleName: "prefer-checked",
   },
@@ -57,10 +58,6 @@ bannedAttributes.forEach(
 
 // Test that excludeValues ("mixed") are not flagged by prefer-checked
 const excludeValuesCases = [
-  {
-    ruleName: "prefer-checked",
-    attribute: "aria-checked",
-  },
   {
     ruleName: "prefer-pressed",
     attribute: "aria-pressed",
