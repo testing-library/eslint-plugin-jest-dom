@@ -19,16 +19,17 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
 
     const getCorrectFunctionFor = (node, negated = false) => {
       const value = findSecondStringLiteralArgumentValue(node);
+      const isMixed = mixedPreferred && (value || "").toLowerCase() === "mixed";
 
       if (negated) {
-        if (mixedPreferred && value === "mixed") {
+        if (isMixed) {
           return `not.${mixedPreferred}`;
         }
 
         return negatedPreferred;
       }
 
-      if (mixedPreferred && value === "mixed") {
+      if (isMixed) {
         return mixedPreferred;
       }
 

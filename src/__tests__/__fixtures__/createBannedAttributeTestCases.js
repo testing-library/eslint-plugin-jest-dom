@@ -125,6 +125,15 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attribute }) => {
           output: `const el = screen.getByText("foo"); expect(el).not.${mixedPreferred}`,
         },
         {
+          code: `const el = screen.getByText("foo"); expect(el).not.toHaveAttribute('${attribute}', 'Mixed')`,
+          errors: [
+            {
+              message: `Use not.${mixedPreferred} instead of not.toHaveAttribute('${attribute}', 'Mixed')`,
+            },
+          ],
+          output: `const el = screen.getByText("foo"); expect(el).not.${mixedPreferred}`,
+        },
+        {
           code: `const el = screen.getByText("foo"); expect(el).not.toHaveProperty('${attribute}', 'mixed')`,
           errors: [
             {
