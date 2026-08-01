@@ -389,5 +389,9 @@ module.exports = {
         "no-template-curly-in-string": "off",
       },
     },
+    {
+      files: ["**/*.ts"],
+      parser: "@typescript-eslint/parser",
+    },
   ],
 };
