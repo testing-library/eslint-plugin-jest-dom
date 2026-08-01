@@ -41,5 +41,11 @@ module.exports = {
         "@typescript-eslint/unbound-method": "off",
       },
     },
+    {
+      files: ["src/__tests__/lib/rules/prefer-to-have-style.js"],
+      rules: {
+        "no-template-curly-in-string": "off",
+      },
+    },
   ],
 };
