@@ -35,7 +35,7 @@
     "regenerate-docs": "npm run build && eslint-doc-generator",
     "lint": "kcd-scripts lint",
     "setup": "npm install",
-    "test": "kcd-scripts test",
+    "test": "jest",
     "test:coverage": "npm test -- --coverage",
     "test:update": "npm test:coverage -- --updateSnapshot"
   },
@@ -97,6 +97,9 @@
     "eslint-doc-generator": "^3.0.0",
     "eslint-remote-tester": "^3.0.0",
     "eslint-remote-tester-repositories": "^1.0.1",
+    "jest": "^28.1.3",
+    "jest-serializer-path": "^0.1.15",
+    "jest-snapshot-serializer-raw": "^1.2.0",
     "kcd-scripts": "^12.0.0",
     "prettier": "^2.0.0",
     "semver": "^7.6.0",
