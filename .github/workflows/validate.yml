@@ -121,6 +121,9 @@ jobs:
       - if: ${{ matrix.eslint >= 9 }}
         run: npm install --force @typescript-eslint/parser
 
+      - if: ${{ matrix.node == '12.x' || matrix.node == '14.x' }}
+        run: npm install --force @typescript-eslint/parser@5
+
       - name: ▶️ Run build
         run: npm run build
 
