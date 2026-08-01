@@ -208,6 +208,16 @@ ruleTester.run("prefer-to-have-class", rule, {
       output: `const el = screen.getByText("foo"); expect(el).toHaveClass("foo")`,
     },
     {
+      code: `const el = screen.getByText("foo"); expect(el.classList.contains("foo")).toBeTrue()`,
+      errors,
+      output: `const el = screen.getByText("foo"); expect(el).toHaveClass("foo")`,
+    },
+    {
+      code: `const el = screen.getByText("foo"); expect(el.classList.contains("foo")).toBeFalse()`,
+      errors,
+      output: `const el = screen.getByText("foo"); expect(el).not.toHaveClass("foo")`,
+    },
+    {
       code: `const el = screen.getByText("foo"); expect(el.classList).not.toContain("bar")`,
       errors,
       output: `const el = screen.getByText("foo"); expect(el).not.toHaveClass("bar")`,
