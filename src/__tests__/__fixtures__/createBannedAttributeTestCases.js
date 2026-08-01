@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function */
+ 
 
 export default ({ preferred, negatedPreferred, mixedPreferred, attribute }) => {
   // covers toBeDisabled / toBeEnabled

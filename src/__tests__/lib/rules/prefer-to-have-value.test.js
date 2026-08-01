@@ -1,4 +1,4 @@
-/* eslint-disable no-template-curly-in-string */
+ 
 /**
  * @fileoverview Prefer toBeEmptyDOMElement over checking innerHTML
  * @author Ben Monro
