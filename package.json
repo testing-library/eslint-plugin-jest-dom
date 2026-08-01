@@ -33,7 +33,7 @@
   "scripts": {
     "build": "babel src --out-dir dist --delete-dir-on-start --copy-files --no-copy-ignored",
     "regenerate-docs": "npm run build && eslint-doc-generator",
-    "lint": "kcd-scripts lint",
+    "lint": "eslint .",
     "setup": "npm install",
     "test": "jest",
     "test:coverage": "npm test -- --coverage",
