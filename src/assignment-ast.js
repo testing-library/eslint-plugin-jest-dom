@@ -37,7 +37,9 @@ export function getInnerNodeFrom(context, node, expression) {
 export function getAssignmentForIdentifier(context, node, identifierName) {
   const variable = getScope(context, node).set.get(identifierName);
 
-  if (!variable) return;
+  if (!variable) {
+    return;
+  }
   const init = variable.defs[0].node.init;
 
   let assignmentNode;
