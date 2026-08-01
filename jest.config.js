@@ -12,10 +12,6 @@ const config = {
     require.resolve("jest-serializer-path"),
     require.resolve("jest-snapshot-serializer-raw/always"),
   ],
-  // todo: this can go once we switch to using babel directly
-  transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": "kcd-scripts/dist/config/babel-transform",
-  },
   testPathIgnorePatterns: ["<rootDir>/src/__tests__/__fixtures__/*"],
 };
 
