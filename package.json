@@ -31,7 +31,7 @@
     "index.d.ts"
   ],
   "scripts": {
-    "build": "kcd-scripts build",
+    "build": "babel src --out-dir dist --delete-dir-on-start --copy-files --no-copy-ignored",
     "regenerate-docs": "npm run build && eslint-doc-generator",
     "lint": "kcd-scripts lint",
     "setup": "npm install",
@@ -44,6 +44,8 @@
     "requireindex": "^1.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
     "@testing-library/dom": "^10.4.1",
     "@typescript-eslint/parser": "^5.9.1",
     "eslint": "^8.7.0",
