@@ -5,7 +5,10 @@ module.exports = {
     "dist",
     "eslint-remote-tester-results",
   ],
-  extends: ["./node_modules/kcd-scripts/eslint.js"],
+  extends: [
+    "./node_modules/kcd-scripts/node_modules/eslint-config-kentcdodds/index.js",
+    "./node_modules/kcd-scripts/node_modules/eslint-config-kentcdodds/jest.js",
+  ],
   rules: {
     "consistent-return": "off",
     "max-lines-per-function": "off",
