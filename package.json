@@ -46,7 +46,7 @@
     "@babel/cli": "^7.29.7",
     "@babel/preset-env": "^7.29.7",
     "@testing-library/dom": "^10.4.1",
-    "@typescript-eslint/parser": "^7.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.10.2",
     "eslint-doc-generator": "^3.0.0",
