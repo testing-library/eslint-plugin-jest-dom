@@ -34,11 +34,10 @@
     "build": "kcd-scripts build",
     "regenerate-docs": "npm run build && eslint-doc-generator",
     "lint": "kcd-scripts lint",
-    "setup": "npm install && npm run validate -s",
+    "setup": "npm install",
     "test": "kcd-scripts test",
     "test:coverage": "npm test -- --coverage",
-    "test:update": "npm test:coverage -- --updateSnapshot",
-    "validate": "kcd-scripts validate"
+    "test:update": "npm test:coverage -- --updateSnapshot"
   },
   "eslintConfig": {
     "extends": "./node_modules/kcd-scripts/eslint.js",
