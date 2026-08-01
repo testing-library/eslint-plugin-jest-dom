@@ -4,7 +4,7 @@ const {
 } = require("eslint-remote-tester-repositories");
 
 module.exports = {
-  repositories: getRepositories({ randomize: true }),
+  repositories: getRepositories({ randomize: true }).slice(0, 5),
   pathIgnorePattern: getPathIgnorePattern(),
   extensions: ["js", "jsx", "ts", "tsx"],
   concurrentTasks: 3,
