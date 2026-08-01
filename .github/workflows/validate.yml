@@ -114,8 +114,8 @@ jobs:
       - name: Install @testing-library/dom v${{ matrix.testing-library-dom }}
         run: npm install --force @testing-library/dom@${{ matrix.testing-library-dom }}
 
-      - name: Install TypeScript v4
-        if: ${{ matrix.node == '12.x' }}
+        # these versions of Node use npm v6, which does not install peer dependencies
+      - if: ${{ matrix.node == '12.x' || matrix.node == '14.x' }}
         run: npm install --force typescript@4
 
       - if: ${{ matrix.eslint >= 9 }}
