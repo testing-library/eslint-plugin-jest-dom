@@ -8,10 +8,7 @@ const config = {
       statements: 100,
     },
   },
-  snapshotSerializers: [
-    require.resolve("jest-serializer-path"),
-    require.resolve("jest-snapshot-serializer-raw/always"),
-  ],
+  snapshotSerializers: [require.resolve("jest-snapshot-serializer-raw/always")],
   testPathIgnorePatterns: ["<rootDir>/src/__tests__/__fixtures__/*"],
 };
 
