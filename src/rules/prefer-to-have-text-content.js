@@ -27,6 +27,12 @@ const getExactReplacementPattern = (expectedArg) => {
     expectedArg.expressions.length === 0
   ) {
     const cookedValue = expectedArg.quasis[0].value.cooked;
+
+    /* istanbul ignore next -- Espree rejects malformed untagged templates. */
+    if (cookedValue === null) {
+      return null;
+    }
+
     return `/^${escapeForRegexLiteral(cookedValue)}$/`;
   }
 
