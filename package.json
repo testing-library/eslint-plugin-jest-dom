@@ -33,7 +33,7 @@
   "scripts": {
     "build": "babel src --out-dir dist --delete-dir-on-start --copy-files --no-copy-ignored",
     "regenerate-docs": "npm run build && eslint-doc-generator",
-    "lint": "eslint .",
+    "lint": "eslint",
     "setup": "npm install",
     "test": "jest",
     "test:coverage": "npm test -- --coverage",
@@ -47,7 +47,7 @@
     "@babel/preset-env": "^7.29.7",
     "@testing-library/dom": "^10.4.1",
     "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^8.7.0",
+    "eslint": "^9.0.0",
     "eslint-config-prettier": "^8.10.2",
     "eslint-doc-generator": "^3.0.0",
     "eslint-plugin-import": "^2.32.0",
