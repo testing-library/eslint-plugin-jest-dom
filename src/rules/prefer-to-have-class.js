@@ -26,7 +26,7 @@ export const meta = {
 
 export const create = (context) => ({
   //expect(el.classList.contains("foo")).toBe(true)
-  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.callee.object.property.name=classList][callee.object.arguments.0.callee.property.name=contains][callee.property.name=/toBe(Truthy|Falsy)?|to(Strict)?Equal/]`](
+  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.callee.object.property.name=classList][callee.object.arguments.0.callee.property.name=contains][callee.property.name=/toBe(Tru(e|thy)|Fals(e|y))?|to(Strict)?Equal/]`](
     node,
   ) {
     const classValue = node.callee.object.arguments[0].arguments[0];
@@ -36,7 +36,8 @@ export const create = (context) => ({
     const [expectArg] = node.callee.object.arguments;
     const isTruthy =
       (matcher.name === "toBe" && matcherArg.value === true) ||
-      matcher.name === "toBeTruthy";
+      matcher.name === "toBeTruthy" ||
+      matcher.name === "toBeTrue";
 
     context.report({
       node: matcher,
