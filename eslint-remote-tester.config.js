@@ -1,9 +1,11 @@
+"use strict";
+
 const parser = require("@typescript-eslint/parser");
 const {
   getRepositories,
   getPathIgnorePattern,
 } = require("eslint-remote-tester-repositories");
-const plugin = require("../dist");
+const plugin = require("./dist");
 
 module.exports = {
   repositories: getRepositories({ randomize: true }),

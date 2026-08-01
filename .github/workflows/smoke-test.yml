@@ -25,4 +25,3 @@ jobs:
       - uses: AriPerkkio/eslint-remote-tester-run-action@v6
         with:
           issue-title: "Results of weekly scheduled smoke test"
-          eslint-remote-tester-config: smoke-test/eslint-remote-tester.config.js
