@@ -1,0 +1,54 @@
+module.exports = {
+  ignorePatterns: [
+    "node_modules",
+    "coverage",
+    "dist",
+    "eslint-remote-tester-results",
+  ],
+  extends: [
+    "./node_modules/kcd-scripts/node_modules/eslint-config-kentcdodds/index.js",
+    "./node_modules/kcd-scripts/node_modules/eslint-config-kentcdodds/jest.js",
+  ],
+  rules: {
+    "consistent-return": "off",
+    "max-lines-per-function": "off",
+    "testing-library/no-dom-import": "off",
+  },
+  overrides: [
+    {
+      files: ["**/*.ts"],
+      rules: {
+        "@typescript-eslint/await-thenable": "off",
+        "@typescript-eslint/dot-notation": "off",
+        "@typescript-eslint/no-base-to-string": "off",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/no-implied-eval": "off",
+        "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/no-throw-literal": "off",
+        "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off",
+        "@typescript-eslint/no-unnecessary-condition": "off",
+        "@typescript-eslint/no-unnecessary-qualifier": "off",
+        "@typescript-eslint/no-unnecessary-type-assertion": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/prefer-includes": "off",
+        "@typescript-eslint/prefer-nullish-coalescing": "off",
+        "@typescript-eslint/prefer-reduce-type-parameter": "off",
+        "@typescript-eslint/prefer-string-starts-ends-with": "off",
+        "@typescript-eslint/restrict-plus-operands": "off",
+        "@typescript-eslint/return-await": "off",
+        "@typescript-eslint/switch-exhaustiveness-check": "off",
+        "@typescript-eslint/unbound-method": "off",
+      },
+    },
+    {
+      files: ["src/__tests__/lib/rules/prefer-to-have-style.js"],
+      rules: {
+        "no-template-curly-in-string": "off",
+      },
+    },
+  ],
+};
