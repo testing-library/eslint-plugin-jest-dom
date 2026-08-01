@@ -29,6 +29,19 @@ jobs:
         with:
           useLockFile: false
       - run: npx prettier --check .
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: lts/*
+      - uses: bahmutov/npm-install@v1
+        with:
+          useLockFile: false
+      - run: npm run lint
   docs:
     runs-on: ubuntu-latest
     steps:
@@ -108,13 +121,11 @@ jobs:
       - if: ${{ matrix.eslint >= 9 }}
         run: npm install --force @typescript-eslint/parser
 
-      - name: ▶️ Run validate script (without linting)
-        if: ${{ matrix.eslint != 8 }}
-        run: npm run validate -- build,test:coverage
+      - name: ▶️ Run build
+        run: npm run build
 
-      - name: ▶️ Run validate script (with linting)
-        if: ${{ matrix.eslint == 8 && matrix.node != '12.x' }}
-        run: npm run validate
+      - name: ▶️ Run tests with coverage
+        run: npm run test -- --coverage
 
       - name: ⬆️ Upload coverage report
         uses: codecov/codecov-action@v7
@@ -127,6 +138,7 @@ jobs:
       id-token: write # to enable use of OIDC for trusted publishing and npm provenance
     needs:
       - prettier
+      - linting
       - docs
       - main
     runs-on: ubuntu-latest
