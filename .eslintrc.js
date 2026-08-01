@@ -255,7 +255,7 @@ module.exports = {
       },
     },
     {
-      files: ["src/__tests__/lib/rules/prefer-to-have-style.js"],
+      files: ["src/__tests__/lib/rules/prefer-to-have-style.test.js"],
       rules: {
         "no-template-curly-in-string": "off",
       },
