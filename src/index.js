@@ -25,7 +25,7 @@ const allRules = Object.entries(rules).reduce(
     ...memo,
     ...{ [`jest-dom/${name}`]: "error" },
   }),
-  {}
+  {},
 );
 
 const recommendedRules = Object.entries(rules)
@@ -35,7 +35,7 @@ const recommendedRules = Object.entries(rules)
       ...memo,
       ...{ [`jest-dom/${name}`]: "error" },
     }),
-    {}
+    {},
   );
 
 const plugin = {

@@ -16,7 +16,7 @@ it.each(Object.entries(rules))(
     expect(rule.meta.docs.url).not.toBe("");
     expect(rule.meta.docs.category).toBe("Best Practices");
     expect(rule.meta.docs.description).not.toBe("");
-  }
+  },
 );
 
 it("has the expected recommended config", () => {
@@ -76,6 +76,6 @@ it("has the expected recommended flat config", () => {
         jest-dom/prefer-to-have-value: error,
       },
     }
-  `
+  `,
   );
 });

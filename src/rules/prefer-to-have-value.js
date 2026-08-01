@@ -28,7 +28,7 @@ export const create = (context) => {
   function isValidQueryNode(nodeWithValueProp) {
     const { query, queryArg, isDTLQuery } = getQueryNodeFrom(
       context,
-      nodeWithValueProp
+      nodeWithValueProp,
     );
     return (
       !!query &&
@@ -42,7 +42,7 @@ export const create = (context) => {
     // expect(<query>.value).toBe('foo') / toEqual / toStrictEqual
     // expect((await <query>).value).toBe('foo') / toEqual / toStrictEqual
     [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.arguments.0.property.name=value][callee.object.callee.name=expect]`](
-      node
+      node,
     ) {
       const valueProp = node.callee.object.arguments[0].property;
       const matcher = node.callee.property;
@@ -67,7 +67,7 @@ export const create = (context) => {
     // expect(<query>['aria-valuenow']).toBe('foo') / toEqual / toStrictEqual
     // expect((await <query>)['aria-valuenow']).toBe('foo') / toEqual / toStrictEqual
     [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.arguments.0.property.value='aria-valuenow'][callee.object.callee.name=expect]`](
-      node
+      node,
     ) {
       const valueProp = node.callee.object.arguments[0].property;
       const matcher = node.callee.property;
@@ -93,7 +93,7 @@ export const create = (context) => {
     // expect(<query>.value).not.toBe('foo') / toEqual / toStrictEqual
     // expect((await <query>).value).not.toBe('foo') / toEqual / toStrictEqual
     [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.object.callee.name=expect][callee.object.property.name=not][callee.object.object.arguments.0.property.name=value]`](
-      node
+      node,
     ) {
       const queryNode = node.callee.object.object.arguments[0].object;
       const valueProp = node.callee.object.object.arguments[0].property;
@@ -120,7 +120,7 @@ export const create = (context) => {
     // expect(<query>['aria-valuenow']).not.toBe('foo') / toEqual / toStrictEqual
     // expect((await <query>)['aria-valuenow']).not.toBe('foo') / toEqual / toStrictEqual
     [`CallExpression[callee.property.name=/to(Be|(Strict)?Equal)$/][callee.object.object.callee.name=expect][callee.object.property.name=not][callee.object.object.arguments.0.property.value='aria-valuenow']`](
-      node
+      node,
     ) {
       const queryNode = node.callee.object.object.arguments[0].object;
       const valueProp = node.callee.object.object.arguments[0].property;
@@ -145,7 +145,7 @@ export const create = (context) => {
     //expect(element).toHaveAttribute('value', 'foo')  / Property
     //expect(element).toHaveAttribute('aria-valuenow', 'foo')  / Property
     [`CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=/^(value|aria-valuenow)$/][arguments.1][callee.object.callee.name=expect], CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=/(value|aria-valuenow)$/][arguments.1][callee.object.object.callee.name=expect][callee.object.property.name=not]`](
-      node
+      node,
     ) {
       const matcher = node.callee.property;
       const [prop, value] = node.arguments;

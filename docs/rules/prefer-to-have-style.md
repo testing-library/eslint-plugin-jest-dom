@@ -24,7 +24,7 @@ expect(el.style).toContain("background-color");
 expect(el.style).not.toContain("background-color");
 expect(el).toHaveAttribute(
   "style",
-  "background-color: green; border-width: 10px; color: blue;"
+  "background-color: green; border-width: 10px; color: blue;",
 );
 ```
 

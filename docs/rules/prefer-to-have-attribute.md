@@ -25,7 +25,7 @@ expect(element.getAttribute("foo")).toMatch(/bar/);
 expect(element.getAttribute("foo")).toContain("bar");
 expect(getByText("thing").getAttribute("foo")).toBe("bar");
 expect(getByText("yes").getAttribute("data-blah")).toBe(
-  expect.stringMatching(/foo/)
+  expect.stringMatching(/foo/),
 );
 expect(element.hasAttribute("foo")).toBeTruthy();
 ```

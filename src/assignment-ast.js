@@ -70,7 +70,7 @@ export function getQueryNodeFrom(context, nodeWithValueProp) {
   const queryNode = getInnerNodeFrom(
     context,
     nodeWithValueProp,
-    nodeWithValueProp
+    nodeWithValueProp,
   );
 
   if (!queryNode || !queryNode.callee) {
