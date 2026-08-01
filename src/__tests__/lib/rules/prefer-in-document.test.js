@@ -342,6 +342,30 @@ const invalid = [
     `expect(queryByText('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
+    `expect(queryByText('foo')).toBeNil()`,
+    `expect(queryByText('foo')).not.toBeInTheDocument()`,
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).not.toBeNil()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`,
+  ),
+  invalidCase(
+    `expect(queryByText('foo')) .not .toBeNil()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`,
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).toBeNullable()`,
+    `expect(queryByText('foo')).not.toBeInTheDocument()`,
+  ),
+  invalidCase(
+    `expect(queryByText('foo')).not.toBeNullable()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`,
+  ),
+  invalidCase(
+    `expect(queryByText('foo')) .not .toBeNullable()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`,
+  ),
+  invalidCase(
     `expect(queryByText('foo')).toBeNull()`,
     `expect(queryByText('foo')).not.toBeInTheDocument()`,
   ),
@@ -429,6 +453,30 @@ const invalid = [
     `expect(queryByText('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
+    `expect(queryAllByText('foo')).toBeNil()`,
+    `expect(queryByText('foo')).not.toBeInTheDocument()`,
+  ),
+  invalidCase(
+    `expect(queryAllByText('foo')).not.toBeNil()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`,
+  ),
+  invalidCase(
+    `expect(queryAllByText('foo')) .not .toBeNil()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`,
+  ),
+  invalidCase(
+    `expect(queryAllByText('foo')).toBeNullable()`,
+    `expect(queryByText('foo')).not.toBeInTheDocument()`,
+  ),
+  invalidCase(
+    `expect(queryAllByText('foo')).not.toBeNullable()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`,
+  ),
+  invalidCase(
+    `expect(queryAllByText('foo')) .not .toBeNullable()`,
+    `expect(queryByText('foo')).toBeInTheDocument()`,
+  ),
+  invalidCase(
     `expect(queryAllByText('foo')).toBeDefined()`,
     `expect(queryByText('foo')).toBeInTheDocument()`,
   ),
@@ -498,6 +546,26 @@ const invalid = [
     `it("foo", async () => {
       const compressingFeedback = await screen.findByText(/Compressing video/);
       expect(compressingFeedback).not.toBeNull();
+    });`,
+    `it("foo", async () => {
+      const compressingFeedback = await screen.findByText(/Compressing video/);
+      expect(compressingFeedback).toBeInTheDocument();
+    });`,
+  ),
+  invalidCase(
+    `it("foo", async () => {
+      const compressingFeedback = await screen.findByText(/Compressing video/);
+      expect(compressingFeedback).not.toBeNil();
+    });`,
+    `it("foo", async () => {
+      const compressingFeedback = await screen.findByText(/Compressing video/);
+      expect(compressingFeedback).toBeInTheDocument();
+    });`,
+  ),
+  invalidCase(
+    `it("foo", async () => {
+      const compressingFeedback = await screen.findByText(/Compressing video/);
+      expect(compressingFeedback).not.toBeNullable();
     });`,
     `it("foo", async () => {
       const compressingFeedback = await screen.findByText(/Compressing video/);
