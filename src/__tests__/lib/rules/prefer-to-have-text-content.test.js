@@ -78,6 +78,16 @@ ruleTester.run("prefer-to-have-text-content", rule, {
       output: null,
     },
     {
+      code: "expect(element.textContent).toBe()",
+      errors: [
+        {
+          message:
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
+        },
+      ],
+      output: null,
+    },
+    {
       code: 'expect(element.textContent).not.toBe("foo")',
       errors: [
         {
@@ -86,6 +96,16 @@ ruleTester.run("prefer-to-have-text-content", rule, {
         },
       ],
       output: `expect(element).not.toHaveTextContent(/^foo$/)`,
+    },
+    {
+      code: "expect(element.textContent).not.toBe(text)",
+      errors: [
+        {
+          message:
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
+        },
+      ],
+      output: null,
     },
     {
       code: 'expect(screen.getByText("foo").textContent).toBe("foo")',

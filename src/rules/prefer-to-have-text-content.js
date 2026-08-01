@@ -27,11 +27,6 @@ const getExactReplacementPattern = (expectedArg) => {
     expectedArg.expressions.length === 0
   ) {
     const cookedValue = expectedArg.quasis[0].value.cooked;
-
-    if (cookedValue === null) {
-      return null;
-    }
-
     return `/^${escapeForRegexLiteral(cookedValue)}$/`;
   }
 
