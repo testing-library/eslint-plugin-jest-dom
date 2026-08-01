@@ -28,17 +28,19 @@ export const create = (context) => {
       context.report({
         node,
         message: "Use toBeEmptyDOMElement instead of checking inner html.",
-        fix: (fixer) => [
-          fixer.removeRange([node.left.object.range[1], node.range[1]]),
-          fixer.replaceText(
-            node.parent.parent.property,
-            Boolean(node.parent.parent.parent.arguments[0].value) ===
-              node.operator.startsWith("=") // binary expression XNOR matcher boolean
-              ? "toBeEmptyDOMElement"
-              : "not.toBeEmptyDOMElement"
-          ),
-          fixer.remove(node.parent.parent.parent.arguments[0]),
-        ],
+        fix:
+          node.parent.parent.parent.arguments[0] &&
+          ((fixer) => [
+            fixer.removeRange([node.left.object.range[1], node.range[1]]),
+            fixer.replaceText(
+              node.parent.parent.property,
+              Boolean(node.parent.parent.parent.arguments[0].value) ===
+                node.operator.startsWith("=") // binary expression XNOR matcher boolean
+                ? "toBeEmptyDOMElement"
+                : "not.toBeEmptyDOMElement"
+            ),
+            fixer.remove(node.parent.parent.parent.arguments[0]),
+          ]),
       });
     },
     [`BinaryExpression[left.property.name='firstChild'][right.value=null][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
@@ -47,17 +49,19 @@ export const create = (context) => {
       context.report({
         node,
         message: "Use toBeEmptyDOMElement instead of checking inner html.",
-        fix: (fixer) => [
-          fixer.removeRange([node.left.object.range[1], node.range[1]]),
-          fixer.replaceText(
-            node.parent.parent.property,
-            Boolean(node.parent.parent.parent.arguments[0].value) ===
-              node.operator.startsWith("=") // binary expression XNOR matcher boolean
-              ? "toBeEmptyDOMElement"
-              : "not.toBeEmptyDOMElement"
-          ),
-          fixer.remove(node.parent.parent.parent.arguments[0]),
-        ],
+        fix:
+          node.parent.parent.parent.arguments[0] &&
+          ((fixer) => [
+            fixer.removeRange([node.left.object.range[1], node.range[1]]),
+            fixer.replaceText(
+              node.parent.parent.property,
+              Boolean(node.parent.parent.parent.arguments[0].value) ===
+                node.operator.startsWith("=") // binary expression XNOR matcher boolean
+                ? "toBeEmptyDOMElement"
+                : "not.toBeEmptyDOMElement"
+            ),
+            fixer.remove(node.parent.parent.parent.arguments[0]),
+          ]),
       });
     },
     [`MemberExpression[property.name = 'innerHTML'][parent.callee.name = 'expect'][parent.parent.property.name = /toBe$|to(Strict)?Equal/]`](
