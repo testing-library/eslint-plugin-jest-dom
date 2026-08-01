@@ -29,6 +29,7 @@ export const meta = {
 
 function isAntonymMatcher(matcherNode, matcherArguments) {
   return (
+    matcherNode.name === "toBeNil" ||
     matcherNode.name === "toBeNull" ||
     matcherNode.name === "toBeFalsy" ||
     usesToBeOrToEqualWithNull(matcherNode, matcherArguments) ||
@@ -72,7 +73,7 @@ function getDTLQueryIdentifierNode(callExpressionNode) {
 
 export const create = (context) => {
   const alternativeMatchers =
-    /^(toHaveLength|toBeDefined|toBeNull|toBe|toEqual|toBeTruthy|toBeFalsy)$/;
+    /^(toHaveLength|toBeDefined|toBeNil|toBeNull|toBe|toEqual|toBeTruthy|toBeFalsy)$/;
   function getLengthValue(matcherArguments) {
     let lengthValue;
 
