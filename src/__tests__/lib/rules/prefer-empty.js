@@ -60,6 +60,15 @@ ruleTester.run("prefer-empty", rule, {
       output: `expect(element).toBeEmptyDOMElement()`,
     },
     {
+      code: `expect(element.innerHTML === '').toBe()`,
+      errors: [
+        {
+          message: "Use toBeEmptyDOMElement instead of checking inner html.",
+        },
+      ],
+      output: null,
+    },
+    {
       code: `expect(element.innerHTML !== '').toBe(true)`,
       errors: [
         {
@@ -94,6 +103,15 @@ ruleTester.run("prefer-empty", rule, {
         },
       ],
       output: `expect(element).toBeEmptyDOMElement()`,
+    },
+    {
+      code: `expect(element.firstChild === null).toBe()`,
+      errors: [
+        {
+          message: "Use toBeEmptyDOMElement instead of checking inner html.",
+        },
+      ],
+      output: null,
     },
     {
       code: `expect(element.firstChild !== null).toBe(false)`,
