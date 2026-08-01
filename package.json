@@ -48,6 +48,7 @@
     "@typescript-eslint/parser": "^5.9.1",
     "eslint": "^8.7.0",
     "eslint-doc-generator": "^3.0.0",
+    "eslint-plugin-jest": "^26.9.0",
     "eslint-remote-tester": "^3.0.0",
     "eslint-remote-tester-repositories": "^1.0.1",
     "jest": "^28.1.3",
