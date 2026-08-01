@@ -125,7 +125,6 @@ jobs:
         run: npm run build
 
       - name: ▶️ Run tests with coverage
-        if: ${{ matrix.eslint != 8 }}
         run: npm run test -- --coverage
 
       - name: ⬆️ Upload coverage report
