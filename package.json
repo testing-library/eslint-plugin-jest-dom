@@ -49,6 +49,7 @@
     "@testing-library/dom": "^10.4.1",
     "@typescript-eslint/parser": "^5.9.1",
     "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.10.2",
     "eslint-doc-generator": "^3.0.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jest": "^26.9.0",
