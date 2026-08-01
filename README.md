@@ -106,9 +106,7 @@ To enable this configuration with `eslint.config.js`, use
 ```javascript
 module.exports = [
   {
-    files: [
-      /* glob matching your test files */
-    ],
+    files: [/* glob matching your test files */],
     ...require("eslint-plugin-jest-dom").configs["flat/recommended"],
   },
 ];

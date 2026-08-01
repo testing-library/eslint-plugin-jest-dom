@@ -51,8 +51,8 @@ bannedAttributes.forEach(
           negatedPreferred,
           mixedPreferred,
           attribute,
-        })
+        }),
       );
     });
-  }
+  },
 );

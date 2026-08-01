@@ -50,7 +50,7 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
     //expect(el).not.toBeEnabled() => expect(el).toBeDisabled()
     return {
       [`CallExpression[callee.property.name=/${preferred}|${negatedPreferred}/][callee.object.property.name='not'][callee.object.object.callee.name='expect']`](
-        node
+        node,
       ) {
         if (!negatedPreferred.startsWith("toBe")) {
           return;
@@ -66,13 +66,13 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
           fix: (fixer) =>
             fixer.replaceTextRange(
               [node.callee.object.property.range[0], node.range[1]],
-              `${correctFunction}()`
+              `${correctFunction}()`,
             ),
         });
       },
       //expect(getByText('foo').<attribute>).toBeTruthy()
       "CallExpression[callee.property.name=/toBe(Truthy|Falsy)?|toEqual/][callee.object.callee.name='expect']"(
-        node
+        node,
       ) {
         if (!node.callee.object.arguments.length) {
           return;
@@ -88,7 +88,7 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
         }
         const { isDTLQuery } = getQueryNodeFrom(
           context,
-          node.callee.object.arguments[0]
+          node.callee.object.arguments[0],
         );
         if (!isDTLQuery) return;
         const isNegated =
@@ -97,7 +97,7 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
             matcherArg !== true);
         const correctFunction = getCorrectFunctionFor(
           node.callee.object,
-          isNegated
+          isNegated,
         );
         context.report({
           node,
@@ -106,13 +106,13 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
             fixer.removeRange([object.range[1], property.range[1]]),
             fixer.replaceTextRange(
               [node.callee.property.range[0], node.range[1]],
-              `${correctFunction}()`
+              `${correctFunction}()`,
             ),
           ],
         });
       },
       "CallExpression[callee.property.name=/toHaveProperty|toHaveAttribute/][callee.object.property.name='not'][callee.object.object.callee.name='expect']"(
-        node
+        node,
       ) {
         if (!isBannedArg(node)) {
           return;
@@ -132,12 +132,12 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
           fix: (fixer) =>
             fixer.replaceTextRange(
               [node.callee.object.property.range[0], node.range[1]],
-              `${correctFunction}()`
+              `${correctFunction}()`,
             ),
         });
       },
       "CallExpression[callee.object.callee.name='expect'][callee.property.name=/toHaveProperty|toHaveAttribute/]"(
-        node
+        node,
       ) {
         if (!isBannedArg(node)) {
           return;
@@ -145,7 +145,7 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
 
         const { isDTLQuery } = getQueryNodeFrom(
           context,
-          node.callee.object.arguments[0]
+          node.callee.object.arguments[0],
         );
 
         if (!isDTLQuery) return;
@@ -168,7 +168,7 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
               return [
                 fixer.replaceTextRange(
                   [node.callee.property.range[0], node.range[1]],
-                  `${correctFunction}()`
+                  `${correctFunction}()`,
                 ),
               ];
             }

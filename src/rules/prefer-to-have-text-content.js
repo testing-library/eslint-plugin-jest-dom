@@ -16,7 +16,7 @@ export const meta = {
 
 export const create = (context) => ({
   [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toContain$|toMatch$/]`](
-    node
+    node,
   ) {
     const expectedArg = node.parent.parent.parent.arguments[0];
 
@@ -29,7 +29,7 @@ export const create = (context) => ({
           fixer.removeRange([node.object.range[1], node.property.range[1]]),
           fixer.replaceTextRange(
             node.parent.parent.property.range,
-            "toHaveTextContent"
+            "toHaveTextContent",
           ),
           fixer.replaceTextRange(
             expectedArg.range,
@@ -39,16 +39,16 @@ export const create = (context) => ({
                 : new RegExp(
                     expectedArg.value
                       .toString()
-                      .replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&")
+                      .replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&"),
                   ).toString()
-              : `new RegExp(${expectedArgSource})`
+              : `new RegExp(${expectedArgSource})`,
           ),
         ];
       },
     });
   },
   [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
-    node
+    node,
   ) {
     context.report({
       node: node.parent,
@@ -57,13 +57,13 @@ export const create = (context) => ({
         fixer.removeRange([node.object.range[1], node.property.range[1]]),
         fixer.replaceTextRange(
           node.parent.parent.property.range,
-          "toHaveTextContent"
+          "toHaveTextContent",
         ),
       ],
     });
   },
   [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
-    node
+    node,
   ) {
     context.report({
       node: node.parent,
@@ -72,13 +72,13 @@ export const create = (context) => ({
         fixer.removeRange([node.object.range[1], node.property.range[1]]),
         fixer.replaceTextRange(
           node.parent.parent.parent.property.range,
-          "toHaveTextContent"
+          "toHaveTextContent",
         ),
       ],
     });
   },
   [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toContain$|toMatch$/]`](
-    node
+    node,
   ) {
     const expectedArg = node.parent.parent.parent.parent.arguments[0];
     const expectedArgSource = getSourceCode(context).getText(expectedArg);
@@ -89,7 +89,7 @@ export const create = (context) => ({
         fixer.removeRange([node.object.range[1], node.property.range[1]]),
         fixer.replaceTextRange(
           node.parent.parent.parent.property.range,
-          "toHaveTextContent"
+          "toHaveTextContent",
         ),
         fixer.replaceTextRange(
           expectedArg.range,
@@ -99,9 +99,9 @@ export const create = (context) => ({
               : new RegExp(
                   expectedArg.value
                     .toString()
-                    .replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&")
+                    .replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&"),
                 ).toString()
-            : `new RegExp(${expectedArgSource})`
+            : `new RegExp(${expectedArgSource})`,
         ),
       ],
     });

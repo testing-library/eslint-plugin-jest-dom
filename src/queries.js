@@ -15,7 +15,7 @@ let theQueries = [
     "TestId",
     "Text",
     "Title",
-  ].map((element) => `${prefix}${element}`)
+  ].map((element) => `${prefix}${element}`),
 );
 
 (() => {

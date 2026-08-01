@@ -30,7 +30,7 @@ function invalidCaseWithSuggestions(
   code,
   messageData,
   replaceQueryOutput,
-  replaceMatcherOutput
+  replaceMatcherOutput,
 ) {
   return {
     code,
@@ -174,67 +174,67 @@ const valid = [
 const invalid = [
   invalidCase(
     `expect(screen.getByText('foo')).toHaveLength()`,
-    `expect(screen.getByText('foo')).not.toBeInTheDocument()`
+    `expect(screen.getByText('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(screen.getAllByText('foo')).toHaveLength()`,
-    `expect(screen.getByText('foo')).not.toBeInTheDocument()`
+    `expect(screen.getByText('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(screen.getByRole('foo')).toHaveLength()`,
-    `expect(screen.getByRole('foo')).not.toBeInTheDocument()`
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(screen.getAllByRole('foo')).toHaveLength()`,
-    `expect(screen.getByRole('foo')).not.toBeInTheDocument()`
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(screen.getByRole('foo')).toHaveLength(0,2,3)`,
-    `expect(screen.getByRole('foo')).not.toBeInTheDocument()`
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(screen.getAllByRole('foo')).toHaveLength(0,2,3,)`,
-    `expect(screen.getByRole('foo')).not.toBeInTheDocument()`
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(screen.getByRole('foo')).toHaveLength(1,2,3)`,
-    `expect(screen.getByRole('foo')).toBeInTheDocument()`
+    `expect(screen.getByRole('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(screen.getAllByRole('foo')).toHaveLength(1,2,3,)`,
-    `expect(screen.getByRole('foo')).toBeInTheDocument()`
+    `expect(screen.getByRole('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(screen.getAllByRole('foo')).toHaveLength(0,2,3//comment
 )`,
     `expect(screen.getByRole('foo')).not.toBeInTheDocument(//comment
-)`
+)`,
   ),
   invalidCase(
     `expect(screen.getAllByRole('foo')).toHaveLength(1,2,3,//comment
 )`,
     `expect(screen.getByRole('foo')).toBeInTheDocument(//comment
-)`
+)`,
   ),
   invalidCase(
     `expect(screen.getAllByRole('foo')).toHaveLength(0,2,//comment
 3,4)`,
     `expect(screen.getByRole('foo')).not.toBeInTheDocument(//comment
-)`
+)`,
   ),
   invalidCase(
     `expect(screen.getAllByRole('foo')).toHaveLength(1,2,//comment
 3,4,)`,
     `expect(screen.getByRole('foo')).toBeInTheDocument(//comment
-)`
+)`,
   ),
   invalidCase(
     `expect(screen.getAllByRole('foo')).toHaveLength(0,2/*comment*/,3)`,
-    `expect(screen.getByRole('foo')).not.toBeInTheDocument(/*comment*/)`
+    `expect(screen.getByRole('foo')).not.toBeInTheDocument(/*comment*/)`,
   ),
   invalidCase(
     `expect(screen.getAllByRole('foo')).toHaveLength(1,2,/*comment*/3,)`,
-    `expect(screen.getByRole('foo')).toBeInTheDocument(/*comment*/)`
+    `expect(screen.getByRole('foo')).toBeInTheDocument(/*comment*/)`,
   ),
   // Report invalid combination of *By* query with .toHaveLength(1) assertion
   // and suggest fixes by:
@@ -247,7 +247,7 @@ const invalid = [
       allQuery: "getAllByText",
     },
     `expect(screen.getAllByText('foo')).toHaveLength(1)`,
-    `expect(screen.getByText('foo')).toBeInTheDocument()`
+    `expect(screen.getByText('foo')).toBeInTheDocument()`,
   ),
   invalidCaseWithSuggestions(
     `const NUM_BUTTONS=1;
@@ -259,7 +259,7 @@ const invalid = [
     `const NUM_BUTTONS=1;
      expect(screen.getAllByText('foo')).toHaveLength(NUM_BUTTONS)`,
     `const NUM_BUTTONS=1;
-     expect(screen.getByText('foo')).toBeInTheDocument()`
+     expect(screen.getByText('foo')).toBeInTheDocument()`,
   ),
 
   invalidCaseWithSuggestions(
@@ -269,7 +269,7 @@ const invalid = [
       allQuery: "getAllByText",
     },
     `expect(getAllByText('foo')).toHaveLength(1)`,
-    `expect(getByText('foo')).toBeInTheDocument()`
+    `expect(getByText('foo')).toBeInTheDocument()`,
   ),
   invalidCaseWithSuggestions(
     `expect(wrapper.getByText('foo')).toHaveLength(1)`,
@@ -278,7 +278,7 @@ const invalid = [
       allQuery: "getAllByText",
     },
     `expect(wrapper.getAllByText('foo')).toHaveLength(1)`,
-    `expect(wrapper.getByText('foo')).toBeInTheDocument()`
+    `expect(wrapper.getByText('foo')).toBeInTheDocument()`,
   ),
   invalidCaseWithSuggestions(
     `const foo = screen.getByText('foo');
@@ -290,7 +290,7 @@ const invalid = [
     `const foo = screen.getAllByText('foo');
     expect(foo).toHaveLength(1);`,
     `const foo = screen.getByText('foo');
-    expect(foo).toBeInTheDocument();`
+    expect(foo).toBeInTheDocument();`,
   ),
   invalidCaseWithSuggestions(
     `const foo = getByText('foo');
@@ -302,7 +302,7 @@ const invalid = [
     `const foo = getAllByText('foo');
     expect(foo).toHaveLength(1);`,
     `const foo = getByText('foo');
-    expect(foo).toBeInTheDocument();`
+    expect(foo).toBeInTheDocument();`,
   ),
   invalidCaseWithSuggestions(
     `let foo;
@@ -317,7 +317,7 @@ const invalid = [
     expect(foo).toHaveLength(1);`,
     `let foo;
     foo = getByText('foo');
-    expect(foo).toBeInTheDocument();`
+    expect(foo).toBeInTheDocument();`,
   ),
   invalidCaseWithSuggestions(
     `let foo;
@@ -332,66 +332,66 @@ const invalid = [
     expect(foo).toHaveLength(1);`,
     `let foo;
     foo = screen.getByText('foo');
-    expect(foo).toBeInTheDocument();`
+    expect(foo).toBeInTheDocument();`,
   ),
 
   // Invalid cases that applies to queryBy* and queryAllBy*
 
   invalidCase(
     `expect(queryByText('foo')).toHaveLength(0)`,
-    `expect(queryByText('foo')).not.toBeInTheDocument()`
+    `expect(queryByText('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')).toBeNull()`,
-    `expect(queryByText('foo')).not.toBeInTheDocument()`
+    `expect(queryByText('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')).not.toBeNull()`,
-    `expect(queryByText('foo')).toBeInTheDocument()`
+    `expect(queryByText('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')) .not .toBeNull()`,
-    `expect(queryByText('foo')).toBeInTheDocument()`
+    `expect(queryByText('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')).toBe(null)`,
-    `expect(queryByText('foo')).not.toBeInTheDocument()`
+    `expect(queryByText('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')).not.toBe(null)`,
-    `expect(queryByText('foo')).toBeInTheDocument()`
+    `expect(queryByText('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')).toEqual(null)`,
-    `expect(queryByText('foo')).not.toBeInTheDocument()`
+    `expect(queryByText('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')).not.toEqual(null)`,
-    `expect(queryByText('foo')).toBeInTheDocument()`
+    `expect(queryByText('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')).toBeDefined()`,
-    `expect(queryByText('foo')).toBeInTheDocument()`
+    `expect(queryByText('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')) .not .toBeDefined()`,
-    `expect(queryByText('foo')) .not .toBeInTheDocument()`
+    `expect(queryByText('foo')) .not .toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')).toBeFalsy()`,
-    `expect(queryByText('foo')).not.toBeInTheDocument()`
+    `expect(queryByText('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')).not.toBeFalsy()`,
-    `expect(queryByText('foo')).toBeInTheDocument()`
+    `expect(queryByText('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')).toBeTruthy()`,
-    `expect(queryByText('foo')).toBeInTheDocument()`
+    `expect(queryByText('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryByText('foo')).not.toBeTruthy()`,
-    `expect(queryByText('foo')).not.toBeInTheDocument()`
+    `expect(queryByText('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `let foo;
@@ -399,7 +399,7 @@ const invalid = [
       expect(foo).toHaveLength(0);`,
     `let foo;
       foo = screen.queryByText('foo');
-      expect(foo).not.toBeInTheDocument();`
+      expect(foo).not.toBeInTheDocument();`,
   ),
   invalidCase(
     `let foo;
@@ -407,34 +407,34 @@ const invalid = [
       expect(foo) .not.toBeNull();`,
     `let foo;
       foo = screen.queryByText('foo');
-      expect(foo).toBeInTheDocument();`
+      expect(foo).toBeInTheDocument();`,
   ),
   invalidCase(
     `let foo = screen.queryByText('foo');
       expect(foo).not.toBeNull();`,
     `let foo = screen.queryByText('foo');
-      expect(foo).toBeInTheDocument();`
+      expect(foo).toBeInTheDocument();`,
   ),
 
   invalidCase(
     `expect(queryAllByText('foo')).toBeNull()`,
-    `expect(queryByText('foo')).not.toBeInTheDocument()`
+    `expect(queryByText('foo')).not.toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryAllByText('foo')).not.toBeNull()`,
-    `expect(queryByText('foo')).toBeInTheDocument()`
+    `expect(queryByText('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryAllByText('foo')) .not .toBeNull()`,
-    `expect(queryByText('foo')).toBeInTheDocument()`
+    `expect(queryByText('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryAllByText('foo')).toBeDefined()`,
-    `expect(queryByText('foo')).toBeInTheDocument()`
+    `expect(queryByText('foo')).toBeInTheDocument()`,
   ),
   invalidCase(
     `expect(queryAllByText('foo')) .not .toBeDefined()`,
-    `expect(queryByText('foo')) .not .toBeInTheDocument()`
+    `expect(queryByText('foo')) .not .toBeInTheDocument()`,
   ),
   invalidCase(
     `let foo;
@@ -442,13 +442,13 @@ const invalid = [
       expect(foo) .not.toBeNull();`,
     `let foo;
       foo = screen.queryByText('foo');
-      expect(foo).toBeInTheDocument();`
+      expect(foo).toBeInTheDocument();`,
   ),
   invalidCase(
     `let foo = screen.queryAllByText('foo');
       expect(foo).not.toBeNull();`,
     `let foo = screen.queryByText('foo');
-      expect(foo).toBeInTheDocument();`
+      expect(foo).toBeInTheDocument();`,
   ),
   //END
   invalidCase(
@@ -457,7 +457,7 @@ const invalid = [
     })`,
     `it("foo", async () => {
       expect(await findByRole("button")).toBeInTheDocument();
-    })`
+    })`,
   ),
   invalidCase(
     `it("foo", async () => {
@@ -465,7 +465,7 @@ const invalid = [
     })`,
     `it("foo", async () => {
       expect(await findByRole("button")).toBeInTheDocument();
-    })`
+    })`,
   ),
   invalidCase(
     `it("foo", async () => {
@@ -473,7 +473,7 @@ const invalid = [
     })`,
     `it("foo", async () => {
       expect(await screen.findByText(/Compressing video/)).toBeInTheDocument();
-    })`
+    })`,
   ),
   invalidCase(
     `it("foo", async () => {
@@ -481,7 +481,7 @@ const invalid = [
     })`,
     `it("foo", async () => {
       expect(await screen.findByText(/Compressing video/)).not.toBeInTheDocument();
-    })`
+    })`,
   ),
 
   invalidCase(
@@ -492,7 +492,7 @@ const invalid = [
     `it("foo", async () => {
       const compressingFeedback = await screen.findByText(/Compressing video/);
       expect(compressingFeedback).toBeInTheDocument();
-    });`
+    });`,
   ),
   invalidCase(
     `it("foo", async () => {
@@ -502,7 +502,7 @@ const invalid = [
     `it("foo", async () => {
       const compressingFeedback = await screen.findByText(/Compressing video/);
       expect(compressingFeedback).toBeInTheDocument();
-    });`
+    });`,
   ),
   invalidCase(
     `it("foo", async () => {
@@ -514,7 +514,7 @@ const invalid = [
       let compressingFeedback;
       compressingFeedback = await screen.findByText(/Compressing video/);
       expect(compressingFeedback).toBeInTheDocument();
-    });`
+    });`,
   ),
   invalidCase(
     `it("foo", async () => {
@@ -526,19 +526,19 @@ const invalid = [
       let compressingFeedback;
       compressingFeedback = await screen.findByText(/Compressing video/);
       expect(compressingFeedback).not.toBeInTheDocument();
-    });`
+    });`,
   ),
   invalidCase(
     `const span = getByText('foo') as HTMLSpanElement
   expect(span).not.toBeNull()`,
     `const span = getByText('foo') as HTMLSpanElement
-  expect(span).toBeInTheDocument()`
+  expect(span).toBeInTheDocument()`,
   ),
   invalidCase(
     `const span = await findByText('foo') as HTMLSpanElement
   expect(span).not.toBeNull()`,
     `const span = await findByText('foo') as HTMLSpanElement
-  expect(span).toBeInTheDocument()`
+  expect(span).toBeInTheDocument()`,
   ),
   invalidCase(
     `let span;
@@ -546,7 +546,7 @@ const invalid = [
   expect(span).not.toBeNull()`,
     `let span;
      span = getByText('foo') as HTMLSpanElement
-  expect(span).toBeInTheDocument()`
+  expect(span).toBeInTheDocument()`,
   ),
 ];
 

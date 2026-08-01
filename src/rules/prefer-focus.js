@@ -26,7 +26,7 @@ export const create = (context) => ({
   [variantsOfDoc
     .map(
       (variant) =>
-        `MemberExpression${variant}[property.name='activeElement'][parent.parent.object.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/to(Be|(Strict)?Equal)$/]`
+        `MemberExpression${variant}[property.name='activeElement'][parent.parent.object.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/to(Be|(Strict)?Equal)$/]`,
     )
     .join(", ")](node) {
     const element = node.parent.parent.parent.parent.callee.parent.arguments[0];
@@ -48,7 +48,7 @@ export const create = (context) => ({
           fixer.removeRange([node.range[0], element.range[0]]),
           fixer.insertTextAfterRange(
             [element.range[1], element.range[1] + 1],
-            ".not.toHaveFocus()"
+            ".not.toHaveFocus()",
           ),
         ];
       },
@@ -57,7 +57,7 @@ export const create = (context) => ({
   [variantsOfDoc
     .map(
       (variant) =>
-        `MemberExpression${variant}[property.name='activeElement'][parent.callee.object.object.callee.name='expect'][parent.callee.property.name=/to(Be|(Strict)?Equal)$/]`
+        `MemberExpression${variant}[property.name='activeElement'][parent.callee.object.object.callee.name='expect'][parent.callee.property.name=/to(Be|(Strict)?Equal)$/]`,
     )
     .join(", ")](node) {
     const matcher = node.parent.callee.property;
@@ -73,7 +73,7 @@ export const create = (context) => ({
   [variantsOfDoc
     .map(
       (variant) =>
-        `MemberExpression${variant}[property.name='activeElement'][parent.callee.name='expect'][parent.parent.property.name=/to(Be|(Strict)?Equal)$/]`
+        `MemberExpression${variant}[property.name='activeElement'][parent.callee.name='expect'][parent.parent.property.name=/to(Be|(Strict)?Equal)$/]`,
     )
     .join(", ")](node) {
     const element = node.parent.parent.parent.arguments[0];
@@ -87,7 +87,7 @@ export const create = (context) => ({
             fixer.removeRange([node.range[0], element.range[0]]),
             fixer.insertTextAfterRange(
               [element.range[1], element.range[1] + 1],
-              ".toHaveFocus()"
+              ".toHaveFocus()",
             ),
           ];
         }
@@ -103,7 +103,7 @@ export const create = (context) => ({
   [variantsOfDoc
     .map(
       (variant) =>
-        `MemberExpression${variant}[property.name='activeElement'][parent.callee.object.callee.name='expect'][parent.callee.property.name=/to(Be|(Strict)?Equal)$/]`
+        `MemberExpression${variant}[property.name='activeElement'][parent.callee.object.callee.name='expect'][parent.callee.property.name=/to(Be|(Strict)?Equal)$/]`,
     )
     .join(", ")](node) {
     const matcher = node.parent.callee.property;

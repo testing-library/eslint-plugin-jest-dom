@@ -80,7 +80,7 @@ export const create = (context) => {
       const assignment = getAssignmentForIdentifier(
         context,
         matcherArguments[0],
-        matcherArguments[0].name
+        matcherArguments[0].name,
       );
       if (!assignment) {
         return;
@@ -145,7 +145,7 @@ export const create = (context) => {
               fix(fixer) {
                 return fixer.replaceText(
                   queryNode.property || queryNode,
-                  allQuery
+                  allQuery,
                 );
               },
             },
@@ -155,7 +155,7 @@ export const create = (context) => {
                 // Remove any arguments in the matcher
                 return [
                   ...Array.from(matcherArguments).map((argument) =>
-                    fixer.remove(argument)
+                    fixer.remove(argument),
                   ),
                   fixer.replaceText(matcherNode, "toBeInTheDocument"),
                 ];
@@ -201,8 +201,8 @@ export const create = (context) => {
           operations.push(
             fixer.replaceText(
               queryNode.property || queryNode,
-              query.replace("All", "")
-            )
+              query.replace("All", ""),
+            ),
           );
           // Flip the .not if necessary
           if (isAntonymMatcher(matcherNode, matcherArguments)) {
@@ -210,8 +210,8 @@ export const create = (context) => {
               operations.push(
                 fixer.replaceTextRange(
                   [expect.range[1], matcherNode.range[1]],
-                  ".toBeInTheDocument"
-                )
+                  ".toBeInTheDocument",
+                ),
               );
 
               return operations;
@@ -232,7 +232,7 @@ export const create = (context) => {
   return {
     // expect(<query>).not.<matcher>
     [`CallExpression[callee.object.object.callee.name='expect'][callee.object.property.name='not'][callee.property.name=${alternativeMatchers}], CallExpression[callee.object.callee.name='expect'][callee.object.property.name='not'][callee.object.arguments.0.argument.callee.name=${alternativeMatchers}]`](
-      node
+      node,
     ) {
       if (!node.callee.object.object.arguments.length) {
         return;
@@ -255,12 +255,12 @@ export const create = (context) => {
     },
     // // const foo = <query> expect(foo).not.<matcher>
     [`MemberExpression[object.object.callee.name=expect][object.property.name=not][property.name=${alternativeMatchers}][object.object.arguments.0.type=Identifier]`](
-      node
+      node,
     ) {
       const queryNode = getAssignmentForIdentifier(
         context,
         node,
-        node.object.object.arguments[0].name
+        node.object.object.arguments[0].name,
       );
 
       // Not an RTL query
@@ -283,13 +283,13 @@ export const create = (context) => {
     },
     // const foo = <query> expect(foo).<matcher>
     [`MemberExpression[object.callee.name=expect][property.name=${alternativeMatchers}][object.arguments.0.type=Identifier]`](
-      node
+      node,
     ) {
       // Value expression being assigned to the left-hand value
       const rightValueNode = getAssignmentForIdentifier(
         context,
         node,
-        node.object.arguments[0].name
+        node.object.arguments[0].name,
       );
 
       // Not a DTL query
@@ -312,7 +312,7 @@ export const create = (context) => {
     // expect(await <query>).<matcher>
     // expect(<query>).<matcher>
     [`CallExpression[callee.object.callee.name='expect'][callee.property.name=${alternativeMatchers}], CallExpression[callee.object.callee.name='expect'][callee.object.arguments.0.argument.callee.name=${alternativeMatchers}]`](
-      node
+      node,
     ) {
       const arg = node.callee.object.arguments[0];
 
