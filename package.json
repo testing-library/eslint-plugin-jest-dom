@@ -35,7 +35,7 @@
     "regenerate-docs": "npm run build && eslint-doc-generator",
     "lint": "kcd-scripts lint",
     "setup": "npm install",
-    "test": "jest --watch",
+    "test": "jest",
     "test:coverage": "npm test -- --coverage",
     "test:update": "npm test:coverage -- --updateSnapshot"
   },
@@ -100,7 +100,6 @@
     "jest": "^28.1.3",
     "jest-serializer-path": "^0.1.15",
     "jest-snapshot-serializer-raw": "^1.2.0",
-    "jest-watch-typeahead": "^1.1.0",
     "kcd-scripts": "^12.0.0",
     "prettier": "^2.0.0",
     "semver": "^7.6.0",

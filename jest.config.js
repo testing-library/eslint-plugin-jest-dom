@@ -8,10 +8,6 @@ const config = {
       statements: 100,
     },
   },
-  watchPlugins: [
-    require.resolve("jest-watch-typeahead/filename"),
-    require.resolve("jest-watch-typeahead/testname"),
-  ],
   snapshotSerializers: [
     require.resolve("jest-serializer-path"),
     require.resolve("jest-snapshot-serializer-raw/always"),
