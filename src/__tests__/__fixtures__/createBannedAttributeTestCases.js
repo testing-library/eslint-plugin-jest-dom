@@ -1,5 +1,3 @@
- 
-
 export default ({ preferred, negatedPreferred, mixedPreferred, attribute }) => {
   // covers toBeDisabled / toBeEnabled
   const doubleNegativeCases = negatedPreferred.startsWith("toBe")

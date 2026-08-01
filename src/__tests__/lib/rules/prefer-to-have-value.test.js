@@ -1,4 +1,3 @@
- 
 /**
  * @fileoverview Prefer toBeEmptyDOMElement over checking innerHTML
  * @author Ben Monro
