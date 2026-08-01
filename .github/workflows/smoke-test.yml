@@ -19,11 +19,9 @@ jobs:
         with:
           useLockFile: false
       - run: |
-          npm i -D eslint@8
           npm run build
           npm link
           npm link eslint-plugin-jest-dom
-      - uses: AriPerkkio/eslint-remote-tester-run-action@v4
+      - uses: AriPerkkio/eslint-remote-tester-run-action@v6
         with:
           issue-title: "Results of weekly scheduled smoke test"
-          eslint-remote-tester-config: smoke-test/eslint-remote-tester.config.js

@@ -1,7 +1,11 @@
+"use strict";
+
+const parser = require("@typescript-eslint/parser");
 const {
   getRepositories,
   getPathIgnorePattern,
 } = require("eslint-remote-tester-repositories");
+const plugin = require("./dist");
 
 module.exports = {
   repositories: getRepositories({ randomize: true }),
@@ -10,19 +14,8 @@ module.exports = {
   concurrentTasks: 3,
   cache: false,
   logLevel: "info",
-  eslintrc: {
-    root: true,
-    env: {
-      es6: true,
-    },
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-      ecmaVersion: 2020,
-      sourceType: "module",
-      ecmaFeatures: {
-        jsx: true,
-      },
-    },
-    extends: ["plugin:jest-dom/all"],
-  },
+  eslintConfig: [
+    plugin.configs["flat/all"], //
+    { languageOptions: { parser } },
+  ],
 };
