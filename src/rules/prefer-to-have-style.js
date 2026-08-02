@@ -40,7 +40,7 @@ export const create = (context) => {
 
   return {
     //expect(el.style.foo).toBe("bar");
-    [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.arguments.0.type=/(Template)?Literal/][parent.parent.callee.name=expect]`](
+    [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.arguments.0.type=/((Template)?Literal)|Identifier/][parent.parent.callee.name=expect]`](
       node,
     ) {
       const styleName = node.parent.property;
@@ -64,7 +64,7 @@ export const create = (context) => {
       });
     },
     //expect(el.style.foo).not.toBe("bar");
-    [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=not][parent.parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.parent.arguments.0.type=/(Template)?Literal$/][parent.parent.callee.name=expect]`](
+    [`MemberExpression[property.name=style][parent.computed=false][parent.parent.parent.property.name=not][parent.parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/][parent.parent.parent.parent.parent.arguments.0.type=/(((Template)?Literal)|Identifier)$/][parent.parent.callee.name=expect]`](
       node,
     ) {
       const styleName = node.parent.property;
@@ -88,7 +88,7 @@ export const create = (context) => {
       });
     },
     // expect(el.style).toContain("foo-bar")
-    [`MemberExpression[property.name=style][parent.parent.property.name=toContain][parent.parent.parent.arguments.0.type=/(Template)?Literal$/][parent.callee.name=expect]`](
+    [`MemberExpression[property.name=style][parent.parent.property.name=toContain][parent.parent.parent.arguments.0.type=/(((Template)?Literal)|Identifier)$/][parent.callee.name=expect]`](
       node,
     ) {
       const [styleName] = node.parent.parent.parent.arguments;
@@ -112,7 +112,7 @@ export const create = (context) => {
       });
     },
     // expect(el.style).not.toContain("foo-bar")
-    [`MemberExpression[property.name=style][parent.parent.property.name=not][parent.parent.parent.property.name=toContain][parent.parent.parent.parent.arguments.0.type=/(Template)?Literal$/]`](
+    [`MemberExpression[property.name=style][parent.parent.property.name=not][parent.parent.parent.property.name=toContain][parent.parent.parent.parent.arguments.0.type=/(((Template)?Literal)|Identifier)$/]`](
       node,
     ) {
       const [styleName] = node.parent.parent.parent.parent.arguments;

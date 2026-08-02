@@ -47,9 +47,19 @@ ruleTester.run("prefer-to-have-style", rule, {
       output: `expect(el).toHaveStyle({foo:"bar"})`,
     },
     {
+      code: `expect(el.style.foo).toBe(bar)`,
+      errors,
+      output: `expect(el).toHaveStyle({foo:bar})`,
+    },
+    {
       code: `expect(el.style.foo).not.toBe("bar")`,
       errors,
       output: `expect(el).not.toHaveStyle({foo:"bar"})`,
+    },
+    {
+      code: `expect(el.style.foo).not.toBe(bar)`,
+      errors,
+      output: `expect(el).not.toHaveStyle({foo:bar})`,
     },
     {
       code: "expect(el.style.backgroundImage).toBe(`url(${foo})`)",
@@ -97,9 +107,19 @@ ruleTester.run("prefer-to-have-style", rule, {
       output: `expect(el).toHaveStyle(\`background-color\`)`,
     },
     {
+      code: `expect(el.style).toContain(bar)`,
+      errors,
+      output: `expect(el).toHaveStyle(bar)`,
+    },
+    {
       code: `expect(el.style).not.toContain(\`background-color\`)`,
       errors,
       output: `expect(el).not.toHaveStyle(\`background-color\`)`,
+    },
+    {
+      code: `expect(el.style).not.toContain(bar)`,
+      errors,
+      output: `expect(el).not.toHaveStyle(bar)`,
     },
     {
       code: `expect(el.style).not.toContain("background-color")`,
