@@ -90,7 +90,9 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
           context,
           node.callee.object.arguments[0],
         );
-        if (!isDTLQuery) return;
+        if (!isDTLQuery) {
+          return;
+        }
         const isNegated =
           matcher.endsWith("Falsy") ||
           ((matcher === "toBe" || matcher === "toEqual") &&
@@ -148,7 +150,9 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
           node.callee.object.arguments[0],
         );
 
-        if (!isDTLQuery) return;
+        if (!isDTLQuery) {
+          return;
+        }
         const correctFunction = getCorrectFunctionFor(node);
 
         const incorrectFunction = node.callee.property.name;

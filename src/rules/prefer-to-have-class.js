@@ -75,7 +75,9 @@ export const create = (context) => ({
       messageId,
       fix(fixer) {
         //can't autofix here as it toHaveClass doesn't have a partial matcher / regex for class names.
-        if (matcher.name === "toContain") return;
+        if (matcher.name === "toContain") {
+          return;
+        }
         return [
           fixer.removeRange([
             classNameProp.object.range[1],
@@ -111,7 +113,9 @@ export const create = (context) => ({
     const classNameProp = node.callee.object.arguments[0].object;
 
     const { isDTLQuery } = getQueryNodeFrom(context, classNameProp);
-    if (!isDTLQuery) return;
+    if (!isDTLQuery) {
+      return;
+    }
     // don't report here if using `expect.foo()`
 
     if (
@@ -154,13 +158,17 @@ export const create = (context) => ({
     const classNameProp = node.callee.object.arguments[0].object;
     const matcherArg = node.arguments[0].callee.property;
     const { isDTLQuery } = getQueryNodeFrom(context, classNameProp);
-    if (!isDTLQuery) return;
+    if (!isDTLQuery) {
+      return;
+    }
 
     context.report({
       node: matcher,
       messageId,
       fix(fixer) {
-        if (matcherArg.name !== "stringContaining") return;
+        if (matcherArg.name !== "stringContaining") {
+          return;
+        }
         return [
           fixer.removeRange([classNameProp.range[1], className.range[1]]),
           fixer.replaceText(matcher, "toHaveClass"),
@@ -183,7 +191,9 @@ export const create = (context) => ({
     const classNameProp = node.callee.object.object.arguments[0].object;
 
     const { isDTLQuery } = getQueryNodeFrom(context, classNameProp);
-    if (!isDTLQuery) return;
+    if (!isDTLQuery) {
+      return;
+    }
     context.report({
       node: matcher,
       messageId,
@@ -229,7 +239,9 @@ export const create = (context) => ({
       context,
       node.callee.object.arguments[0],
     );
-    if (!isDTLQuery) return;
+    if (!isDTLQuery) {
+      return;
+    }
     context.report({
       node: matcher,
       messageId,
@@ -269,7 +281,9 @@ export const create = (context) => ({
       context,
       node.callee.object.object.arguments[0],
     );
-    if (!isDTLQuery) return;
+    if (!isDTLQuery) {
+      return;
+    }
     context.report({
       node: matcher,
       messageId,
@@ -310,7 +324,9 @@ export const create = (context) => ({
       context,
       node.callee.object.arguments[0],
     );
-    if (!isDTLQuery) return;
+    if (!isDTLQuery) {
+      return;
+    }
 
     context.report({
       node: matcher,

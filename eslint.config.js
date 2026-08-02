@@ -54,7 +54,7 @@ module.exports = [
       "block-scoped-var": "error",
       complexity: ["error", 20],
       "constructor-super": "error",
-      curly: ["error", "multi-line"],
+      curly: "error",
       "default-case": "error",
       "default-case-last": "error",
       "dot-notation": "error",
