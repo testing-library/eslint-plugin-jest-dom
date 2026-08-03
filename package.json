@@ -56,7 +56,7 @@
     "eslint-remote-tester-repositories": "^2.0.0",
     "globals": "^17.8.0",
     "jest": "^28.1.3",
-    "jest-snapshot-serializer-raw": "^1.2.0",
+    "jest-snapshot-serializer-raw": "^2.0.0",
     "prettier": "^3.9.6",
     "semver": "^7.6.0"
   },
