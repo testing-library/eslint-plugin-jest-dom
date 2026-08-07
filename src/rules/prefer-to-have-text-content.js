@@ -47,34 +47,20 @@ export const create = (context) => ({
       },
     });
   },
-  [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
+  [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name=/^(toBe|toEqual|toStrictEqual)$/]`](
     node,
   ) {
     context.report({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
-      fix: (fixer) => [
-        fixer.removeRange([node.object.range[1], node.property.range[1]]),
-        fixer.replaceTextRange(
-          node.parent.parent.property.range,
-          "toHaveTextContent",
-        ),
-      ],
     });
   },
-  [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toBe$|to(Strict)?Equal/]`](
+  [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/^(toBe|toEqual|toStrictEqual)$/]`](
     node,
   ) {
     context.report({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
-      fix: (fixer) => [
-        fixer.removeRange([node.object.range[1], node.property.range[1]]),
-        fixer.replaceTextRange(
-          node.parent.parent.parent.property.range,
-          "toHaveTextContent",
-        ),
-      ],
     });
   },
   [`MemberExpression[property.name='textContent'][parent.callee.name='expect'][parent.parent.property.name='not'][parent.parent.parent.property.name=/toContain$|toMatch$/]`](
