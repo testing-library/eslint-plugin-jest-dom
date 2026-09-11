@@ -77,7 +77,7 @@ jobs:
       matrix:
         eslint: [6, 7, 8, 9, 10]
         node: [20.19.0, 20, 22.13.0, 22, 24.0.0, 24, 26]
-        testing-library-dom: [8, 9, 10]
+        testing-library-dom: [10.0.0, 10]
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
