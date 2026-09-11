@@ -75,7 +75,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        eslint: [6, 7, 8, 9, 10]
+        eslint: [8, 9, 10]
         node: [20.19.0, 20, 22.13.0, 22, 24.0.0, 24, 26]
         testing-library-dom: [8, 9, 10]
     runs-on: ubuntu-latest
