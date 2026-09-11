@@ -39,6 +39,11 @@
     "test:coverage": "npm test -- --coverage",
     "test:update": "npm test:coverage -- --updateSnapshot"
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "dependencies": {
     "requireindex": "^1.2.0"
   },
