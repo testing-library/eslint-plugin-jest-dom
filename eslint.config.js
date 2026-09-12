@@ -1,7 +1,7 @@
 "use strict";
 
 const parserTypeScriptESLint = require("@typescript-eslint/parser");
-const pluginImport = require("eslint-plugin-import");
+const { importX } = require("eslint-plugin-import-x");
 const pluginJest = require("eslint-plugin-jest");
 const configPrettier = require("eslint-config-prettier/prettier");
 const globals = require("globals");
@@ -10,34 +10,34 @@ module.exports = [
   { files: ["**/*.{js,jsx,cjs,mjs,ts,tsx,cts,mts}"] },
   { ignores: [".yarn", "coverage/", "dist/", "src/rules/__tests__/fixtures"] },
   {
-    plugins: { import: pluginImport },
+    plugins: { 'import-x': importX },
     languageOptions: {
       globals: globals.node,
     },
     rules: {
       ...configPrettier.rules,
-      "import/consistent-type-specifier-style": ["error", "prefer-inline"],
-      "import/default": "error",
-      "import/export": "error",
-      "import/first": "error",
-      "import/named": "error",
-      "import/namespace": "error",
-      "import/no-absolute-path": "error",
-      "import/no-amd": "error",
-      "import/no-deprecated": "warn", // this is an in progress rule
-      "import/no-duplicates": "error",
-      "import/no-empty-named-blocks": "error",
-      "import/no-extraneous-dependencies": "error",
-      "import/no-import-module-exports": "error",
-      "import/no-mutable-exports": "error",
-      "import/no-named-as-default": "error",
-      "import/no-named-as-default-member": "error",
-      "import/no-named-default": "error",
-      "import/no-relative-packages": "warn",
-      "import/no-self-import": "error",
-      "import/no-unresolved": "error",
-      "import/no-webpack-loader-syntax": "error",
-      "import/order": [
+      "import-x/consistent-type-specifier-style": ["error", "prefer-inline"],
+      "import-x/default": "error",
+      "import-x/export": "error",
+      "import-x/first": "error",
+      "import-x/named": "error",
+      "import-x/namespace": "error",
+      "import-x/no-absolute-path": "error",
+      "import-x/no-amd": "error",
+      "import-x/no-deprecated": "warn", // this is an in progress rule
+      "import-x/no-duplicates": "error",
+      "import-x/no-empty-named-blocks": "error",
+      "import-x/no-extraneous-dependencies": "error",
+      "import-x/no-import-module-exports": "error",
+      "import-x/no-mutable-exports": "error",
+      "import-x/no-named-as-default": "error",
+      "import-x/no-named-as-default-member": "error",
+      "import-x/no-named-default": "error",
+      "import-x/no-relative-packages": "warn",
+      "import-x/no-self-import": "error",
+      "import-x/no-unresolved": "error",
+      "import-x/no-webpack-loader-syntax": "error",
+      "import-x/order": [
         "warn",
         {
           groups: [
