@@ -1,4 +1,5 @@
 import { getQueryNodeFrom } from "./assignment-ast";
+import { propertyAccessRange } from "./context";
 
 export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
   (context) => {
@@ -79,7 +80,7 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
         }
 
         const {
-          arguments: [{ object, property, property: { name } = {} }],
+          arguments: [{ property, property: { name } = {} }],
         } = node.callee.object;
         const matcher = node.callee.property.name;
         const matcherArg = node.arguments.length && node.arguments[0].value;
@@ -105,7 +106,7 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attributes }) =>
           node,
           message: `Use ${correctFunction}() instead of checking .${name} directly`,
           fix: (fixer) => [
-            fixer.removeRange([object.range[1], property.range[1]]),
+            fixer.removeRange(propertyAccessRange(context, property)),
             fixer.replaceTextRange(
               [node.callee.property.range[0], node.range[1]],
               `${correctFunction}()`,
