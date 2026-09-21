@@ -44,5 +44,5 @@ elements.
 
 ## Further Reading
 
-- [jest-dom toHaveStyle](https://github.com/testing-library/jest-dom#tohaveclass)
+- [jest-dom toHaveClass](https://github.com/testing-library/jest-dom#tohaveclass)
 - [ElementCSSInlineStyle.class](https://developer.mozilla.org/en-US/docs/Web/API/ElementCSSInlineStyle/class)

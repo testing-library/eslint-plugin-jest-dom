@@ -15,7 +15,7 @@ This rule is an autofixable rule that reports usages of `getAttribute` or
 ## Rule Details
 
 This checks the various built in jest-dom matchers when used in conjunction with
-get/hasAttribute. The only valid use case if when using greater/less than
+get/hasAttribute. The only valid use case is when using greater/less than
 matchers since there isn't any equivalent use with `toHaveAttribute()`
 
 Examples of **incorrect** code for this rule:

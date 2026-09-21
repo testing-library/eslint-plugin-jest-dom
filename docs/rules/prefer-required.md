@@ -14,7 +14,7 @@ This rule aims to prevent false positives and improve readability and should
 only be used with the `@testing-library/jest-dom` package. See below for
 examples of those potential issues and why this rule is recommended. The rule is
 autofixable and will replace any instances of `.toHaveProperty()` or
-`.toHaveAttribute()` with `toBeRequired()` or `not.toBeRequired` as appropriate.
+`.toHaveAttribute()` with `toBeRequired()` or `not.toBeRequired()` as appropriate.
 
 ### False positives
 

@@ -43,6 +43,6 @@ elements.
 
 ## Further Reading
 
-- [jest-dom toHaveAttribute](https://github.com/testing-library/jest-dom#tohaveattribute)
+- [jest-dom toHaveValue](https://github.com/testing-library/jest-dom#tohavevalue)
 - [getAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute)
 - [hasAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/hasAttribute)

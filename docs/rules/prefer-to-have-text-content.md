@@ -43,4 +43,4 @@ improvements that `toHaveTextContent` offers to your expects.
 
 ## Further Reading
 
-- [Docs on toHaveContent](https://github.com/testing-library/jest-dom#tohavetextcontent)
+- [Docs on toHaveTextContent](https://github.com/testing-library/jest-dom#tohavetextcontent)

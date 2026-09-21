@@ -10,8 +10,8 @@
 
 ## Rule Details
 
-This rule enforces checking existance of DOM nodes using `.toBeInTheDocument()`.
-The rule prefers that matcher over various existance checks such as `.toHaveLength(1)`, `.not.toBeNull()` and
+This rule enforces checking existence of DOM nodes using `.toBeInTheDocument()`.
+The rule prefers that matcher over various existence checks such as `.toHaveLength(1)`, `.not.toBeNull()` and
 similar.
 However it's considered OK to use `.toHaveLength(value)` matcher with `*AllBy*` queries.
 
