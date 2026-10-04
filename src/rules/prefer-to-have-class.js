@@ -239,7 +239,7 @@ export const create = (context) => ({
       context,
       node.callee.object.arguments[0],
     );
-    if (!isDTLQuery) {
+    if (matcher.name === "toHaveProperty" && !isDTLQuery) {
       return;
     }
     context.report({
@@ -281,7 +281,7 @@ export const create = (context) => ({
       context,
       node.callee.object.object.arguments[0],
     );
-    if (!isDTLQuery) {
+    if (matcher.name === "toHaveProperty" && !isDTLQuery) {
       return;
     }
     context.report({
@@ -324,7 +324,7 @@ export const create = (context) => ({
       context,
       node.callee.object.arguments[0],
     );
-    if (!isDTLQuery) {
+    if (matcher.name === "toHaveProperty" && !isDTLQuery) {
       return;
     }
 

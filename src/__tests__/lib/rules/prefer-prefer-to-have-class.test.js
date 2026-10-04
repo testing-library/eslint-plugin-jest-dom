@@ -47,6 +47,21 @@ ruleTester.run("prefer-to-have-class", rule, {
   ],
   invalid: [
     {
+      code: `expect(document.body).toHaveAttribute("class", "foo")`,
+      errors,
+      output: `expect(document.body).toHaveClass("foo", { exact: true })`,
+    },
+    {
+      code: `expect(document.body).not.toHaveAttribute("class", "foo")`,
+      errors,
+      output: `expect(document.body).not.toHaveClass("foo", { exact: true })`,
+    },
+    {
+      code: `expect(document.body).toHaveAttribute("class", expect.stringContaining("foo"))`,
+      errors,
+      output: `expect(document.body).toHaveClass("foo")`,
+    },
+    {
       code: `expect(screen.getByRole("button").className).toBe("foo")`,
       errors,
       output: `expect(screen.getByRole("button")).toHaveClass("foo", { exact: true })`,
