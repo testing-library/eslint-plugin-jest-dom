@@ -29,6 +29,12 @@ ruleTester.run("prefer-to-have-value", rule, {
     `expect(element.value).toBeLessThan(2);`,
 
     `expect(element).toHaveAttribute('my-value', 'foo')`,
+    `expect(element).not.toHaveAttribute('my-value', 'foo')`,
+    `expect(element).not.toHaveAttribute('data-value', 'foo')`,
+    `expect(element).not.toHaveAttribute('data-aria-valuenow', 'foo')`,
+    `expect(result).not.toHaveProperty('newvalue', 'foo')`,
+    `expect(element).toHavePropertyValue('value', 'foo')`,
+    `expect(element).not.toHavePropertyValue('value', 'foo')`,
 
     `const element = document.getElementById('asdfasf');
     expect(element.value).toEqual('foo');`,
