@@ -144,7 +144,7 @@ export const create = (context) => {
 
     //expect(element).toHaveAttribute('value', 'foo')  / Property
     //expect(element).toHaveAttribute('aria-valuenow', 'foo')  / Property
-    [`CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=/^(value|aria-valuenow)$/][arguments.1][callee.object.callee.name=expect], CallExpression[callee.property.name=/toHave(Attribute|Property)/][arguments.0.value=/(value|aria-valuenow)$/][arguments.1][callee.object.object.callee.name=expect][callee.object.property.name=not]`](
+    [`CallExpression[callee.property.name=/^toHave(Attribute|Property)$/][arguments.0.value=/^(value|aria-valuenow)$/][arguments.1][callee.object.callee.name=expect], CallExpression[callee.property.name=/^toHave(Attribute|Property)$/][arguments.0.value=/^(value|aria-valuenow)$/][arguments.1][callee.object.object.callee.name=expect][callee.object.property.name=not]`](
       node,
     ) {
       const matcher = node.callee.property;
