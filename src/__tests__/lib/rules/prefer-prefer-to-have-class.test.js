@@ -6,6 +6,12 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ruleTester.run("prefer-to-have-class", rule, {
   valid: [
     `expect().toBe(true)`,
+    // classList.length and classList.value are not class names
+    `const el = screen.getByText("foo"); expect(el.classList.length).toBe(0)`,
+    `const el = screen.getByText("foo"); expect(el.classList.length).toEqual(2)`,
+    `const el = screen.getByText("foo"); expect(el.classList.length).not.toBe(0)`,
+    `const el = screen.getByText("foo"); expect(el.classList.value).toBe("bar baz")`,
+    `const el = screen.getByText("foo"); expect(el.classList.value).not.toBe("bar")`,
     `const el = screen.getByText("foo"); expect(el).toHaveClass("bar")`,
     `const el = screen.getByText("foo"); expect(el.class).toEqual(foo)`,
     `const el = screen.getByText("foo"); expect(el).toHaveAttribute("class")`,

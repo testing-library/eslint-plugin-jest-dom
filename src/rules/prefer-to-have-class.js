@@ -62,7 +62,7 @@ export const create = (context) => ({
   },
 
   //expect(el.classList[0]).toBe("bar")
-  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.object.property.name=classList][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
+  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.object.property.name=classList][callee.object.arguments.0.computed=true][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
     node,
   ) {
     const [classValue] = node.arguments;
@@ -94,7 +94,7 @@ export const create = (context) => ({
   },
 
   //expect(el.classList[0]).not.toBe("bar")
-  [`CallExpression[callee.object.object.callee.name=expect][callee.object.object.arguments.0.object.property.name=classList][callee.object.property.name=not][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
+  [`CallExpression[callee.object.object.callee.name=expect][callee.object.object.arguments.0.object.property.name=classList][callee.object.object.arguments.0.computed=true][callee.object.property.name=not][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
     node,
   ) {
     //can't autofix this case because the class could be in another element of the classList array.
