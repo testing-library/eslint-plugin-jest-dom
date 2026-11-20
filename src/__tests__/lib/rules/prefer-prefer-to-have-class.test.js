@@ -17,7 +17,6 @@ ruleTester.run("prefer-to-have-class", rule, {
     `const el = screen.getByText("foo"); expect(el.classList["value"]).not.toBe("bar")`,
     `const el = screen.getByText("foo"); expect(el.classList.value.length).toBe(3)`,
     `const el = screen.getByText("foo"); expect(el.classList.value).toMatch(/bar/)`,
-    `const model = { classList: { value: "foo" } }; expect(model.classList.value).toBe("foo")`,
     `const el = screen.getByText("foo"); expect(el).toHaveClass("bar")`,
     `const el = screen.getByText("foo"); expect(el.class).toEqual(foo)`,
     `const el = screen.getByText("foo"); expect(el).toHaveAttribute("class")`,

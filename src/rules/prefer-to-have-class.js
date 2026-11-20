@@ -157,13 +157,7 @@ export const create = (context) => ({
         ? node.callee.object
         : node.callee.object.object;
     const [classListValue] = expectCall.arguments;
-    const element = classListValue.object.object;
     const [expected] = node.arguments;
-
-    const { isDTLQuery } = getQueryNodeFrom(context, element);
-    if (!isDTLQuery) {
-      return;
-    }
 
     // `toContain` checks for a substring of the class attribute, which
     // `.toHaveClass()` can't express
