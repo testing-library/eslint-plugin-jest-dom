@@ -33,6 +33,19 @@ const isClassListIndex = ({ property }) => {
     (typeof key === "string" && /^(0|[1-9]\d*)$/.test(key))
   );
 };
+
+// `expect.stringContaining(...)`, `expect.not.stringMatching(...)`, `expect.any(...)`, etc.
+const isAsymmetricMatcher = (node) => {
+  if (node.type !== "CallExpression") {
+    return false;
+  }
+  let callee = node.callee;
+  while (callee.type === "MemberExpression") {
+    callee = callee.object;
+  }
+  return callee.type === "Identifier" && callee.name === "expect";
+};
+
 export const meta = {
   docs: {
     category: "Best Practices",
@@ -132,6 +145,60 @@ export const create = (context) => ({
       messageId,
     });
   },
+  //expect(el.classList.value).toBe("foo bar") / toStrict?Equal / toContain
+  //expect(el.classList.value).not.toBe("foo bar") / toStrict?Equal / toContain
+  [[
+    `CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.computed=false][callee.object.arguments.0.property.name=value][callee.object.arguments.0.object.computed=false][callee.object.arguments.0.object.property.name=classList][callee.property.name=/^(toBe|to(Strict)?Equal|toContain)$/]`,
+    `CallExpression[callee.object.object.callee.name=expect][callee.object.object.arguments.0.computed=false][callee.object.object.arguments.0.property.name=value][callee.object.object.arguments.0.object.computed=false][callee.object.object.arguments.0.object.property.name=classList][callee.object.property.name=not][callee.property.name=/^(toBe|to(Strict)?Equal|toContain)$/]`,
+  ].join(",")](node) {
+    const matcher = node.callee.property;
+    const expectCall =
+      node.callee.object.type === "CallExpression"
+        ? node.callee.object
+        : node.callee.object.object;
+    const [classListValue] = expectCall.arguments;
+    const [expected] = node.arguments;
+
+    // `toContain` checks for a substring of the class attribute, which
+    // `.toHaveClass()` can't express
+    // an asymmetric matcher such as `expect.stringContaining("foo")` can't be
+    // passed to `.toHaveClass()`, and neither can a regex or other non-string
+    // literal when `exact` is set
+    if (
+      matcher.name === "toContain" ||
+      node.arguments.length !== 1 ||
+      isAsymmetricMatcher(expected) ||
+      (expected.type === "Literal" && typeof expected.value !== "string")
+    ) {
+      context.report({ node: matcher, messageId });
+      return;
+    }
+
+    const sourceCode = getSourceCode(context);
+    // the `.` before `classList`, so parentheses around the element are kept
+    const classListDot = sourceCode.getTokenBefore(
+      classListValue.object.property,
+    );
+    // the options go after the last argument, outside any parentheses
+    // around it and before a trailing comma's closing `)`
+    const closingParen = sourceCode.getLastToken(node);
+    const beforeClosingParen = sourceCode.getTokenBefore(closingParen);
+
+    // `.toHaveClass()` splits each string on whitespace, so the expected
+    // value can be passed through as is
+    context.report({
+      node: matcher,
+      messageId,
+      fix: (fixer) => [
+        fixer.removeRange([classListDot.range[0], classListValue.range[1]]),
+        fixer.replaceText(matcher, "toHaveClass"),
+        beforeClosingParen.value === ","
+          ? fixer.insertTextAfter(beforeClosingParen, " { exact: true }")
+          : fixer.insertTextBefore(closingParen, ", { exact: true }"),
+      ],
+    });
+  },
+
   //expect(el.className | el.classList).toBe("bar") / toStrict?Equal / toContain
   [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.property.name=/class(Name|List)/][callee.property.name=/toBe$|to(Strict)?Equal|toContain/]`](
     node,
