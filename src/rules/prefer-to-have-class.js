@@ -160,18 +160,35 @@ export const create = (context) => ({
     const element = classListValue.object.object;
     const [expected] = node.arguments;
 
+    const { isDTLQuery } = getQueryNodeFrom(context, element);
+    if (!isDTLQuery) {
+      return;
+    }
+
     // `toContain` checks for a substring of the class attribute, which
     // `.toHaveClass()` can't express
     // an asymmetric matcher such as `expect.stringContaining("foo")` can't be
-    // passed to `.toHaveClass()`
+    // passed to `.toHaveClass()`, and neither can a regex or other non-string
+    // literal when `exact` is set
     if (
       matcher.name === "toContain" ||
       node.arguments.length !== 1 ||
-      isAsymmetricMatcher(expected)
+      isAsymmetricMatcher(expected) ||
+      (expected.type === "Literal" && typeof expected.value !== "string")
     ) {
       context.report({ node: matcher, messageId });
       return;
     }
+
+    const sourceCode = getSourceCode(context);
+    // the `.` before `classList`, so parentheses around the element are kept
+    const classListDot = sourceCode.getTokenBefore(
+      classListValue.object.property,
+    );
+    // the options go after the last argument, outside any parentheses
+    // around it and before a trailing comma's closing `)`
+    const closingParen = sourceCode.getLastToken(node);
+    const beforeClosingParen = sourceCode.getTokenBefore(closingParen);
 
     // `.toHaveClass()` splits each string on whitespace, so the expected
     // value can be passed through as is
@@ -179,9 +196,11 @@ export const create = (context) => ({
       node: matcher,
       messageId,
       fix: (fixer) => [
-        fixer.removeRange([element.range[1], classListValue.range[1]]),
+        fixer.removeRange([classListDot.range[0], classListValue.range[1]]),
         fixer.replaceText(matcher, "toHaveClass"),
-        fixer.insertTextAfter(expected, ", { exact: true }"),
+        beforeClosingParen.value === ","
+          ? fixer.insertTextAfter(beforeClosingParen, " { exact: true }")
+          : fixer.insertTextBefore(closingParen, ", { exact: true }"),
       ],
     });
   },
