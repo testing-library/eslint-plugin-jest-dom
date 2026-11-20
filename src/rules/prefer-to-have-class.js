@@ -11,6 +11,28 @@ import { getSourceCode } from "../context";
 //------------------------------------------------------------------------------
 
 const messageId = "use-to-have-class";
+
+/**
+ * `classList[x]` is a class name only when `x` is an index. Keys like
+ * `classList["length"]` or `classList["value"]` read other properties.
+ */
+const isClassListIndex = ({ property }) => {
+  let key;
+  if (property.type === "Literal") {
+    key = property.value;
+  } else if (
+    property.type === "TemplateLiteral" &&
+    property.expressions.length === 0
+  ) {
+    key = property.quasis[0].value.cooked;
+  } else {
+    return true;
+  }
+  return (
+    typeof key === "number" ||
+    (typeof key === "string" && /^(0|[1-9]\d*)$/.test(key))
+  );
+};
 export const meta = {
   docs: {
     category: "Best Practices",
@@ -62,13 +84,17 @@ export const create = (context) => ({
   },
 
   //expect(el.classList[0]).toBe("bar")
-  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.object.property.name=classList][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
+  [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.object.property.name=classList][callee.object.arguments.0.computed=true][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
     node,
   ) {
     const [classValue] = node.arguments;
     const matcher = node.callee.property;
     const classNameProp = node.callee.object.arguments[0].object;
     const expectArg = node.callee.object.arguments[0];
+
+    if (!isClassListIndex(expectArg)) {
+      return;
+    }
 
     context.report({
       node: matcher,
@@ -94,9 +120,12 @@ export const create = (context) => ({
   },
 
   //expect(el.classList[0]).not.toBe("bar")
-  [`CallExpression[callee.object.object.callee.name=expect][callee.object.object.arguments.0.object.property.name=classList][callee.object.property.name=not][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
+  [`CallExpression[callee.object.object.callee.name=expect][callee.object.object.arguments.0.object.property.name=classList][callee.object.object.arguments.0.computed=true][callee.object.property.name=not][callee.property.name=/toBe$|to(Strict)?Equal|toContain/][arguments.0.type=/Literal$/]`](
     node,
   ) {
+    if (!isClassListIndex(node.callee.object.object.arguments[0])) {
+      return;
+    }
     //can't autofix this case because the class could be in another element of the classList array.
     context.report({
       node,
