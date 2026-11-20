@@ -26,6 +26,7 @@ expect(el).toHaveAttribute("class", "qux");
 
 expect(el.classList[0]).toBe("foo");
 expect(el.classList[0]).toBe("bar");
+expect(el.classList.value).toBe("foo bar");
 ```
 
 Examples of **correct** code for this rule:

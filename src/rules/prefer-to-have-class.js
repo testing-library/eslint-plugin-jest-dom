@@ -11,6 +11,7 @@ import { getSourceCode } from "../context";
 //------------------------------------------------------------------------------
 
 const messageId = "use-to-have-class";
+const suggestionId = "replace-with-to-have-class";
 
 /**
  * `classList[x]` is a class name only when `x` is an index. Keys like
@@ -42,8 +43,23 @@ export const meta = {
   },
   messages: {
     [messageId]: `Prefer .toHaveClass() over checking element className`,
+    [suggestionId]: `Replace with .toHaveClass()`,
   },
   fixable: "code",
+  hasSuggestions: true,
+};
+
+// `"foo  bar"` -> `"foo", "bar"`, keeping the quote style of the original literal
+const splitClassNames = (literal) => {
+  const quote = literal.raw[0];
+  return literal.value
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((name) =>
+      name.includes(quote) || name.includes("\\")
+        ? JSON.stringify(name)
+        : `${quote}${name}${quote}`,
+    );
 };
 
 export const create = (context) => ({
@@ -132,6 +148,58 @@ export const create = (context) => ({
       messageId,
     });
   },
+  //expect(el.classList.value).toBe("foo bar") / toStrict?Equal / toContain
+  //expect(el.classList.value).not.toBe("foo bar") / toStrict?Equal / toContain
+  [[
+    `CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.computed=false][callee.object.arguments.0.property.name=value][callee.object.arguments.0.object.computed=false][callee.object.arguments.0.object.property.name=classList][callee.property.name=/^(toBe|to(Strict)?Equal|toContain)$/]`,
+    `CallExpression[callee.object.object.callee.name=expect][callee.object.object.arguments.0.computed=false][callee.object.object.arguments.0.property.name=value][callee.object.object.arguments.0.object.computed=false][callee.object.object.arguments.0.object.property.name=classList][callee.object.property.name=not][callee.property.name=/^(toBe|to(Strict)?Equal|toContain)$/]`,
+  ].join(",")](node) {
+    const matcher = node.callee.property;
+    const expectCall =
+      node.callee.object.type === "CallExpression"
+        ? node.callee.object
+        : node.callee.object.object;
+    const [classListValue] = expectCall.arguments;
+    const element = classListValue.object.object;
+    const [expected] = node.arguments;
+
+    // `toContain` checks for a substring of the class attribute, which
+    // `.toHaveClass()` can't express
+    if (matcher.name === "toContain" || node.arguments.length !== 1) {
+      context.report({ node: matcher, messageId });
+      return;
+    }
+
+    const fixWith = (classNames) => (fixer) => [
+      fixer.removeRange([element.range[1], classListValue.range[1]]),
+      fixer.replaceText(matcher, "toHaveClass"),
+      fixer.replaceText(expected, `${classNames}, { exact: true }`),
+    ];
+
+    if (expected.type === "Literal" && typeof expected.value === "string") {
+      const classNames = splitClassNames(expected);
+
+      context.report({
+        node: matcher,
+        messageId,
+        fix: classNames.length ? fixWith(classNames.join(", ")) : null,
+      });
+      return;
+    }
+
+    // the expected value might not be a string, so only suggest the change
+    context.report({
+      node: matcher,
+      messageId,
+      suggest: [
+        {
+          messageId: suggestionId,
+          fix: fixWith(getSourceCode(context).getText(expected)),
+        },
+      ],
+    });
+  },
+
   //expect(el.className | el.classList).toBe("bar") / toStrict?Equal / toContain
   [`CallExpression[callee.object.callee.name=expect][callee.object.arguments.0.property.name=/class(Name|List)/][callee.property.name=/toBe$|to(Strict)?Equal|toContain/]`](
     node,
