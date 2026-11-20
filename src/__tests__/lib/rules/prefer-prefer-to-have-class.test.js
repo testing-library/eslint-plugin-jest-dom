@@ -280,22 +280,22 @@ ruleTester.run("prefer-to-have-class", rule, {
     {
       code: `const el = screen.getByText("foo"); expect(el.classList.value).toBe("bar baz")`,
       errors,
-      output: `const el = screen.getByText("foo"); expect(el).toHaveClass("bar", "baz", { exact: true })`,
+      output: `const el = screen.getByText("foo"); expect(el).toHaveClass("bar baz", { exact: true })`,
     },
     {
       code: `const el = screen.getByText("foo"); expect(el.classList.value).toEqual('  bar\\tbaz  qux ')`,
       errors,
-      output: `const el = screen.getByText("foo"); expect(el).toHaveClass('bar', 'baz', 'qux', { exact: true })`,
+      output: `const el = screen.getByText("foo"); expect(el).toHaveClass('  bar\\tbaz  qux ', { exact: true })`,
     },
     {
       code: `const el = screen.getByText("foo"); expect(el.classList.value).toStrictEqual("bar baz")`,
       errors,
-      output: `const el = screen.getByText("foo"); expect(el).toHaveClass("bar", "baz", { exact: true })`,
+      output: `const el = screen.getByText("foo"); expect(el).toHaveClass("bar baz", { exact: true })`,
     },
     {
       code: `const el = screen.getByText("foo"); expect(el.classList.value).not.toBe("bar baz")`,
       errors,
-      output: `const el = screen.getByText("foo"); expect(el).not.toHaveClass("bar", "baz", { exact: true })`,
+      output: `const el = screen.getByText("foo"); expect(el).not.toHaveClass("bar baz", { exact: true })`,
     },
     {
       code: `const el = screen.getByText("foo"); expect(screen.getByRole("button").classList.value).not.toEqual("bar")`,
@@ -305,10 +305,12 @@ ruleTester.run("prefer-to-have-class", rule, {
     {
       code: `const el = screen.getByText("foo"); expect(el.classList.value).toBe("")`,
       errors,
+      output: `const el = screen.getByText("foo"); expect(el).toHaveClass("", { exact: true })`,
     },
     {
       code: `const el = screen.getByText("foo"); expect(el.classList.value).toBe("  ")`,
       errors,
+      output: `const el = screen.getByText("foo"); expect(el).toHaveClass("  ", { exact: true })`,
     },
     {
       code: `const el = screen.getByText("foo"); expect(el.classList.value).toContain("bar")`,
@@ -320,45 +322,18 @@ ruleTester.run("prefer-to-have-class", rule, {
     },
     {
       code: `const el = screen.getByText("foo"); expect(el.classList.value).toBe(classNames)`,
-      errors: [
-        {
-          messageId: "use-to-have-class",
-          suggestions: [
-            {
-              messageId: "replace-with-to-have-class",
-              output: `const el = screen.getByText("foo"); expect(el).toHaveClass(classNames, { exact: true })`,
-            },
-          ],
-        },
-      ],
+      errors,
+      output: `const el = screen.getByText("foo"); expect(el).toHaveClass(classNames, { exact: true })`,
     },
     {
       code: `const el = screen.getByText("foo"); expect(el.classList.value).not.toEqual(getClassNames())`,
-      errors: [
-        {
-          messageId: "use-to-have-class",
-          suggestions: [
-            {
-              messageId: "replace-with-to-have-class",
-              output: `const el = screen.getByText("foo"); expect(el).not.toHaveClass(getClassNames(), { exact: true })`,
-            },
-          ],
-        },
-      ],
+      errors,
+      output: `const el = screen.getByText("foo"); expect(el).not.toHaveClass(getClassNames(), { exact: true })`,
     },
     {
       code: `const el = screen.getByText("foo"); expect(el.classList.value).toBe(\`bar \${baz}\`)`,
-      errors: [
-        {
-          messageId: "use-to-have-class",
-          suggestions: [
-            {
-              messageId: "replace-with-to-have-class",
-              output: `const el = screen.getByText("foo"); expect(el).toHaveClass(\`bar \${baz}\`, { exact: true })`,
-            },
-          ],
-        },
-      ],
+      errors,
+      output: `const el = screen.getByText("foo"); expect(el).toHaveClass(\`bar \${baz}\`, { exact: true })`,
     },
   ],
 });

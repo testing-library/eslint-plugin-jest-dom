@@ -11,7 +11,6 @@ import { getSourceCode } from "../context";
 //------------------------------------------------------------------------------
 
 const messageId = "use-to-have-class";
-const suggestionId = "replace-with-to-have-class";
 
 /**
  * `classList[x]` is a class name only when `x` is an index. Keys like
@@ -43,23 +42,8 @@ export const meta = {
   },
   messages: {
     [messageId]: `Prefer .toHaveClass() over checking element className`,
-    [suggestionId]: `Replace with .toHaveClass()`,
   },
   fixable: "code",
-  hasSuggestions: true,
-};
-
-// `"foo  bar"` -> `"foo", "bar"`, keeping the quote style of the original literal
-const splitClassNames = (literal) => {
-  const quote = literal.raw[0];
-  return literal.value
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((name) =>
-      name.includes(quote) || name.includes("\\")
-        ? JSON.stringify(name)
-        : `${quote}${name}${quote}`,
-    );
 };
 
 export const create = (context) => ({
@@ -170,32 +154,15 @@ export const create = (context) => ({
       return;
     }
 
-    const fixWith = (classNames) => (fixer) => [
-      fixer.removeRange([element.range[1], classListValue.range[1]]),
-      fixer.replaceText(matcher, "toHaveClass"),
-      fixer.replaceText(expected, `${classNames}, { exact: true }`),
-    ];
-
-    if (expected.type === "Literal" && typeof expected.value === "string") {
-      const classNames = splitClassNames(expected);
-
-      context.report({
-        node: matcher,
-        messageId,
-        fix: classNames.length ? fixWith(classNames.join(", ")) : null,
-      });
-      return;
-    }
-
-    // the expected value might not be a string, so only suggest the change
+    // `.toHaveClass()` splits each string on whitespace, so the expected
+    // value can be passed through as is
     context.report({
       node: matcher,
       messageId,
-      suggest: [
-        {
-          messageId: suggestionId,
-          fix: fixWith(getSourceCode(context).getText(expected)),
-        },
+      fix: (fixer) => [
+        fixer.removeRange([element.range[1], classListValue.range[1]]),
+        fixer.replaceText(matcher, "toHaveClass"),
+        fixer.insertTextAfter(expected, ", { exact: true }"),
       ],
     });
   },
