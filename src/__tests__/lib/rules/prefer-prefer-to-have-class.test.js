@@ -335,5 +335,25 @@ ruleTester.run("prefer-to-have-class", rule, {
       errors,
       output: `const el = screen.getByText("foo"); expect(el).toHaveClass(\`bar \${baz}\`, { exact: true })`,
     },
+    {
+      code: `const el = screen.getByText("foo"); expect(el.classList.value).toEqual(expect.stringContaining("bar"))`,
+      errors,
+    },
+    {
+      code: `const el = screen.getByText("foo"); expect(el.classList.value).not.toStrictEqual(expect.not.stringMatching(/bar/))`,
+      errors,
+    },
+    {
+      code: `const el = screen.getByText("foo"); expect(el.classList.value).toBe(expect.any(String))`,
+      errors,
+    },
+    {
+      code: `const el = screen.getByText("foo"); expect(el.classList.value).toBe()`,
+      errors,
+    },
+    {
+      code: `const el = screen.getByText("foo"); expect(el.classList.value).toBe("bar", "baz")`,
+      errors,
+    },
   ],
 });

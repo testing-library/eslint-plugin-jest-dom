@@ -33,6 +33,19 @@ const isClassListIndex = ({ property }) => {
     (typeof key === "string" && /^(0|[1-9]\d*)$/.test(key))
   );
 };
+
+// `expect.stringContaining(...)`, `expect.not.stringMatching(...)`, `expect.any(...)`, etc.
+const isAsymmetricMatcher = (node) => {
+  if (node.type !== "CallExpression") {
+    return false;
+  }
+  let callee = node.callee;
+  while (callee.type === "MemberExpression") {
+    callee = callee.object;
+  }
+  return callee.type === "Identifier" && callee.name === "expect";
+};
+
 export const meta = {
   docs: {
     category: "Best Practices",
@@ -149,7 +162,13 @@ export const create = (context) => ({
 
     // `toContain` checks for a substring of the class attribute, which
     // `.toHaveClass()` can't express
-    if (matcher.name === "toContain" || node.arguments.length !== 1) {
+    // an asymmetric matcher such as `expect.stringContaining("foo")` can't be
+    // passed to `.toHaveClass()`
+    if (
+      matcher.name === "toContain" ||
+      node.arguments.length !== 1 ||
+      isAsymmetricMatcher(expected)
+    ) {
       context.report({ node: matcher, messageId });
       return;
     }
