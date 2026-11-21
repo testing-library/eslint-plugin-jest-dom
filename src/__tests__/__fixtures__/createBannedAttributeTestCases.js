@@ -90,6 +90,17 @@ export default ({ preferred, negatedPreferred, mixedPreferred, attribute }) => {
           ],
           output: `const el = getByRole('button'); expect(el).${preferred}`,
         },
+        // A parenthesized element expression. Parentheses are not AST nodes, so
+        // the object's range ends before the `)` and removing from there eats it.
+        {
+          code: `const el = getByRole('button'); expect((el).${attribute}).toBe(true)`,
+          errors: [
+            {
+              message: `Use ${preferred} instead of checking .${attribute} directly`,
+            },
+          ],
+          output: `const el = getByRole('button'); expect((el)).${preferred}`,
+        },
       ];
 
   // covers partial matchers for aria-<attribute>=mixed
