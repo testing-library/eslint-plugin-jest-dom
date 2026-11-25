@@ -130,6 +130,7 @@ module.exports = [
 | [prefer-in-document](docs/rules/prefer-in-document.md)                   | Prefer .toBeInTheDocument() for asserting the existence of a DOM node | ✅  | 🔧  | 💡  |
 | [prefer-pressed](docs/rules/prefer-pressed.md)                           | prefer toBePressed over checking attributes                           |     | 🔧  |     |
 | [prefer-required](docs/rules/prefer-required.md)                         | prefer toBeRequired over checking properties                          | ✅  | 🔧  |     |
+| [prefer-to-be-invalid](docs/rules/prefer-to-be-invalid.md)               | prefer toBeInvalid over checking aria-invalid or validity state       |     |     | 💡  |
 | [prefer-to-have-attribute](docs/rules/prefer-to-have-attribute.md)       | prefer toHaveAttribute over checking getAttribute/hasAttribute        | ✅  | 🔧  |     |
 | [prefer-to-have-class](docs/rules/prefer-to-have-class.md)               | prefer toHaveClass over checking element className                    | ✅  | 🔧  |     |
 | [prefer-to-have-style](docs/rules/prefer-to-have-style.md)               | prefer toHaveStyle over checking element style                        | ✅  | 🔧  |     |
