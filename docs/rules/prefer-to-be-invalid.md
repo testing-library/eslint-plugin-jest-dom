@@ -2,7 +2,7 @@
 
 📝 Prefer toBeInvalid over checking aria-invalid or validity state.
 
-💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
+🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
 <!-- end auto-generated rule header -->
 
@@ -13,9 +13,10 @@ This rule aims to improve readability and should only be used with the
 element is invalid through its `aria-invalid` attribute or its native validity
 state.
 
-The rule only offers a suggestion. `toBeInvalid()` passes if an element has
-`aria-invalid` **or** if its `checkValidity()` returns `false`, so it can be
-weaker than the assertion it replaces.
+The autofix replaces the assertion with `toBeInvalid()`. Note that
+`toBeInvalid()` passes if an element has `aria-invalid` **or** if its
+`checkValidity()` returns `false`, so in rare cases it can be weaker than the
+assertion it replaces.
 
 Examples of **incorrect** code for this rule:
 

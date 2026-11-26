@@ -13,29 +13,24 @@ export const meta = {
     recommended: false,
     url: "prefer-to-be-invalid",
   },
-  // toBeInvalid() passes for aria-invalid and for the native validity, so it
-  // can be weaker than the assertion it replaces.
-  hasSuggestions: true,
+  fixable: "code",
   messages: {
     preferInvalid: "Use toBeInvalid() instead of {{found}}",
-    replaceWithInvalid: "Replace with toBeInvalid()",
   },
 };
 
 const isLiteral = (node, value) =>
-  node && node.type === "Literal" && node.value === value;
+  node?.type === "Literal" && node.value === value;
 
 const isNamed = (node, name) =>
-  node &&
-  node.type === "MemberExpression" &&
+  node?.type === "MemberExpression" &&
   !node.computed &&
   node.property.name === name;
 
 /** `validity.valid` as a path of `toHaveProperty` */
 const isValidityPath = (node) =>
   isLiteral(node, "validity.valid") ||
-  (node &&
-    node.type === "ArrayExpression" &&
+  (node?.type === "ArrayExpression" &&
     node.elements.length === 2 &&
     isLiteral(node.elements[0], "validity") &&
     isLiteral(node.elements[1], "valid"));
@@ -56,20 +51,15 @@ export const create = (context) => {
       node,
       messageId: "preferInvalid",
       data: { found },
-      suggest: [
-        {
-          messageId: "replaceWithInvalid",
-          fix: (fixer) => [
-            fixer.replaceText(
-              node.callee.object.arguments[0],
-              getSourceCode(context).getText(element),
-            ),
-            fixer.replaceTextRange(
-              [node.callee.property.range[0], node.range[1]],
-              "toBeInvalid()",
-            ),
-          ],
-        },
+      fix: (fixer) => [
+        fixer.replaceText(
+          node.callee.object.arguments[0],
+          getSourceCode(context).getText(element),
+        ),
+        fixer.replaceTextRange(
+          [node.callee.property.range[0], node.range[1]],
+          "toBeInvalid()",
+        ),
       ],
     });
   };
@@ -78,7 +68,7 @@ export const create = (context) => {
     "CallExpression[callee.type='MemberExpression'][callee.computed=false][callee.object.callee.name='expect']"(
       node,
     ) {
-      const actual = node.callee.object.arguments[0];
+      const [actual] = node.callee.object.arguments;
       const matcher = node.callee.property.name;
       const args = node.arguments;
 

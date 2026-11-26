@@ -5,13 +5,8 @@ const query = `const input = screen.getByRole("textbox");`;
 
 const invalid = (code, found, output) => ({
   code,
-  errors: [
-    {
-      messageId: "preferInvalid",
-      data: { found },
-      suggestions: [{ messageId: "replaceWithInvalid", output }],
-    },
-  ],
+  errors: [{ messageId: "preferInvalid", data: { found } }],
+  output,
 });
 
 const ruleTester = new RuleTester({
