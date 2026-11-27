@@ -2,7 +2,7 @@
  * @fileoverview prefer toHaveAttribute over checking  getAttribute/hasAttribute
  * @author Ben Monro
  */
-import { getSourceCode } from "../context";
+import { getSourceCode, propertyAccessRange } from "../context";
 
 export const meta = {
   docs: {
@@ -26,7 +26,7 @@ export const create = (context) => ({
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
       fix: (fixer) => {
         return [
-          fixer.removeRange([node.object.range[1], node.property.range[1]]),
+          fixer.removeRange(propertyAccessRange(context, node.property)),
           fixer.replaceTextRange(
             node.parent.parent.property.range,
             "toHaveTextContent",
@@ -54,7 +54,7 @@ export const create = (context) => ({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
       fix: (fixer) => [
-        fixer.removeRange([node.object.range[1], node.property.range[1]]),
+        fixer.removeRange(propertyAccessRange(context, node.property)),
         fixer.replaceTextRange(
           node.parent.parent.property.range,
           "toHaveTextContent",
@@ -69,7 +69,7 @@ export const create = (context) => ({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
       fix: (fixer) => [
-        fixer.removeRange([node.object.range[1], node.property.range[1]]),
+        fixer.removeRange(propertyAccessRange(context, node.property)),
         fixer.replaceTextRange(
           node.parent.parent.parent.property.range,
           "toHaveTextContent",
@@ -86,7 +86,7 @@ export const create = (context) => ({
       node: node.parent,
       message: `Use toHaveTextContent instead of asserting on DOM node attributes`,
       fix: (fixer) => [
-        fixer.removeRange([node.object.range[1], node.property.range[1]]),
+        fixer.removeRange(propertyAccessRange(context, node.property)),
         fixer.replaceTextRange(
           node.parent.parent.parent.property.range,
           "toHaveTextContent",

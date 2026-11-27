@@ -35,6 +35,18 @@ ruleTester.run("prefer-to-have-text-content", rule, {
       ],
       output: `expect(element).toHaveTextContent("foo")`,
     },
+    // A parenthesized element expression. Parentheses are not AST nodes, so the
+    // object's range ends before the `)` and removing from there eats it.
+    {
+      code: 'expect((element).textContent).toBe("foo")',
+      errors: [
+        {
+          message:
+            "Use toHaveTextContent instead of asserting on DOM node attributes",
+        },
+      ],
+      output: `expect((element)).toHaveTextContent("foo")`,
+    },
     {
       code: 'expect(element.textContent).not.toBe("foo")',
       errors: [
